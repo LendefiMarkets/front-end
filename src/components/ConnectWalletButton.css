@@ -1,0 +1,12 @@
+.connect-wallet-wrapper {
+  display: inline-block;
+}
+
+/* Override appkit-button styles to match our theme */
+appkit-button {
+  --wui-font-family: 'Inter', sans-serif;
+  --wui-border-radius-m: 8px;
+  --wui-color-accent-100: #14b8a6;
+  --wui-color-accent-090: #14b8a6e6;
+  --wui-color-accent-080: #14b8a6cc;
+}
