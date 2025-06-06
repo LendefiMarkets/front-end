@@ -349,17 +349,47 @@ function App() {
           </div>
           
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <div className="glass-effect" style={{ aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <iframe
+            <div className="glass-effect" style={{ aspectRatio: '16/9', position: 'relative', overflow: 'hidden', borderRadius: '8px' }}>
+              <video
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Lendefi Markets Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ borderRadius: '8px' }}
-              ></iframe>
+                controls
+                preload="metadata"
+                style={{ 
+                  borderRadius: '8px', 
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+                onError={(e) => {
+                  // Show fallback message if video fails to load
+                  const target = e.target as HTMLVideoElement;
+                  target.style.display = 'none';
+                  const fallback = target.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              >
+                <source src="/promo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              
+              {/* Fallback content */}
+              <div 
+                style={{ 
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'none',
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(17, 24, 39, 0.8)',
+                  color: '#9ca3af',
+                  flexDirection: 'column',
+                  gap: '16px'
+                }}
+              >
+                <div style={{ fontSize: '48px' }}>🎬</div>
+                <p>Video not available</p>
+                <p style={{ fontSize: '0.875rem' }}>Place promo.mp4 in the public folder</p>
+              </div>
             </div>
           </div>
         </div>
