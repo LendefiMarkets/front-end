@@ -118,9 +118,9 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
         ? (userShares * totalAssets) / totalSupply 
         : BigInt(0)
 
-      // Calculate share price (assets per share)
+      // Calculate share price (assets per share) - normalized by asset decimals
       const sharePrice = totalSupply > BigInt(0)
-        ? Number(totalAssets) / Number(totalSupply)
+        ? Number(ethers.formatUnits(totalAssets, baseAssetDecimals)) / Number(ethers.formatUnits(totalSupply, 18))
         : 1
 
       // Convert rates to APY (assuming rates are per second basis points)
@@ -220,4 +220,17 @@ export function formatBalance(amount: bigint, decimals: number, precision: numbe
 // Helper function to format percentage
 export function formatPercentage(value: number, precision: number = 2): string {
   return value.toFixed(precision) + '%'
+}
+
+// Helper function to format share price based on asset decimals
+export function formatSharePrice(price: number, assetDecimals: number): string {
+  // For assets with 6 decimals (like USDC, USDT), show more precision to capture meaningful differences
+  // For assets with 18 decimals (like WETH, DAI), show less precision since they're already very granular
+  const displayDecimals = assetDecimals <= 8 ? 6 : 4;
+  
+  if (price === 0) return '0'
+  if (price < 0.000001) return price.toExponential(2)
+  if (price < 1) return price.toFixed(displayDecimals)
+  if (price < 100) return price.toFixed(Math.min(displayDecimals - 2, 2))
+  return price.toFixed(Math.max(displayDecimals - 4, 0))
 }
