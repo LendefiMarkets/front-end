@@ -299,6 +299,198 @@ export const MARKET_VAULT_ABI = [
   }
 ] as const
 
+// Assets Module ABI (from IASSETS.sol)
+export const ASSETS_ABI = [
+  // Update asset configuration
+  {
+    "type": "function",
+    "name": "updateAssetConfig",
+    "inputs": [
+      { "name": "asset", "type": "address" },
+      {
+        "name": "config",
+        "type": "tuple",
+        "components": [
+          { "name": "active", "type": "uint8" },
+          { "name": "decimals", "type": "uint8" },
+          { "name": "borrowThreshold", "type": "uint16" },
+          { "name": "liquidationThreshold", "type": "uint16" },
+          { "name": "maxSupplyThreshold", "type": "uint256" },
+          { "name": "isolationDebtCap", "type": "uint256" },
+          { "name": "assetMinimumOracles", "type": "uint8" },
+          { "name": "porFeed", "type": "address" },
+          { "name": "primaryOracleType", "type": "uint8" },
+          { "name": "tier", "type": "uint8" },
+          {
+            "name": "chainlinkConfig",
+            "type": "tuple",
+            "components": [
+              { "name": "oracleUSD", "type": "address" },
+              { "name": "active", "type": "uint8" }
+            ]
+          },
+          {
+            "name": "poolConfig", 
+            "type": "tuple",
+            "components": [
+              { "name": "pool", "type": "address" },
+              { "name": "twapPeriod", "type": "uint32" },
+              { "name": "active", "type": "uint8" }
+            ]
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  // Oracle management
+  {
+    "type": "function",
+    "name": "updateChainlinkOracle",
+    "inputs": [
+      { "name": "asset", "type": "address" },
+      { "name": "oracle", "type": "address" },
+      { "name": "active", "type": "uint8" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateUniswapOracle",
+    "inputs": [
+      { "name": "asset", "type": "address" },
+      { "name": "uniswapPool", "type": "address" },
+      { "name": "twapPeriod", "type": "uint32" },
+      { "name": "active", "type": "uint8" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateMainOracleConfig",
+    "inputs": [
+      { "name": "freshness", "type": "uint80" },
+      { "name": "volatility", "type": "uint80" },
+      { "name": "volatilityPct", "type": "uint40" },
+      { "name": "circuitBreakerPct", "type": "uint40" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  // Tier management
+  {
+    "type": "function",
+    "name": "updateTierConfig",
+    "inputs": [
+      { "name": "tier", "type": "uint8" },
+      { "name": "jumpRate", "type": "uint256" },
+      { "name": "liquidationFee", "type": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateAssetTier",
+    "inputs": [
+      { "name": "asset", "type": "address" },
+      { "name": "newTier", "type": "uint8" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  // Getters
+  {
+    "type": "function",
+    "name": "getAssetInfo",
+    "inputs": [{ "name": "asset", "type": "address" }],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          { "name": "active", "type": "uint8" },
+          { "name": "decimals", "type": "uint8" },
+          { "name": "borrowThreshold", "type": "uint16" },
+          { "name": "liquidationThreshold", "type": "uint16" },
+          { "name": "maxSupplyThreshold", "type": "uint256" },
+          { "name": "isolationDebtCap", "type": "uint256" },
+          { "name": "assetMinimumOracles", "type": "uint8" },
+          { "name": "porFeed", "type": "address" },
+          { "name": "primaryOracleType", "type": "uint8" },
+          { "name": "tier", "type": "uint8" },
+          {
+            "name": "chainlinkConfig",
+            "type": "tuple",
+            "components": [
+              { "name": "oracleUSD", "type": "address" },
+              { "name": "active", "type": "uint8" }
+            ]
+          },
+          {
+            "name": "poolConfig",
+            "type": "tuple", 
+            "components": [
+              { "name": "pool", "type": "address" },
+              { "name": "twapPeriod", "type": "uint32" },
+              { "name": "active", "type": "uint8" }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getListedAssets",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address[]" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAssetPrice",
+    "inputs": [{ "name": "asset", "type": "address" }],
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getTierRates",
+    "inputs": [],
+    "outputs": [
+      { "name": "jumpRates", "type": "uint256[4]" },
+      { "name": "liquidationFees", "type": "uint256[4]" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getOracleCount",
+    "inputs": [{ "name": "asset", "type": "address" }],
+    "outputs": [{ "name": "", "type": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "circuitBroken",
+    "inputs": [{ "name": "asset", "type": "address" }],
+    "outputs": [{ "name": "", "type": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isAssetValid",
+    "inputs": [{ "name": "asset", "type": "address" }],
+    "outputs": [{ "name": "", "type": "bool" }],
+    "stateMutability": "view"
+  }
+] as const
+
 // Core contract ABI - For borrowing stats  
 export const LENDEFI_CORE_ABI = [
   // Note: Most rate functions are on the vault, not core
