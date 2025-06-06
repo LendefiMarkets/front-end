@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react'
 import { ethers } from 'ethers'
-import { useMarketDashboard, formatTokenAmount, formatBalance, formatPercentage } from '../hooks/useMarketDashboard'
-import { MARKET_VAULT_ABI, ERC20_ABI } from '../config/contracts'
+import { useMarketDashboard, formatTokenAmount, formatBalance, formatPercentage, formatSharePrice } from '../hooks/useMarketDashboard'
+import { MARKET_VAULT_ABI, ERC20_ABI, ASSETS_ABI } from '../config/contracts'
 
 interface MarketDashboardProps {
   baseAsset: string
@@ -14,6 +14,9 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
   const { address } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
   const { data, isLoading, error, refresh } = useMarketDashboard(baseAsset, marketOwner)
+  
+  // Tab state
+  const [activeTab, setActiveTab] = useState<'overview' | 'assets'>('overview')
   
   // Supply/Withdraw states
   const [supplyAction, setSupplyAction] = useState<'deposit' | 'withdraw' | 'redeem' | null>(null)
@@ -160,13 +163,58 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
         </div>
       </div>
 
-      {/* Key Metrics */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-        gap: '24px', 
-        marginBottom: '32px' 
-      }}>
+      {/* Tab Navigation */}
+      {isOwner && (
+        <div style={{ 
+          display: 'flex', 
+          borderBottom: '1px solid rgba(75, 85, 99, 0.3)', 
+          marginBottom: '32px' 
+        }}>
+          <button
+            onClick={() => setActiveTab('overview')}
+            style={{
+              padding: '12px 24px',
+              background: 'none',
+              border: 'none',
+              color: activeTab === 'overview' ? '#0ea5e9' : '#9ca3af',
+              borderBottom: activeTab === 'overview' ? '2px solid #0ea5e9' : '2px solid transparent',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: activeTab === 'overview' ? 600 : 400,
+              transition: 'all 0.2s'
+            }}
+          >
+            Market Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('assets')}
+            style={{
+              padding: '12px 24px',
+              background: 'none',
+              border: 'none',
+              color: activeTab === 'assets' ? '#0ea5e9' : '#9ca3af',
+              borderBottom: activeTab === 'assets' ? '2px solid #0ea5e9' : '2px solid transparent',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: activeTab === 'assets' ? 600 : 400,
+              transition: 'all 0.2s'
+            }}
+          >
+            Asset Management
+          </button>
+        </div>
+      )}
+
+      {/* Content based on active tab */}
+      {activeTab === 'overview' ? (
+        <>
+          {/* Key Metrics */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '24px', 
+            marginBottom: '32px' 
+          }}>
         <div className="glass-effect">
           <h3 style={{ fontSize: '0.875rem', color: '#9ca3af', marginBottom: '8px', textTransform: 'uppercase' }}>
             Total Value Locked
@@ -238,6 +286,18 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#9ca3af' }}>Assets Module:</span>
+                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                  {marketInfo.assetsModule.slice(0, 10)}...{marketInfo.assetsModule.slice(-8)}
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#9ca3af' }}>PoR Feed:</span>
+                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                  {marketInfo.porFeed.slice(0, 10)}...{marketInfo.porFeed.slice(-8)}
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#9ca3af' }}>Base Asset:</span>
                 <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
                   {data.baseAssetSymbol} ({baseAsset.slice(0, 10)}...{baseAsset.slice(-8)})
@@ -288,7 +348,7 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span style={{ color: '#9ca3af' }}>Share Price:</span>
                       <span>
-                        {data.sharePrice.toFixed(6)} {data.baseAssetSymbol}/share
+                        {formatSharePrice(data.sharePrice, data.baseAssetDecimals)} {data.baseAssetSymbol}/share
                       </span>
                     </div>
                   )}
@@ -531,6 +591,1183 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
             <div style={{ fontSize: '1.25rem', fontWeight: 600 }}>
               {formatBalance(data.totalSupply, data.baseAssetDecimals, 2)} shares
             </div>
+          </div>
+        </div>
+      </div>
+        </>
+      ) : (
+        /* Asset Management Tab */
+        <AssetManagementTab 
+          assetsModuleAddress={data.marketInfo!.assetsModule}
+          marketOwner={marketOwner}
+          baseAssetSymbol={data.baseAssetSymbol}
+        />
+      )}
+    </div>
+  )
+}
+
+// Asset Management Tab Component
+interface AssetManagementTabProps {
+  assetsModuleAddress: string
+  marketOwner?: string
+  baseAssetSymbol: string
+}
+
+function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol }: AssetManagementTabProps) {
+  const { address } = useAppKitAccount()
+  const { walletProvider } = useAppKitProvider('eip155')
+  
+  const [activeAssetTab, setActiveAssetTab] = useState<'collateral' | 'price'>('collateral')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const isOwner = address?.toLowerCase() === marketOwner?.toLowerCase()
+
+  if (!isOwner) {
+    return (
+      <div className="glass-effect" style={{ textAlign: 'center', padding: '48px' }}>
+        <h3 style={{ color: '#f59e0b', marginBottom: '16px' }}>Access Denied</h3>
+        <p style={{ color: '#9ca3af' }}>
+          Only the market owner can manage assets for this market.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {/* Asset Management Header */}
+      <div style={{ marginBottom: '32px' }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px' }}>
+          Asset Management
+        </h2>
+        <p style={{ color: '#9ca3af' }}>
+          Manage collateral assets and price feeds for your {baseAssetSymbol} market
+        </p>
+        <div style={{ 
+          fontSize: '0.875rem', 
+          color: '#9ca3af', 
+          fontFamily: 'monospace',
+          marginTop: '8px'
+        }}>
+          Assets Module: {assetsModuleAddress.slice(0, 10)}...{assetsModuleAddress.slice(-8)}
+        </div>
+      </div>
+
+      {/* Asset Management Tabs */}
+      <div style={{ 
+        display: 'flex', 
+        borderBottom: '1px solid rgba(75, 85, 99, 0.3)', 
+        marginBottom: '24px' 
+      }}>
+        <button
+          onClick={() => setActiveAssetTab('collateral')}
+          style={{
+            padding: '8px 16px',
+            background: 'none',
+            border: 'none',
+            color: activeAssetTab === 'collateral' ? '#10b981' : '#9ca3af',
+            borderBottom: activeAssetTab === 'collateral' ? '2px solid #10b981' : '2px solid transparent',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: activeAssetTab === 'collateral' ? 600 : 400,
+            transition: 'all 0.2s'
+          }}
+        >
+          Collateral Assets
+        </button>
+        <button
+          onClick={() => setActiveAssetTab('price')}
+          style={{
+            padding: '8px 16px',
+            background: 'none',
+            border: 'none',
+            color: activeAssetTab === 'price' ? '#10b981' : '#9ca3af',
+            borderBottom: activeAssetTab === 'price' ? '2px solid #10b981' : '2px solid transparent',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: activeAssetTab === 'price' ? 600 : 400,
+            transition: 'all 0.2s'
+          }}
+        >
+          Price Feeds
+        </button>
+      </div>
+
+      {/* Asset Management Content */}
+      {activeAssetTab === 'collateral' ? (
+        <CollateralManagement 
+          assetsModuleAddress={assetsModuleAddress}
+        />
+      ) : (
+        <PriceFeedManagement 
+          assetsModuleAddress={assetsModuleAddress}
+        />
+      )}
+    </div>
+  )
+}
+
+// Collateral Management Component
+interface CollateralManagementProps {
+  assetsModuleAddress: string
+}
+
+function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps) {
+  const { walletProvider } = useAppKitProvider('eip155')
+  const [listedAssets, setListedAssets] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Form states for complete asset configuration
+  const [newAssetAddress, setNewAssetAddress] = useState('')
+  const [assetConfig, setAssetConfig] = useState({
+    active: 1,
+    decimals: 18, // Will be auto-fetched from token contract
+    borrowThreshold: 8000, // 80.00% in basis points
+    liquidationThreshold: 8500, // 85.00% in basis points
+    maxSupplyThreshold: '1000000', // Max supply cap (in token units)
+    isolationDebtCap: '0', // Isolation debt cap (0 = not isolated)
+    assetMinimumOracles: 1, // Minimum number of oracles required
+    porFeed: '', // Proof of Reserve feed address
+    primaryOracleType: 0, // 0 = CHAINLINK, 1 = UNISWAP_V3_TWAP
+    tier: 0, // 0 = STABLE, 1 = CROSS_A, 2 = CROSS_B, 3 = ISOLATED
+    // Chainlink configuration
+    chainlinkOracle: '',
+    chainlinkActive: true,
+    // Uniswap configuration  
+    uniswapPool: '',
+    twapPeriod: 3600, // 1 hour TWAP
+    uniswapActive: false
+  })
+
+  // Load existing assets
+  React.useEffect(() => {
+    loadAssets()
+  }, [assetsModuleAddress])
+
+  const loadAssets = async () => {
+    if (!walletProvider) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
+      
+      const assetAddresses = await assetsContract.getListedAssets()
+      
+      const assetsWithInfo = await Promise.all(
+        assetAddresses.map(async (address: string) => {
+          try {
+            const [assetInfo, tokenContract] = await Promise.all([
+              assetsContract.getAssetInfo(address),
+              new ethers.Contract(address, ERC20_ABI, provider)
+            ])
+            
+            const [symbol, price, oracleCount] = await Promise.all([
+              tokenContract.symbol(),
+              assetsContract.getAssetPrice(address).catch(() => BigInt(0)),
+              assetsContract.getOracleCount(address)
+            ])
+
+            return {
+              address,
+              symbol,
+              active: assetInfo.active === 1,
+              tier: assetInfo.tier,
+              borrowThreshold: assetInfo.borrowThreshold,
+              liquidationThreshold: assetInfo.liquidationThreshold,
+              price: Number(price) / 1e8, // Convert from 8 decimals
+              oracleCount: Number(oracleCount),
+              chainlinkActive: assetInfo.chainlinkConfig.active === 1,
+              uniswapActive: assetInfo.poolConfig.active === 1
+            }
+          } catch (err) {
+            console.error('Failed to load asset info:', err)
+            return null
+          }
+        })
+      )
+
+      setListedAssets(assetsWithInfo.filter(Boolean))
+    } catch (err) {
+      console.error('Failed to load assets:', err)
+      setError('Failed to load assets')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const getTierName = (tier: number) => {
+    const tiers = ['STABLE', 'CROSS_A', 'CROSS_B', 'ISOLATED']
+    return tiers[tier] || 'UNKNOWN'
+  }
+
+  const updateAssetConfig = async () => {
+    if (!walletProvider || !newAssetAddress) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const signer = await provider.getSigner()
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
+      
+      // Get token decimals from contract
+      const tokenContract = new ethers.Contract(newAssetAddress, ERC20_ABI, provider)
+      const decimals = await tokenContract.decimals()
+
+      // Create complete Asset struct matching IASSETS.sol exactly
+      const config = [
+        assetConfig.active, // uint8 active
+        decimals, // uint8 decimals (auto-fetched from token)
+        assetConfig.borrowThreshold, // uint16 borrowThreshold
+        assetConfig.liquidationThreshold, // uint16 liquidationThreshold
+        ethers.parseUnits(assetConfig.maxSupplyThreshold, decimals), // uint256 maxSupplyThreshold
+        ethers.parseUnits(assetConfig.isolationDebtCap, decimals), // uint256 isolationDebtCap
+        assetConfig.assetMinimumOracles, // uint8 assetMinimumOracles
+        assetConfig.porFeed || ethers.ZeroAddress, // address porFeed
+        assetConfig.primaryOracleType, // OracleType primaryOracleType (enum)
+        assetConfig.tier, // CollateralTier tier (enum)
+        [ // ChainlinkOracleConfig chainlinkConfig
+          assetConfig.chainlinkOracle || ethers.ZeroAddress, // address oracleUSD
+          assetConfig.chainlinkActive ? 1 : 0 // uint8 active
+        ],
+        [ // UniswapPoolConfig poolConfig
+          assetConfig.uniswapPool || ethers.ZeroAddress, // address pool
+          assetConfig.twapPeriod, // uint32 twapPeriod
+          assetConfig.uniswapActive ? 1 : 0 // uint8 active
+        ]
+      ]
+
+      const tx = await assetsContract.updateAssetConfig(newAssetAddress, config)
+      await tx.wait()
+      
+      // Reload assets
+      await loadAssets()
+      
+      // Reset form
+      setNewAssetAddress('')
+    } catch (err: any) {
+      console.error('Failed to update asset config:', err)
+      setError(err.message || 'Failed to update asset config')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
+      {/* Listed Assets */}
+      <div className="glass-effect">
+        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '16px' }}>
+          Listed Collateral Assets
+        </h3>
+        
+        {isLoading ? (
+          <div style={{ color: '#9ca3af', textAlign: 'center', padding: '32px 0' }}>
+            Loading assets...
+          </div>
+        ) : error ? (
+          <div style={{ color: '#ef4444', textAlign: 'center', padding: '32px 0' }}>
+            {error}
+          </div>
+        ) : listedAssets.length === 0 ? (
+          <div style={{ color: '#9ca3af', textAlign: 'center', padding: '32px 0' }}>
+            No assets configured yet
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {listedAssets.map((asset) => (
+              <div key={asset.address} style={{
+                background: 'rgba(17, 24, 39, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.3)',
+                borderRadius: '8px',
+                padding: '16px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ fontWeight: 600 }}>{asset.symbol}</span>
+                    <span style={{
+                      fontSize: '0.75rem',
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      background: asset.active ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                      color: asset.active ? '#10b981' : '#ef4444'
+                    }}>
+                      {asset.active ? 'Active' : 'Inactive'}
+                    </span>
+                    <span style={{
+                      fontSize: '0.75rem',
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      background: 'rgba(139, 92, 246, 0.2)',
+                      color: '#8b5cf6'
+                    }}>
+                      {getTierName(asset.tier)}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
+                    ${asset.price.toFixed(2)}
+                  </span>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', fontSize: '0.75rem', color: '#9ca3af' }}>
+                  <div>
+                    Borrow LTV: {(asset.borrowThreshold / 100).toFixed(0)}%
+                  </div>
+                  <div>
+                    Liq. LTV: {(asset.liquidationThreshold / 100).toFixed(0)}%
+                  </div>
+                  <div>
+                    Oracles: {asset.oracleCount}
+                  </div>
+                </div>
+                
+                <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '8px', fontFamily: 'monospace' }}>
+                  {asset.address.slice(0, 10)}...{asset.address.slice(-8)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Complete Asset Configuration */}
+      <div className="glass-effect">
+        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '16px' }}>
+          Complete Asset Configuration
+        </h3>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '600px', overflowY: 'auto' }}>
+          {/* Asset Address */}
+          <div>
+            <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+              Asset Address
+            </label>
+            <input
+              type="text"
+              placeholder="0x..."
+              value={newAssetAddress}
+              onChange={(e) => setNewAssetAddress(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+          </div>
+
+          {/* Basic Configuration */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Active
+              </label>
+              <select
+                value={assetConfig.active}
+                onChange={(e) => setAssetConfig({...assetConfig, active: Number(e.target.value)})}
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              >
+                <option value={1}>Active</option>
+                <option value={0}>Inactive</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Tier
+              </label>
+              <select
+                value={assetConfig.tier}
+                onChange={(e) => setAssetConfig({...assetConfig, tier: Number(e.target.value)})}
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              >
+                <option value={0}>STABLE</option>
+                <option value={1}>CROSS_A</option>
+                <option value={2}>CROSS_B</option>
+                <option value={3}>ISOLATED</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Threshold Configuration */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Borrow LTV % (bps)
+              </label>
+              <input
+                type="number"
+                value={assetConfig.borrowThreshold}
+                onChange={(e) => setAssetConfig({...assetConfig, borrowThreshold: Number(e.target.value)})}
+                placeholder="8000 = 80%"
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Liq. LTV % (bps)
+              </label>
+              <input
+                type="number"
+                value={assetConfig.liquidationThreshold}
+                onChange={(e) => setAssetConfig({...assetConfig, liquidationThreshold: Number(e.target.value)})}
+                placeholder="8500 = 85%"
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Supply Limits */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Max Supply Cap
+              </label>
+              <input
+                type="text"
+                value={assetConfig.maxSupplyThreshold}
+                onChange={(e) => setAssetConfig({...assetConfig, maxSupplyThreshold: e.target.value})}
+                placeholder="1000000"
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Isolation Debt Cap
+              </label>
+              <input
+                type="text"
+                value={assetConfig.isolationDebtCap}
+                onChange={(e) => setAssetConfig({...assetConfig, isolationDebtCap: e.target.value})}
+                placeholder="0 = not isolated"
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Oracle Configuration */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Min Oracles
+              </label>
+              <input
+                type="number"
+                value={assetConfig.assetMinimumOracles}
+                onChange={(e) => setAssetConfig({...assetConfig, assetMinimumOracles: Number(e.target.value)})}
+                min="1"
+                max="2"
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+                Primary Oracle
+              </label>
+              <select
+                value={assetConfig.primaryOracleType}
+                onChange={(e) => setAssetConfig({...assetConfig, primaryOracleType: Number(e.target.value)})}
+                style={{
+                  width: '100%',
+                  padding: '6px 8px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '12px'
+                }}
+              >
+                <option value={0}>Chainlink</option>
+                <option value={1}>Uniswap V3</option>
+              </select>
+            </div>
+          </div>
+
+          {/* PoR Feed */}
+          <div>
+            <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
+              Proof of Reserve Feed
+            </label>
+            <input
+              type="text"
+              value={assetConfig.porFeed}
+              onChange={(e) => setAssetConfig({...assetConfig, porFeed: e.target.value})}
+              placeholder="0x... (optional)"
+              style={{
+                width: '100%',
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+          </div>
+
+          {/* Chainlink Oracle Config */}
+          <div style={{ border: '1px solid rgba(75, 85, 99, 0.3)', borderRadius: '4px', padding: '8px' }}>
+            <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '8px', color: '#0ea5e9' }}>
+              Chainlink Oracle Config
+            </h4>
+            <div>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.7rem', fontWeight: 600 }}>
+                Oracle Address
+              </label>
+              <input
+                type="text"
+                value={assetConfig.chainlinkOracle}
+                onChange={(e) => setAssetConfig({...assetConfig, chainlinkOracle: e.target.value})}
+                placeholder="0x..."
+                style={{
+                  width: '100%',
+                  padding: '4px 6px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '11px'
+                }}
+              />
+            </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', marginTop: '6px' }}>
+              <input
+                type="checkbox"
+                checked={assetConfig.chainlinkActive}
+                onChange={(e) => setAssetConfig({...assetConfig, chainlinkActive: e.target.checked})}
+              />
+              Active
+            </label>
+          </div>
+
+          {/* Uniswap Oracle Config */}
+          <div style={{ border: '1px solid rgba(75, 85, 99, 0.3)', borderRadius: '4px', padding: '8px' }}>
+            <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '8px', color: '#10b981' }}>
+              Uniswap V3 Oracle Config
+            </h4>
+            <div style={{ marginBottom: '6px' }}>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.7rem', fontWeight: 600 }}>
+                Pool Address
+              </label>
+              <input
+                type="text"
+                value={assetConfig.uniswapPool}
+                onChange={(e) => setAssetConfig({...assetConfig, uniswapPool: e.target.value})}
+                placeholder="0x..."
+                style={{
+                  width: '100%',
+                  padding: '4px 6px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '11px'
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: '6px' }}>
+              <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.7rem', fontWeight: 600 }}>
+                TWAP Period (seconds)
+              </label>
+              <input
+                type="number"
+                value={assetConfig.twapPeriod}
+                onChange={(e) => setAssetConfig({...assetConfig, twapPeriod: Number(e.target.value)})}
+                placeholder="3600"
+                style={{
+                  width: '100%',
+                  padding: '4px 6px',
+                  backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.5)',
+                  borderRadius: '4px',
+                  color: 'white',
+                  fontSize: '11px'
+                }}
+              />
+            </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px' }}>
+              <input
+                type="checkbox"
+                checked={assetConfig.uniswapActive}
+                onChange={(e) => setAssetConfig({...assetConfig, uniswapActive: e.target.checked})}
+              />
+              Active
+            </label>
+          </div>
+
+          <button
+            onClick={updateAssetConfig}
+            disabled={!newAssetAddress || isLoading}
+            style={{
+              width: '100%',
+              padding: '8px 16px',
+              background: isLoading ? 'rgba(75, 85, 99, 0.5)' : 'rgba(16, 185, 129, 0.2)',
+              border: `1px solid ${isLoading ? 'rgba(75, 85, 99, 0.5)' : 'rgba(16, 185, 129, 0.3)'}`,
+              borderRadius: '6px',
+              color: isLoading ? '#9ca3af' : '#10b981',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: isLoading ? 'not-allowed' : 'pointer'
+            }}
+          >
+            {isLoading ? 'Processing...' : 'Update Complete Asset Config'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Price Feed Management Component
+interface PriceFeedManagementProps {
+  assetsModuleAddress: string
+}
+
+function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) {
+  const { walletProvider } = useAppKitProvider('eip155')
+  const [oracleData, setOracleData] = useState<any[]>([])
+  const [tierRates, setTierRates] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Oracle update forms
+  const [chainlinkForm, setChainlinkForm] = useState({
+    asset: '',
+    oracle: '',
+    active: true
+  })
+  
+  const [uniswapForm, setUniswapForm] = useState({
+    asset: '',
+    pool: '',
+    twapPeriod: 3600,
+    active: true
+  })
+
+  const [tierForm, setTierForm] = useState({
+    tier: 0,
+    jumpRate: '',
+    liquidationFee: ''
+  })
+
+  const [oracleConfigForm, setOracleConfigForm] = useState({
+    freshness: 28800, // 8 hours
+    volatility: 3600, // 1 hour
+    volatilityPct: 2000, // 20%
+    circuitBreakerPct: 2000 // 20%
+  })
+
+  React.useEffect(() => {
+    loadOracleData()
+  }, [assetsModuleAddress])
+
+  const loadOracleData = async () => {
+    if (!walletProvider) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
+      
+      const [assetAddresses, rates] = await Promise.all([
+        assetsContract.getListedAssets(),
+        assetsContract.getTierRates()
+      ])
+
+      console.log('Raw tier rates from contract:', rates)
+      console.log('Jump rates:', rates[0].map((rate: bigint) => rate.toString()))
+      console.log('Liquidation fees:', rates[1].map((fee: bigint) => fee.toString()))
+      
+      setTierRates({
+        jumpRates: rates[0].map((rate: bigint) => Number(rate)),
+        liquidationFees: rates[1].map((fee: bigint) => Number(fee))
+      })
+      
+      const oracleInfo = await Promise.all(
+        assetAddresses.map(async (address: string) => {
+          try {
+            const [assetInfo, tokenContract] = await Promise.all([
+              assetsContract.getAssetInfo(address),
+              new ethers.Contract(address, ERC20_ABI, provider)
+            ])
+            
+            const [symbol, price, oracleCount, circuitBroken] = await Promise.all([
+              tokenContract.symbol(),
+              assetsContract.getAssetPrice(address).catch(() => BigInt(0)),
+              assetsContract.getOracleCount(address),
+              assetsContract.circuitBroken(address)
+            ])
+
+            return {
+              address,
+              symbol,
+              price: Number(price) / 1e8,
+              oracleCount: Number(oracleCount),
+              circuitBroken,
+              chainlinkOracle: assetInfo.chainlinkConfig.oracleUSD,
+              chainlinkActive: assetInfo.chainlinkConfig.active === 1,
+              uniswapPool: assetInfo.poolConfig.pool,
+              uniswapActive: assetInfo.poolConfig.active === 1,
+              twapPeriod: assetInfo.poolConfig.twapPeriod,
+              primaryOracleType: assetInfo.primaryOracleType
+            }
+          } catch (err) {
+            console.error('Failed to load oracle info:', err)
+            return null
+          }
+        })
+      )
+
+      setOracleData(oracleInfo.filter(Boolean))
+    } catch (err) {
+      console.error('Failed to load oracle data:', err)
+      setError('Failed to load oracle data')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const updateChainlinkOracle = async () => {
+    if (!walletProvider || !chainlinkForm.asset || !chainlinkForm.oracle) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const signer = await provider.getSigner()
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
+      
+      const tx = await assetsContract.updateChainlinkOracle(
+        chainlinkForm.asset,
+        chainlinkForm.oracle,
+        chainlinkForm.active ? 1 : 0
+      )
+      await tx.wait()
+      
+      await loadOracleData()
+      setChainlinkForm({ asset: '', oracle: '', active: true })
+    } catch (err: any) {
+      console.error('Failed to update Chainlink oracle:', err)
+      setError(err.message || 'Failed to update Chainlink oracle')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const updateUniswapOracle = async () => {
+    if (!walletProvider || !uniswapForm.asset || !uniswapForm.pool) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const signer = await provider.getSigner()
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
+      
+      const tx = await assetsContract.updateUniswapOracle(
+        uniswapForm.asset,
+        uniswapForm.pool,
+        uniswapForm.twapPeriod,
+        uniswapForm.active ? 1 : 0
+      )
+      await tx.wait()
+      
+      await loadOracleData()
+      setUniswapForm({ asset: '', pool: '', twapPeriod: 3600, active: true })
+    } catch (err: any) {
+      console.error('Failed to update Uniswap oracle:', err)
+      setError(err.message || 'Failed to update Uniswap oracle')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const updateTierConfig = async () => {
+    if (!walletProvider || !tierForm.jumpRate || !tierForm.liquidationFee) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const signer = await provider.getSigner()
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
+      
+      const tx = await assetsContract.updateTierConfig(
+        tierForm.tier,
+        ethers.parseUnits(tierForm.jumpRate, 0), // Should be in basis points * 100
+        ethers.parseUnits(tierForm.liquidationFee, 0) // Should be in basis points * 100
+      )
+      await tx.wait()
+      
+      await loadOracleData()
+      setTierForm({ tier: 0, jumpRate: '', liquidationFee: '' })
+    } catch (err: any) {
+      console.error('Failed to update tier config:', err)
+      setError(err.message || 'Failed to update tier config')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const getTierName = (tier: number) => {
+    const tiers = ['STABLE', 'CROSS_A', 'CROSS_B', 'ISOLATED']
+    return tiers[tier] || 'UNKNOWN'
+  }
+
+  const getOracleTypeName = (type: number) => {
+    return type === 0 ? 'Chainlink' : 'Uniswap V3'
+  }
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
+      {/* Oracle Status */}
+      <div className="glass-effect">
+        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '16px' }}>
+          Oracle Status
+        </h3>
+        
+        {isLoading ? (
+          <div style={{ color: '#9ca3af', textAlign: 'center', padding: '32px 0' }}>
+            Loading oracle data...
+          </div>
+        ) : error ? (
+          <div style={{ color: '#ef4444', textAlign: 'center', padding: '32px 0' }}>
+            {error}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {oracleData.map((oracle) => (
+              <div key={oracle.address} style={{
+                background: 'rgba(17, 24, 39, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.3)',
+                borderRadius: '8px',
+                padding: '12px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontWeight: 600 }}>{oracle.symbol}</span>
+                    <span style={{
+                      fontSize: '0.75rem',
+                      padding: '2px 6px',
+                      borderRadius: '8px',
+                      background: oracle.circuitBroken ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)',
+                      color: oracle.circuitBroken ? '#ef4444' : '#10b981'
+                    }}>
+                      {oracle.circuitBroken ? 'Circuit Broken' : 'Active'}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
+                    ${oracle.price.toFixed(2)}
+                  </span>
+                </div>
+                
+                <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '8px' }}>
+                  Primary: {getOracleTypeName(oracle.primaryOracleType)} • Oracles: {oracle.oracleCount}
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '0.75rem' }}>
+                  <div>
+                    <div style={{ color: '#9ca3af' }}>Chainlink:</div>
+                    <div style={{ color: oracle.chainlinkActive ? '#10b981' : '#ef4444' }}>
+                      {oracle.chainlinkActive ? '✓ Active' : '✗ Inactive'}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ color: '#9ca3af' }}>Uniswap V3:</div>
+                    <div style={{ color: oracle.uniswapActive ? '#10b981' : '#ef4444' }}>
+                      {oracle.uniswapActive ? `✓ ${oracle.twapPeriod}s TWAP` : '✗ Inactive'}
+                    </div>
+                  </div>
+                </div>
+                
+                <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '8px', fontFamily: 'monospace' }}>
+                  {oracle.address.slice(0, 10)}...{oracle.address.slice(-8)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Tier Rates */}
+        {tierRates && (
+          <div style={{ marginTop: '24px' }}>
+            <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '12px' }}>
+              Tier Configuration
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', fontSize: '0.75rem' }}>
+              {tierRates.jumpRates.map((rate: number, index: number) => (
+                <div key={index} style={{
+                  background: 'rgba(17, 24, 39, 0.5)',
+                  border: '1px solid rgba(75, 85, 99, 0.3)',
+                  borderRadius: '4px',
+                  padding: '8px'
+                }}>
+                  <div style={{ fontWeight: 600 }}>{getTierName(index)}</div>
+                  <div style={{ color: '#9ca3af' }}>
+                    Jump Rate: {(rate / 10000).toFixed(2)}%
+                  </div>
+                  <div style={{ color: '#9ca3af' }}>
+                    Liq Fee: {(tierRates.liquidationFees[index] / 10000).toFixed(2)}%
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Management Forms */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {/* Chainlink Oracle Update */}
+        <div className="glass-effect" style={{ padding: '16px' }}>
+          <h4 style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: '12px' }}>
+            Update Chainlink Oracle
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <input
+              type="text"
+              placeholder="Asset address"
+              value={chainlinkForm.asset}
+              onChange={(e) => setChainlinkForm({...chainlinkForm, asset: e.target.value})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Oracle address"
+              value={chainlinkForm.oracle}
+              onChange={(e) => setChainlinkForm({...chainlinkForm, oracle: e.target.value})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+              <input
+                type="checkbox"
+                checked={chainlinkForm.active}
+                onChange={(e) => setChainlinkForm({...chainlinkForm, active: e.target.checked})}
+              />
+              Active
+            </label>
+            <button
+              onClick={updateChainlinkOracle}
+              disabled={!chainlinkForm.asset || !chainlinkForm.oracle || isLoading}
+              style={{
+                padding: '6px 12px',
+                background: 'rgba(14, 165, 233, 0.2)',
+                border: '1px solid rgba(14, 165, 233, 0.3)',
+                borderRadius: '4px',
+                color: '#0ea5e9',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Update
+            </button>
+          </div>
+        </div>
+
+        {/* Uniswap Oracle Update */}
+        <div className="glass-effect" style={{ padding: '16px' }}>
+          <h4 style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: '12px' }}>
+            Update Uniswap Oracle
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <input
+              type="text"
+              placeholder="Asset address"
+              value={uniswapForm.asset}
+              onChange={(e) => setUniswapForm({...uniswapForm, asset: e.target.value})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Pool address"
+              value={uniswapForm.pool}
+              onChange={(e) => setUniswapForm({...uniswapForm, pool: e.target.value})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <input
+              type="number"
+              placeholder="TWAP Period (seconds)"
+              value={uniswapForm.twapPeriod}
+              onChange={(e) => setUniswapForm({...uniswapForm, twapPeriod: Number(e.target.value)})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <button
+              onClick={updateUniswapOracle}
+              disabled={!uniswapForm.asset || !uniswapForm.pool || isLoading}
+              style={{
+                padding: '6px 12px',
+                background: 'rgba(16, 185, 129, 0.2)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                borderRadius: '4px',
+                color: '#10b981',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Update
+            </button>
+          </div>
+        </div>
+
+        {/* Tier Config Update */}
+        <div className="glass-effect" style={{ padding: '16px' }}>
+          <h4 style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: '12px' }}>
+            Update Tier Config
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <select
+              value={tierForm.tier}
+              onChange={(e) => setTierForm({...tierForm, tier: Number(e.target.value)})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            >
+              <option value={0}>STABLE</option>
+              <option value={1}>CROSS_A</option>
+              <option value={2}>CROSS_B</option>
+              <option value={3}>ISOLATED</option>
+            </select>
+            <input
+              type="number"
+              placeholder="Jump Rate (bps * 100)"
+              value={tierForm.jumpRate}
+              onChange={(e) => setTierForm({...tierForm, jumpRate: e.target.value})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <input
+              type="number"
+              placeholder="Liquidation Fee (bps * 100)"
+              value={tierForm.liquidationFee}
+              onChange={(e) => setTierForm({...tierForm, liquidationFee: e.target.value})}
+              style={{
+                padding: '6px 8px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                color: 'white',
+                fontSize: '12px'
+              }}
+            />
+            <button
+              onClick={updateTierConfig}
+              disabled={!tierForm.jumpRate || !tierForm.liquidationFee || isLoading}
+              style={{
+                padding: '6px 12px',
+                background: 'rgba(139, 92, 246, 0.2)',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                borderRadius: '4px',
+                color: '#8b5cf6',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
