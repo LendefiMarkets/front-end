@@ -17,8 +17,31 @@ export const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-// Setup networks
-export const networks = [sepolia, mainnet] as [AppKitNetwork, ...AppKitNetwork[]]
+// Define Anvil local network
+const anvilLocal: AppKitNetwork = {
+  id: 31337,
+  name: 'Anvil Local',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Ether',
+    symbol: 'ETH'
+  },
+  rpcUrls: {
+    default: {
+      http: ['http://localhost:8545']
+    }
+  },
+  blockExplorers: {
+    default: {
+      name: 'Local Explorer',
+      url: 'http://localhost:8545'
+    }
+  },
+  testnet: true
+}
+
+// Setup networks (Anvil first for development)
+export const networks = [anvilLocal, sepolia, mainnet] as [AppKitNetwork, ...AppKitNetwork[]]
 
 // Create ethers adapter
 export const ethersAdapter = new EthersAdapter()
