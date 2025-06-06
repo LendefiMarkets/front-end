@@ -417,6 +417,7 @@ function App() {
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '32px' }}>
               <a href="#" className="text-gray-400">Documentation</a>
+              <a href="/market-owner-guide" className="text-gray-400">Market Owner Guide</a>
               <a href="#" className="text-gray-400">GitHub</a>
               <a href="#" className="text-gray-400">Discord</a>
               <a href="#" className="text-gray-400">Twitter</a>
