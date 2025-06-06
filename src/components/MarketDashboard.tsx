@@ -618,7 +618,7 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
   const { address } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
   
-  const [activeAssetTab, setActiveAssetTab] = useState<'collateral' | 'price'>('collateral')
+  const [activeAssetTab, setActiveAssetTab] = useState<'collateral' | 'price' | 'testing'>('collateral')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -693,6 +693,22 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
         >
           Price Feeds
         </button>
+        <button
+          onClick={() => setActiveAssetTab('testing')}
+          style={{
+            padding: '8px 16px',
+            background: 'none',
+            border: 'none',
+            color: activeAssetTab === 'testing' ? '#10b981' : '#9ca3af',
+            borderBottom: activeAssetTab === 'testing' ? '2px solid #10b981' : '2px solid transparent',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: activeAssetTab === 'testing' ? 600 : 400,
+            transition: 'all 0.2s'
+          }}
+        >
+          Testing
+        </button>
       </div>
 
       {/* Asset Management Content */}
@@ -700,8 +716,12 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
         <CollateralManagement 
           assetsModuleAddress={assetsModuleAddress}
         />
-      ) : (
+      ) : activeAssetTab === 'price' ? (
         <PriceFeedManagement 
+          assetsModuleAddress={assetsModuleAddress}
+        />
+      ) : (
+        <AssetTesting 
           assetsModuleAddress={assetsModuleAddress}
         />
       )}
@@ -935,9 +955,30 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
 
       {/* Complete Asset Configuration */}
       <div className="glass-effect">
-        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '16px' }}>
-          Complete Asset Configuration
-        </h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0 }}>
+            Complete Asset Configuration
+          </h3>
+          <a 
+            href="/market-owner-guide" 
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              fontSize: '0.75rem', 
+              color: '#3b82f6', 
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 8px',
+              border: '1px solid rgba(59, 130, 246, 0.3)',
+              borderRadius: '4px',
+              background: 'rgba(59, 130, 246, 0.1)'
+            }}
+          >
+            📚 Configuration Guide
+          </a>
+        </div>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '600px', overflowY: 'auto' }}>
           {/* Asset Address */}
@@ -1770,6 +1811,279 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  )
+}
+
+// Asset Testing Component
+interface AssetTestingProps {
+  assetsModuleAddress: string
+}
+
+function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
+  const { walletProvider } = useAppKitProvider('eip155')
+  const [testAddress, setTestAddress] = useState('')
+  const [testResults, setTestResults] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const testAssetFunctions = async () => {
+    if (!walletProvider || !testAddress) return
+
+    try {
+      setIsLoading(true)
+      setError(null)
+      setTestResults(null)
+
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
+      
+      // Test all the critical functions
+      const [
+        assetPrice,
+        assetInfo,
+        oracleCount,
+        isValid,
+        circuitBroken,
+        listedAssets
+      ] = await Promise.all([
+        assetsContract.getAssetPrice(testAddress).catch((e: any) => ({ error: e.message })),
+        assetsContract.getAssetInfo(testAddress).catch((e: any) => ({ error: e.message })),
+        assetsContract.getOracleCount(testAddress).catch((e: any) => ({ error: e.message })),
+        assetsContract.isAssetValid(testAddress).catch((e: any) => ({ error: e.message })),
+        assetsContract.circuitBroken(testAddress).catch((e: any) => ({ error: e.message })),
+        assetsContract.getListedAssets().catch((e: any) => ({ error: e.message }))
+      ])
+
+      // Get token info if possible
+      let tokenInfo = null
+      try {
+        const tokenContract = new ethers.Contract(testAddress, ERC20_ABI, provider)
+        const [symbol, decimals] = await Promise.all([
+          tokenContract.symbol(),
+          tokenContract.decimals()
+        ])
+        tokenInfo = { symbol, decimals: Number(decimals) }
+      } catch (err) {
+        tokenInfo = { error: 'Not a valid ERC-20 token' }
+      }
+
+      setTestResults({
+        address: testAddress,
+        tokenInfo,
+        assetPrice,
+        assetInfo,
+        oracleCount,
+        isValid,
+        circuitBroken,
+        isListed: Array.isArray(listedAssets) ? listedAssets.includes(testAddress) : false
+      })
+    } catch (err: any) {
+      console.error('Failed to test asset:', err)
+      setError(err.message || 'Failed to test asset')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const formatPrice = (price: any) => {
+    if (price?.error) return { value: 'Error', color: '#ef4444', details: price.error }
+    try {
+      const priceValue = Number(price) / 1e8 // Convert from 8 decimals
+      return { value: `$${priceValue.toFixed(4)}`, color: '#10b981', details: `Raw: ${price.toString()}` }
+    } catch {
+      return { value: 'Invalid', color: '#ef4444', details: 'Could not parse price' }
+    }
+  }
+
+  const formatBoolean = (value: any) => {
+    if (value?.error) return { value: 'Error', color: '#ef4444', details: value.error }
+    return value === true ? 
+      { value: '✓ True', color: '#10b981', details: 'Function returned true' } : 
+      { value: '✗ False', color: '#ef4444', details: 'Function returned false' }
+  }
+
+  const formatNumber = (value: any) => {
+    if (value?.error) return { value: 'Error', color: '#ef4444', details: value.error }
+    return { value: value.toString(), color: '#0ea5e9', details: `Raw value: ${value}` }
+  }
+
+  return (
+    <div>
+      <div style={{ marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '8px' }}>
+          🧪 Asset Configuration Testing
+        </h3>
+        <p style={{ color: '#9ca3af', fontSize: '0.875rem', marginBottom: '16px' }}>
+          Test your asset configurations to ensure they're working correctly. 
+          Enter any asset address to check its price, configuration, and oracle status.
+        </p>
+      </div>
+
+      {/* Test Input */}
+      <div className="glass-effect" style={{ marginBottom: '24px' }}>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.875rem', fontWeight: 600 }}>
+              Asset Contract Address
+            </label>
+            <input
+              type="text"
+              placeholder="0x..."
+              value={testAddress}
+              onChange={(e) => setTestAddress(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '6px',
+                color: 'white',
+                fontSize: '14px'
+              }}
+            />
+          </div>
+          <button
+            onClick={testAssetFunctions}
+            disabled={!testAddress || isLoading}
+            style={{
+              padding: '8px 16px',
+              background: isLoading ? 'rgba(75, 85, 99, 0.5)' : 'rgba(16, 185, 129, 0.2)',
+              border: `1px solid ${isLoading ? 'rgba(75, 85, 99, 0.5)' : 'rgba(16, 185, 129, 0.3)'}`,
+              borderRadius: '6px',
+              color: isLoading ? '#9ca3af' : '#10b981',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {isLoading ? 'Testing...' : 'Test Asset'}
+          </button>
+        </div>
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <div style={{ 
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          borderRadius: '8px',
+          padding: '16px',
+          marginBottom: '24px',
+          color: '#ef4444'
+        }}>
+          {error}
+        </div>
+      )}
+
+      {/* Test Results */}
+      {testResults && (
+        <div className="glass-effect">
+          <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '16px' }}>
+            Test Results for {testResults.address.slice(0, 10)}...{testResults.address.slice(-8)}
+          </h4>
+
+          {/* Function Results */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '0.875rem' }}>
+            
+            {/* getAssetPrice */}
+            <div style={{ padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
+              <div style={{ fontWeight: 600, marginBottom: '4px' }}>getAssetPrice()</div>
+              <div style={{ color: formatPrice(testResults.assetPrice).color }}>
+                {formatPrice(testResults.assetPrice).value}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '4px' }}>
+                {formatPrice(testResults.assetPrice).details}
+              </div>
+            </div>
+
+            {/* getOracleCount */}
+            <div style={{ padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
+              <div style={{ fontWeight: 600, marginBottom: '4px' }}>getOracleCount()</div>
+              <div style={{ color: formatNumber(testResults.oracleCount).color }}>
+                {formatNumber(testResults.oracleCount).value}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '4px' }}>
+                Active oracles for this asset
+              </div>
+            </div>
+
+            {/* isAssetValid */}
+            <div style={{ padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
+              <div style={{ fontWeight: 600, marginBottom: '4px' }}>isAssetValid()</div>
+              <div style={{ color: formatBoolean(testResults.isValid).color }}>
+                {formatBoolean(testResults.isValid).value}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '4px' }}>
+                Is asset configured and active
+              </div>
+            </div>
+
+            {/* circuitBroken */}
+            <div style={{ padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
+              <div style={{ fontWeight: 600, marginBottom: '4px' }}>circuitBroken()</div>
+              <div style={{ color: formatBoolean(testResults.circuitBroken).color }}>
+                {formatBoolean(testResults.circuitBroken).value}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '4px' }}>
+                Circuit breaker status
+              </div>
+            </div>
+
+            {/* isListed */}
+            <div style={{ padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
+              <div style={{ fontWeight: 600, marginBottom: '4px' }}>Listed Asset</div>
+              <div style={{ color: testResults.isListed ? '#10b981' : '#ef4444' }}>
+                {testResults.isListed ? '✓ Listed' : '✗ Not Listed'}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '4px' }}>
+                Present in getListedAssets()
+              </div>
+            </div>
+          </div>
+
+          {/* Asset Configuration Details */}
+          {testResults.assetInfo && !testResults.assetInfo.error && (
+            <div style={{ marginTop: '16px', padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
+              <h5 style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: '8px', color: '#3b82f6' }}>
+                getAssetInfo() - Configuration Details
+              </h5>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.75rem', color: '#d1d5db' }}>
+                <div>Active: {testResults.assetInfo.active === 1 ? '✓ Yes' : '✗ No'}</div>
+                <div>Decimals: {testResults.assetInfo.decimals}</div>
+                <div>Borrow LTV: {(testResults.assetInfo.borrowThreshold / 100).toFixed(1)}%</div>
+                <div>Liquidation LTV: {(testResults.assetInfo.liquidationThreshold / 100).toFixed(1)}%</div>
+                <div>Tier: {['STABLE', 'CROSS_A', 'CROSS_B', 'ISOLATED'][testResults.assetInfo.tier] || 'Unknown'}</div>
+                <div>Primary Oracle: {testResults.assetInfo.primaryOracleType === 0 ? 'Chainlink' : 'Uniswap'}</div>
+                <div>Chainlink Active: {testResults.assetInfo.chainlinkConfig.active === 1 ? '✓' : '✗'}</div>
+                <div>Uniswap Active: {testResults.assetInfo.poolConfig.active === 1 ? '✓' : '✗'}</div>
+              </div>
+            </div>
+          )}
+
+          {testResults.assetInfo?.error && (
+            <div style={{ marginTop: '16px', padding: '12px', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderRadius: '6px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+              <div style={{ color: '#ef4444', fontSize: '0.875rem', fontWeight: 600 }}>getAssetInfo() Error:</div>
+              <div style={{ color: '#ef4444', fontSize: '0.75rem' }}>{testResults.assetInfo.error}</div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Instructions */}
+      <div style={{ marginTop: '24px', padding: '16px', backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px' }}>
+        <h5 style={{ color: '#60a5fa', marginBottom: '8px', fontSize: '0.875rem', fontWeight: 600 }}>
+          💡 How to Use This Testing Tool
+        </h5>
+        <ul style={{ fontSize: '0.75rem', color: '#d1d5db', paddingLeft: '16px' }}>
+          <li>Enter any ERC-20 token address to test its configuration</li>
+          <li>Check that <code>getAssetPrice()</code> returns a valid price (should be &gt; 0)</li>
+          <li>Verify <code>isAssetValid()</code> returns true for assets you want to use</li>
+          <li>Ensure <code>getOracleCount()</code> meets your minimum requirements</li>
+          <li>Test both your base asset and all intended collateral assets</li>
+        </ul>
       </div>
     </div>
   )
