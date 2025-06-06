@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react'
 import { Navigate } from 'react-router-dom'
+import CreateMarket from './components/CreateMarket'
+import MyMarkets from './components/MyMarkets'
 
 function UserHome() {
   const { address, isConnected } = useAppKitAccount()
   const { chainId } = useAppKitNetwork()
+  const [activeTab, setActiveTab] = useState<'overview' | 'my-markets' | 'create-market'>('overview')
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
@@ -57,67 +60,167 @@ function UserHome() {
         </div>
       </nav>
 
-      {/* Welcome Section */}
+      {/* Main Content Section */}
       <section style={{ paddingTop: '120px', paddingBottom: '80px' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '24px' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '24px', textAlign: 'center' }}>
               Welcome to <span className="gradient-text">Lendefi Markets</span>
             </h1>
-            <p style={{ fontSize: '1.25rem', color: '#d1d5db', marginBottom: '32px' }}>
-              Your wallet is successfully connected. Start exploring composable lending markets.
+            <p style={{ fontSize: '1.25rem', color: '#d1d5db', marginBottom: '48px', textAlign: 'center' }}>
+              Create and manage composable lending markets as a market owner.
             </p>
-            
-            {/* Wallet Info Card */}
-            <div className="glass-effect" style={{ maxWidth: '500px', margin: '0 auto 48px', textAlign: 'left' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '16px' }}>
-                Wallet Information
-              </h3>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <span style={{ color: '#9ca3af' }}>Address:</span>
-                <span style={{ fontFamily: 'monospace' }}>{address}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <span style={{ color: '#9ca3af' }}>Network:</span>
-                <span>{getNetworkName(chainId || 1)}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#9ca3af' }}>Status:</span>
-                <span style={{ color: '#10b981' }}>✓ Connected</span>
-              </div>
+
+            {/* Tab Navigation */}
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '32px', borderBottom: '1px solid rgba(75, 85, 99, 0.5)' }}>
+              <button
+                onClick={() => setActiveTab('overview')}
+                style={{
+                  padding: '12px 24px',
+                  background: 'none',
+                  border: 'none',
+                  color: activeTab === 'overview' ? '#0ea5e9' : '#9ca3af',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  borderBottom: activeTab === 'overview' ? '2px solid #0ea5e9' : '2px solid transparent',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveTab('my-markets')}
+                style={{
+                  padding: '12px 24px',
+                  background: 'none',
+                  border: 'none',
+                  color: activeTab === 'my-markets' ? '#0ea5e9' : '#9ca3af',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  borderBottom: activeTab === 'my-markets' ? '2px solid #0ea5e9' : '2px solid transparent',
+                  transition: 'all 0.2s'
+                }}
+              >
+                My Markets
+              </button>
+              <button
+                onClick={() => setActiveTab('create-market')}
+                style={{
+                  padding: '12px 24px',
+                  background: 'none',
+                  border: 'none',
+                  color: activeTab === 'create-market' ? '#0ea5e9' : '#9ca3af',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  borderBottom: activeTab === 'create-market' ? '2px solid #0ea5e9' : '2px solid transparent',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Create Market
+              </button>
             </div>
 
-            {/* Quick Actions */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', marginBottom: '48px' }}>
-              <div className="glass-effect hover-glow" style={{ textAlign: 'center', cursor: 'pointer' }}>
-                <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '12px' }}>Supply Assets</h4>
-                <p style={{ color: '#9ca3af', marginBottom: '16px' }}>Earn yield by supplying liquidity to lending markets</p>
-                <button className="btn btn-primary" disabled>
-                  Coming Soon
-                </button>
+            {/* Tab Content */}
+            {activeTab === 'overview' ? (
+              <div>
+                {/* Wallet Info Card */}
+                <div className="glass-effect" style={{ maxWidth: '500px', margin: '0 auto 48px' }}>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '16px' }}>
+                    Wallet Information
+                  </h3>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                    <span style={{ color: '#9ca3af' }}>Address:</span>
+                    <span style={{ fontFamily: 'monospace' }}>{formatAddress(address || '')}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                    <span style={{ color: '#9ca3af' }}>Network:</span>
+                    <span>{getNetworkName((chainId as number) || 1)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ color: '#9ca3af' }}>Status:</span>
+                    <span style={{ color: '#10b981' }}>✓ Connected</span>
+                  </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', marginBottom: '48px' }}>
+                  <div 
+                    className="glass-effect hover-glow" 
+                    style={{ textAlign: 'center', cursor: 'pointer' }}
+                    onClick={() => setActiveTab('create-market')}
+                  >
+                    <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '12px' }}>Create Market</h4>
+                    <p style={{ color: '#9ca3af', marginBottom: '16px' }}>Deploy a new lending market for any allowed asset</p>
+                    <button className="btn btn-primary">
+                      Get Started
+                    </button>
+                  </div>
+                  
+                  <div 
+                    className="glass-effect hover-glow" 
+                    style={{ textAlign: 'center', cursor: 'pointer' }}
+                    onClick={() => setActiveTab('my-markets')}
+                  >
+                    <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '12px' }}>Manage Markets</h4>
+                    <p style={{ color: '#9ca3af', marginBottom: '16px' }}>View and manage your deployed lending markets</p>
+                    <button className="btn btn-primary">
+                      View Markets
+                    </button>
+                  </div>
+                  
+                  <div className="glass-effect hover-glow" style={{ textAlign: 'center', cursor: 'pointer' }}>
+                    <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '12px' }}>Analytics</h4>
+                    <p style={{ color: '#9ca3af', marginBottom: '16px' }}>Track performance and metrics of your markets</p>
+                    <button className="btn btn-primary" disabled>
+                      Coming Soon
+                    </button>
+                  </div>
+                </div>
+
+                {/* Info Section */}
+                <div className="glass-effect" style={{ maxWidth: '800px', margin: '0 auto' }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '16px' }}>
+                    About Market Ownership
+                  </h3>
+                  <p style={{ color: '#d1d5db', marginBottom: '16px' }}>
+                    As a market owner in the Lendefi protocol, you can create isolated lending markets for different base assets. 
+                    Each market operates independently with its own liquidity pool and parameters.
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#9ca3af' }}>
+                    <li style={{ marginBottom: '12px' }}>
+                      <span style={{ color: '#0ea5e9', marginRight: '8px' }}>•</span>
+                      Deploy markets for USDC, DAI, USDT, and other allowed assets
+                    </li>
+                    <li style={{ marginBottom: '12px' }}>
+                      <span style={{ color: '#0ea5e9', marginRight: '8px' }}>•</span>
+                      Earn fees from the spread between borrow and supply rates
+                    </li>
+                    <li style={{ marginBottom: '12px' }}>
+                      <span style={{ color: '#0ea5e9', marginRight: '8px' }}>•</span>
+                      Markets are fully composable and integrate with the broader DeFi ecosystem
+                    </li>
+                    <li>
+                      <span style={{ color: '#0ea5e9', marginRight: '8px' }}>•</span>
+                      Each market issues ERC-4626 yield tokens to liquidity providers
+                    </li>
+                  </ul>
+                </div>
               </div>
-              
-              <div className="glass-effect hover-glow" style={{ textAlign: 'center', cursor: 'pointer' }}>
-                <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '12px' }}>Borrow Assets</h4>
-                <p style={{ color: '#9ca3af', marginBottom: '16px' }}>Borrow against your collateral with competitive rates</p>
-                <button className="btn btn-primary" disabled>
-                  Coming Soon
-                </button>
-              </div>
-              
-              <div className="glass-effect hover-glow" style={{ textAlign: 'center', cursor: 'pointer' }}>
-                <h4 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '12px' }}>Portfolio</h4>
-                <p style={{ color: '#9ca3af', marginBottom: '16px' }}>View your positions and manage your portfolio</p>
-                <button className="btn btn-primary" disabled>
-                  Coming Soon
-                </button>
-              </div>
-            </div>
+            ) : activeTab === 'my-markets' ? (
+              <MyMarkets />
+            ) : (
+              <CreateMarket />
+            )}
 
             {/* Back to Landing */}
-            <a href="/" className="btn btn-outline">
-              Back to Landing Page
-            </a>
+            <div style={{ textAlign: 'center', marginTop: '48px' }}>
+              <a href="/" className="btn btn-outline">
+                Back to Landing Page
+              </a>
+            </div>
           </div>
         </div>
       </section>
