@@ -5,9 +5,7 @@ import { Container } from '../ui/Container';
 
 export const VideoSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  
-  // Placeholder YouTube video ID - replace with actual video when available
-  const videoId = 'dQw4w9WgXcQ'; // This should be replaced with actual Lendefi video ID
+  const [hasError, setHasError] = useState(false);
 
   return (
     <section className="py-20">
@@ -37,7 +35,7 @@ export const VideoSection: React.FC = () => {
         >
           <div className="relative aspect-video rounded-xl overflow-hidden glass-effect p-1">
             {/* Loading skeleton */}
-            {isLoading && (
+            {isLoading && !hasError && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-800 rounded-xl">
                 <div className="text-center">
                   <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mb-4 mx-auto animate-pulse">
@@ -47,17 +45,34 @@ export const VideoSection: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Error state */}
+            {hasError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-800 rounded-xl">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <FaPlay className="text-gray-400 text-2xl ml-1" />
+                  </div>
+                  <p className="text-gray-400">Video not available</p>
+                  <p className="text-gray-500 text-sm mt-2">promo.mp4 not found</p>
+                </div>
+              </div>
+            )}
             
-            {/* YouTube iframe */}
-            <iframe
-              className="w-full h-full rounded-lg"
-              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
-              title="Lendefi Markets Introduction"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              onLoad={() => setIsLoading(false)}
-            />
+            {/* Local video */}
+            <video
+              className="w-full h-full rounded-lg object-cover"
+              controls
+              preload="metadata"
+              onLoadedData={() => setIsLoading(false)}
+              onError={() => {
+                setIsLoading(false)
+                setHasError(true)
+              }}
+            >
+              <source src="/promo.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
 
           <motion.div
