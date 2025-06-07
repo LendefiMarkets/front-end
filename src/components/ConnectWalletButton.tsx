@@ -6,10 +6,7 @@ interface ConnectWalletButtonProps {
   onConnected?: () => void
 }
 
-const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({ 
-  className = "btn btn-primary",
-  onConnected
-}) => {
+const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = () => {
   // Use appkit-button web component
   return (
     <div className="connect-wallet-wrapper">
