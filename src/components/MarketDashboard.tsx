@@ -616,11 +616,8 @@ interface AssetManagementTabProps {
 
 function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol }: AssetManagementTabProps) {
   const { address } = useAppKitAccount()
-  const { walletProvider } = useAppKitProvider('eip155')
   
   const [activeAssetTab, setActiveAssetTab] = useState<'collateral' | 'price' | 'testing'>('collateral')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const isOwner = address?.toLowerCase() === marketOwner?.toLowerCase()
 
@@ -1352,12 +1349,6 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
     liquidationFee: ''
   })
 
-  const [oracleConfigForm, setOracleConfigForm] = useState({
-    freshness: 28800, // 8 hours
-    volatility: 3600, // 1 hour
-    volatilityPct: 2000, // 20%
-    circuitBreakerPct: 2000 // 20%
-  })
 
   React.useEffect(() => {
     loadOracleData()
