@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react'
 import { Navigate } from 'react-router-dom'
 import CreateMarket from './components/CreateMarket'
