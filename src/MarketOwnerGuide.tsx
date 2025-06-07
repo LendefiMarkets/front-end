@@ -1,8 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function MarketOwnerGuide() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('usdc');
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: 'white' }}>
@@ -96,11 +97,11 @@ function MarketOwnerGuide() {
             <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '24px', marginBottom: '24px' }}>
               <h4 style={{ fontSize: '1.125rem', marginBottom: '16px', color: '#fbbf24' }}>What happens during creation:</h4>
               <ul style={{ color: '#d1d5db', lineHeight: 1.6, paddingLeft: '20px' }}>
-                <li>✅ Core contract deployed for position management</li>
-                <li>✅ ERC-4626 vault deployed for liquidity operations</li>
-                <li>✅ Position vault deployed for collateral tracking</li>
+                <li>✅ Core contract deployed for borrower position management</li>
+                <li>✅ ERC-4626 vault deployed for lender deposits and withdrawals</li>
+                <li>✅ Position vault deployed for borrower collateral isolation</li>
                 <li>✅ Assets module cloned with your configuration permissions</li>
-                <li>✅ PoR feed deployed for proof-of-reserves</li>
+                <li>✅ PoR feed deployed for proof-of-reserves tracking</li>
                 <li>✅ <strong>MANAGER_ROLE granted to you automatically</strong></li>
               </ul>
             </div>
@@ -108,9 +109,17 @@ function MarketOwnerGuide() {
             <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '8px', padding: '16px' }}>
               <strong style={{ color: '#10b981' }}>Required Information:</strong>
               <ul style={{ color: '#d1d5db', marginTop: '8px', paddingLeft: '20px' }}>
-                <li><strong>Base Asset:</strong> Contract address of the token (must be whitelisted)</li>
-                <li><strong>Market Name:</strong> Descriptive name (e.g., "USDC Lending Market")</li>
-                <li><strong>Market Symbol:</strong> Short symbol (e.g., "lmUSDC")</li>
+                <li><strong>Base Asset:</strong> Contract address of the token to be lent (must be whitelisted)</li>
+                <li><strong>Market Name:</strong> Name for your yield token (e.g., "Lendefi Yield Token USDC")
+                  <div style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '4px' }}>
+                    → This becomes your market's identifier and the ERC-4626 yield token name
+                  </div>
+                </li>
+                <li><strong>Market Symbol:</strong> Symbol for your yield token (e.g., "LYTUSDC")
+                  <div style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '4px' }}>
+                    → Lenders receive these tokens representing their supplied assets + earned interest
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -134,15 +143,15 @@ function MarketOwnerGuide() {
             </h3>
             
             <p style={{ marginBottom: '24px', color: '#d1d5db' }}>
-              This is the most critical step! You must configure <strong>ALL</strong> assets in your market - both your <strong>base asset</strong> (the token you're lending) 
-              and <strong>every collateral asset</strong> that users can borrow against. Each asset needs proper risk parameters and oracle configuration.
+              This is the most critical step! You must configure <strong>ALL</strong> assets in your market - both your <strong>base asset</strong> (the token lenders supply and borrowers receive) 
+              and <strong>every collateral asset</strong> that borrowers can deposit to secure their loans. Each asset needs proper risk parameters and oracle configuration.
             </p>
 
             <div style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', padding: '16px', marginBottom: '24px' }}>
               <h5 style={{ color: '#60a5fa', marginBottom: '8px' }}>🔧 Required Configurations</h5>
               <ul style={{ fontSize: '0.875rem', color: '#d1d5db', paddingLeft: '16px' }}>
-                <li><strong>Base Asset:</strong> The token users deposit for lending (e.g., USDC in a USDC market)</li>
-                <li><strong>Collateral Assets:</strong> All tokens users can use as collateral (e.g., ETH, WBTC, DAI)</li>
+                <li><strong>Base Asset:</strong> The token lenders supply and borrowers borrow (e.g., USDC in a USDC market)</li>
+                <li><strong>Collateral Assets:</strong> Tokens borrowers deposit as security to borrow the base asset (e.g., ETH, WBTC, DAI)</li>
                 <li><strong>Testing:</strong> Always test with <code>getAssetPrice()</code> and <code>getAssetInfo()</code> after configuration</li>
               </ul>
             </div>
@@ -155,8 +164,8 @@ function MarketOwnerGuide() {
               
               <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '20px' }}>
                 <ol style={{ color: '#d1d5db', lineHeight: 1.6, paddingLeft: '20px' }}>
-                  <li><strong>Configure Base Asset</strong> - Set up your main lending token (e.g., USDC)</li>
-                  <li><strong>Configure Each Collateral Asset</strong> - Add every token users can use as collateral</li>
+                  <li><strong>Configure Base Asset</strong> - The token that will be supplied and borrowed (e.g., USDC)</li>
+                  <li><strong>Configure Each Collateral Asset</strong> - All tokens borrowers can pledge as security</li>
                   <li><strong>Test Each Configuration</strong> - Use <code>getAssetPrice(address)</code> to verify oracles work</li>
                   <li><strong>Verify Settings</strong> - Use <code>getAssetInfo(address)</code> to confirm all parameters</li>
                   <li><strong>Check Oracle Count</strong> - Ensure you have enough active oracles per asset</li>
@@ -164,35 +173,162 @@ function MarketOwnerGuide() {
               </div>
             </div>
 
-            {/* USDC Example */}
+            {/* Configuration Examples with Tabs */}
             <div style={{ marginBottom: '32px' }}>
               <h4 style={{ fontSize: '1.25rem', marginBottom: '16px', color: '#fbbf24' }}>
-                📋 Example: Configuring USDC as Base Asset
+                📋 Configuration Examples
               </h4>
               
-              <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '24px', fontFamily: 'monospace', fontSize: '0.875rem' }}>
-                <div style={{ marginBottom: '16px', color: '#10b981' }}>// Sample configuration for USDC collateral</div>
-                <div style={{ marginBottom: '8px' }}><span style={{ color: '#3b82f6' }}>Asset Address:</span> 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48</div>
-                <div style={{ marginBottom: '16px', color: '#6b7280' }}>// Asset Configuration:</div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable the asset</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>decimals:</span> <span style={{ color: '#fbbf24' }}>6</span> <span style={{ color: '#6b7280' }}>// USDC has 6 decimals</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>borrowThreshold:</span> <span style={{ color: '#fbbf24' }}>8000</span> <span style={{ color: '#6b7280' }}>// 80% LTV (80 * 100)</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>liquidationThreshold:</span> <span style={{ color: '#fbbf24' }}>8500</span> <span style={{ color: '#6b7280' }}>// 85% liquidation threshold</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>maxSupplyThreshold:</span> <span style={{ color: '#fbbf24' }}>10000000000000</span> <span style={{ color: '#6b7280' }}>// 10M USDC (10M * 10^6)</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>isolationDebtCap:</span> <span style={{ color: '#fbbf24' }}>5000000000000</span> <span style={{ color: '#6b7280' }}>// 5M USDC isolation cap</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>assetMinimumOracles:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Require at least 1 oracle</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>primaryOracleType:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// 1 = Chainlink, 2 = Uniswap</span></div>
-                <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>tier:</span> <span style={{ color: '#fbbf24' }}>0</span> <span style={{ color: '#6b7280' }}>// Tier 0 = STABLE (lowest risk)</span></div>
-                
-                <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Chainlink Oracle Configuration:</div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>oracleUSD:</span> 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 <span style={{ color: '#6b7280' }}>// USDC/USD feed</span></div>
-                <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable Chainlink oracle</span></div>
-                
-                <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Uniswap Pool Configuration (optional):</div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>pool:</span> 0x0000000000000000000000000000000000000000 <span style={{ color: '#6b7280' }}>// Not using Uniswap for USDC</span></div>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>twapPeriod:</span> <span style={{ color: '#fbbf24' }}>0</span></div>
-                <div><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>0</span> <span style={{ color: '#6b7280' }}>// Disabled</span></div>
+              {/* Tab Navigation */}
+              <div style={{ 
+                display: 'flex', 
+                borderBottom: '2px solid rgba(255, 255, 255, 0.1)', 
+                marginBottom: '24px',
+                gap: '8px'
+              }}>
+                <button
+                  onClick={() => setActiveTab('usdc')}
+                  style={{
+                    padding: '12px 24px',
+                    backgroundColor: activeTab === 'usdc' ? 'rgba(59, 130, 246, 0.2)' : 'transparent',
+                    border: 'none',
+                    borderBottom: activeTab === 'usdc' ? '2px solid #3b82f6' : '2px solid transparent',
+                    color: activeTab === 'usdc' ? '#60a5fa' : '#9ca3af',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: '500',
+                    borderRadius: '6px 6px 0 0',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  💰 USDC (Base Asset)
+                </button>
+                <button
+                  onClick={() => setActiveTab('weth')}
+                  style={{
+                    padding: '12px 24px',
+                    backgroundColor: activeTab === 'weth' ? 'rgba(16, 185, 129, 0.2)' : 'transparent',
+                    border: 'none',
+                    borderBottom: activeTab === 'weth' ? '2px solid #10b981' : '2px solid transparent',
+                    color: activeTab === 'weth' ? '#10b981' : '#9ca3af',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: '500',
+                    borderRadius: '6px 6px 0 0',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  ⚡ WETH (Dual Oracle)
+                </button>
+                <button
+                  onClick={() => setActiveTab('usd1')}
+                  style={{
+                    padding: '12px 24px',
+                    backgroundColor: activeTab === 'usd1' ? 'rgba(245, 158, 11, 0.2)' : 'transparent',
+                    border: 'none',
+                    borderBottom: activeTab === 'usd1' ? '2px solid #f59e0b' : '2px solid transparent',
+                    color: activeTab === 'usd1' ? '#fbbf24' : '#9ca3af',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: '500',
+                    borderRadius: '6px 6px 0 0',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  🪙 USD1 (Stablecoin + Pool)
+                </button>
               </div>
+              
+              {/* Tab Content */}
+              {activeTab === 'usdc' && (
+                <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '24px', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                  <div style={{ marginBottom: '16px', color: '#10b981' }}>// Sample configuration for USDC as base asset</div>
+                  <div style={{ marginBottom: '8px' }}><span style={{ color: '#3b82f6' }}>Asset Address:</span> 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48</div>
+                  <div style={{ marginBottom: '16px', color: '#6b7280' }}>// Asset Configuration:</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable the asset</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>decimals:</span> <span style={{ color: '#fbbf24' }}>6</span> <span style={{ color: '#6b7280' }}>// USDC has 6 decimals</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>borrowThreshold:</span> <span style={{ color: '#fbbf24' }}>950</span> <span style={{ color: '#6b7280' }}>// 95% LTV for stablecoin</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>liquidationThreshold:</span> <span style={{ color: '#fbbf24' }}>980</span> <span style={{ color: '#6b7280' }}>// 98% liquidation threshold</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>maxSupplyThreshold:</span> <span style={{ color: '#fbbf24' }}>1000000000e6</span> <span style={{ color: '#6b7280' }}>// 1B USDC (1B * 10^6)</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>isolationDebtCap:</span> <span style={{ color: '#fbbf24' }}>0</span> <span style={{ color: '#6b7280' }}>// No isolation for base asset</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>assetMinimumOracles:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Require at least 1 oracle</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>primaryOracleType:</span> <span style={{ color: '#fbbf24' }}>CHAINLINK</span> <span style={{ color: '#6b7280' }}>// Use Chainlink as primary</span></div>
+                  <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>tier:</span> <span style={{ color: '#fbbf24' }}>STABLE</span> <span style={{ color: '#6b7280' }}>// Tier 0 = STABLE (lowest risk)</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Chainlink Oracle Configuration:</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>oracleUSD:</span> 0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6 <span style={{ color: '#6b7280' }}>// USDC/USD feed</span></div>
+                  <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable Chainlink oracle</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Uniswap Pool Configuration (disabled for stablecoin):</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>pool:</span> 0x0000000000000000000000000000000000000000 <span style={{ color: '#6b7280' }}>// Not using Uniswap</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>twapPeriod:</span> <span style={{ color: '#fbbf24' }}>0</span></div>
+                  <div><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>0</span> <span style={{ color: '#6b7280' }}>// Disabled</span></div>
+                </div>
+              )}
+              
+              {activeTab === 'weth' && (
+                <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '24px', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                  <div style={{ marginBottom: '16px', color: '#10b981' }}>// WETH configuration with both Chainlink and Uniswap oracles</div>
+                  <div style={{ marginBottom: '8px' }}><span style={{ color: '#3b82f6' }}>Asset Address:</span> 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2</div>
+                  <div style={{ marginBottom: '16px', color: '#6b7280' }}>// Asset Configuration:</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable the asset</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>decimals:</span> <span style={{ color: '#fbbf24' }}>18</span> <span style={{ color: '#6b7280' }}>// WETH has 18 decimals</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>borrowThreshold:</span> <span style={{ color: '#fbbf24' }}>800</span> <span style={{ color: '#6b7280' }}>// 80% LTV for blue chip</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>liquidationThreshold:</span> <span style={{ color: '#fbbf24' }}>850</span> <span style={{ color: '#6b7280' }}>// 85% liquidation threshold</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>maxSupplyThreshold:</span> <span style={{ color: '#fbbf24' }}>1000000 ether</span> <span style={{ color: '#6b7280' }}>// 1M WETH maximum</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>isolationDebtCap:</span> <span style={{ color: '#fbbf24' }}>0</span> <span style={{ color: '#6b7280' }}>// No isolation (cross-collateral)</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>assetMinimumOracles:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Require at least 1 oracle</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>primaryOracleType:</span> <span style={{ color: '#fbbf24' }}>CHAINLINK</span> <span style={{ color: '#6b7280' }}>// Use Chainlink as primary</span></div>
+                  <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>tier:</span> <span style={{ color: '#fbbf24' }}>CROSS_A</span> <span style={{ color: '#6b7280' }}>// Tier 1 = Blue chip asset</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Chainlink Oracle Configuration:</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>oracleUSD:</span> 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419 <span style={{ color: '#6b7280' }}>// ETH/USD price feed</span></div>
+                  <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable Chainlink oracle</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Uniswap V3 Pool Configuration (dual oracle setup):</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>pool:</span> 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640 <span style={{ color: '#6b7280' }}>// WETH/USDC 0.05% pool</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>twapPeriod:</span> <span style={{ color: '#fbbf24' }}>1800</span> <span style={{ color: '#6b7280' }}>// 30 minutes TWAP</span></div>
+                  <div style={{ marginBottom: '8px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable Uniswap oracle</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#10b981' }}>// 🔥 Dual Oracle Benefits:</div>
+                  <div style={{ marginBottom: '4px', color: '#6b7280' }}>// - Median price from both sources increases security</div>
+                  <div style={{ marginBottom: '4px', color: '#6b7280' }}>// - Protection against oracle manipulation attacks</div>
+                  <div style={{ marginBottom: '4px', color: '#6b7280' }}>// - Fallback if one oracle fails</div>
+                  <div style={{ color: '#6b7280' }}>// - More accurate pricing during high volatility</div>
+                </div>
+              )}
+              
+              {activeTab === 'usd1' && (
+                <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '24px', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                  <div style={{ marginBottom: '16px', color: '#10b981' }}>// USD1 stablecoin with dual oracle for enhanced security</div>
+                  <div style={{ marginBottom: '8px' }}><span style={{ color: '#3b82f6' }}>Asset Address:</span> 0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d</div>
+                  <div style={{ marginBottom: '16px', color: '#6b7280' }}>// Asset Configuration:</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable the asset</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>decimals:</span> <span style={{ color: '#fbbf24' }}>18</span> <span style={{ color: '#6b7280' }}>// USD1 has 18 decimals (unlike USDC/USDT)</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>borrowThreshold:</span> <span style={{ color: '#fbbf24' }}>950</span> <span style={{ color: '#6b7280' }}>// 95% LTV for stablecoin</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>liquidationThreshold:</span> <span style={{ color: '#fbbf24' }}>980</span> <span style={{ color: '#6b7280' }}>// 98% liquidation threshold</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>maxSupplyThreshold:</span> <span style={{ color: '#fbbf24' }}>1000000000e18</span> <span style={{ color: '#6b7280' }}>// 1B USD1 (1B * 10^18)</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>isolationDebtCap:</span> <span style={{ color: '#fbbf24' }}>0</span> <span style={{ color: '#6b7280' }}>// No isolation for stablecoin</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>assetMinimumOracles:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Require at least 1 oracle</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>primaryOracleType:</span> <span style={{ color: '#fbbf24' }}>CHAINLINK</span> <span style={{ color: '#6b7280' }}>// Use Chainlink as primary</span></div>
+                  <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>tier:</span> <span style={{ color: '#fbbf24' }}>STABLE</span> <span style={{ color: '#6b7280' }}>// Tier 0 = STABLE (lowest risk)</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Chainlink Oracle Configuration:</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>oracleUSD:</span> 0xF0d9bb015Cd7BfAb877B7156146dc09Bf461370d <span style={{ color: '#6b7280' }}>// USD1/USD feed</span></div>
+                  <div style={{ marginBottom: '16px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable Chainlink oracle</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#6b7280' }}>// Uniswap V3 Pool Configuration (dual oracle for extra security):</div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>pool:</span> 0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36 <span style={{ color: '#6b7280' }}>// WETH/USD1 pool</span></div>
+                  <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>twapPeriod:</span> <span style={{ color: '#fbbf24' }}>1800</span> <span style={{ color: '#6b7280' }}>// 30 minutes TWAP</span></div>
+                  <div style={{ marginBottom: '8px' }}><span style={{ color: '#3b82f6' }}>active:</span> <span style={{ color: '#fbbf24' }}>1</span> <span style={{ color: '#6b7280' }}>// Enable Uniswap oracle</span></div>
+                  
+                  <div style={{ marginBottom: '8px', color: '#f59e0b' }}>// ⚠️ Important USD1 Notes:</div>
+                  <div style={{ marginBottom: '4px', color: '#6b7280' }}>// - USD1 has 18 decimals (different from USDC/USDT with 6)</div>
+                  <div style={{ marginBottom: '4px', color: '#6b7280' }}>// - Uses WETH/USD1 pool for Uniswap pricing</div>
+                  <div style={{ marginBottom: '4px', color: '#6b7280' }}>// - Dual oracle recommended for newer stablecoins</div>
+                  <div style={{ color: '#6b7280' }}>// - Monitor both oracle feeds for price stability</div>
+                </div>
+              )}
             </div>
 
             {/* Configuration Tips */}
@@ -200,19 +336,20 @@ function MarketOwnerGuide() {
               <div style={{ backgroundColor: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.3)', borderRadius: '8px', padding: '16px' }}>
                 <h5 style={{ color: '#a78bfa', marginBottom: '8px' }}>🎯 Risk Tiers</h5>
                 <ul style={{ fontSize: '0.875rem', color: '#d1d5db', paddingLeft: '16px' }}>
-                  <li><strong>Tier 0 (STABLE):</strong> USDC, USDT, DAI</li>
-                  <li><strong>Tier 1 (BLUE_CHIP):</strong> WETH, WBTC</li>
-                  <li><strong>Tier 2 (MID_CAP):</strong> UNI, LINK</li>
-                  <li><strong>Tier 3 (LONG_TAIL):</strong> Other tokens</li>
+                  <li><strong>STABLE (0):</strong> USDC, USDT, DAI - 95% LTV</li>
+                  <li><strong>CROSS_A (1):</strong> WETH, WBTC - 80% LTV</li>
+                  <li><strong>CROSS_B (2):</strong> UNI, LINK - 70% LTV</li>
+                  <li><strong>ISOLATED (3):</strong> Other tokens - 60% LTV</li>
                 </ul>
               </div>
               
               <div style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '8px', padding: '16px' }}>
-                <h5 style={{ color: '#fbbf24', marginBottom: '8px' }}>⚡ Oracle Types</h5>
+                <h5 style={{ color: '#fbbf24', marginBottom: '8px' }}>⚡ Oracle Setup Guide</h5>
                 <ul style={{ fontSize: '0.875rem', color: '#d1d5db', paddingLeft: '16px' }}>
-                  <li><strong>Chainlink:</strong> Most reliable for major assets</li>
-                  <li><strong>Uniswap V3 TWAP:</strong> For newer/smaller tokens</li>
-                  <li><strong>Dual Oracle:</strong> Use both for extra security</li>
+                  <li><strong>Single Oracle:</strong> Chainlink for stablecoins</li>
+                  <li><strong>Dual Oracle:</strong> Chainlink + Uniswap for volatile assets</li>
+                  <li><strong>Median Price:</strong> Protocol uses median when both active</li>
+                  <li><strong>TWAP Period:</strong> 1800s (30min) recommended</li>
                 </ul>
               </div>
             </div>
@@ -224,7 +361,7 @@ function MarketOwnerGuide() {
                 After configuring each asset, always test with these functions:
               </p>
               <div style={{ fontFamily: 'monospace', fontSize: '0.8rem', backgroundColor: 'rgba(17, 24, 39, 0.5)', padding: '12px', borderRadius: '4px' }}>
-                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>getAssetPrice(</span><span style={{ color: '#fbbf24' }}>0xAssetAddress</span><span style={{ color: '#3b82f6' }}>)</span> - Returns price with 8 decimals</div>
+                <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>getAssetPrice(</span><span style={{ color: '#fbbf24' }}>0xAssetAddress</span><span style={{ color: '#3b82f6' }}>)</span> - Returns price with 6 decimals</div>
                 <div style={{ marginBottom: '4px' }}><span style={{ color: '#3b82f6' }}>getAssetInfo(</span><span style={{ color: '#fbbf24' }}>0xAssetAddress</span><span style={{ color: '#3b82f6' }}>)</span> - Returns full config</div>
                 <div><span style={{ color: '#3b82f6' }}>getOracleCount(</span><span style={{ color: '#fbbf24' }}>0xAssetAddress</span><span style={{ color: '#3b82f6' }}>)</span> - Returns active oracles</div>
               </div>
@@ -264,17 +401,17 @@ function MarketOwnerGuide() {
             </h3>
             
             <p style={{ marginBottom: '24px', color: '#d1d5db' }}>
-              Bootstrap your market by depositing the initial liquidity. This provides the base assets that users can borrow against their collateral.
+              Bootstrap your market by supplying the initial liquidity. This provides the base asset pool that borrowers can draw from when they deposit collateral.
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
               <div style={{ backgroundColor: 'rgba(17, 24, 39, 0.8)', borderRadius: '8px', padding: '20px' }}>
                 <h5 style={{ color: '#10b981', marginBottom: '12px' }}>✅ Best Practices</h5>
                 <ul style={{ fontSize: '0.875rem', color: '#d1d5db', paddingLeft: '16px' }}>
-                  <li>Start with meaningful liquidity (e.g., $10K+)</li>
-                  <li>Monitor utilization rates</li>
-                  <li>Adjust interest rate curves if needed</li>
-                  <li>Consider incentive programs</li>
+                  <li>Supply meaningful initial liquidity (e.g., $10K+)</li>
+                  <li>Monitor utilization rate (borrowed/supplied)</li>
+                  <li>Watch borrow/supply APY spread</li>
+                  <li>Consider LP incentives to attract lenders</li>
                 </ul>
               </div>
               
@@ -293,9 +430,9 @@ function MarketOwnerGuide() {
               <strong style={{ color: '#10b981' }}>💡 Pro Tip:</strong> You earn fees as the market owner! 
               Your market generates revenue through:
               <ul style={{ color: '#d1d5db', marginTop: '8px', paddingLeft: '20px' }}>
-                <li>Interest rate spreads between borrowing and lending</li>
-                <li>Liquidation fees (when positions are liquidated)</li>
-                <li>Protocol fees (if configured)</li>
+                <li>Interest rate spreads (borrowers pay more than lenders receive)</li>
+                <li>Liquidation penalties (when under-collateralized positions are liquidated)</li>
+                <li>Flash loan fees (0.09% per transaction)</li>
               </ul>
             </div>
           </div>
