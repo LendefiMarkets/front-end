@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppKitAccount, useAppKitProvider, useAppKitNetwork } from '@reown/appkit/react'
 import { ethers } from 'ethers'
 import { CONTRACTS, MARKET_FACTORY_ABI, ERC20_ABI, type SupportedChainId } from '../config/contracts'
