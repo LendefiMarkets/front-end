@@ -1,4 +1,3 @@
-import React from 'react';
 import ConnectWalletButton from './components/ConnectWalletButton';
 
 function Contact() {
