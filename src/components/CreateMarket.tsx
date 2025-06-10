@@ -108,9 +108,40 @@ function CreateMarket() {
 
   return (
     <div className="glass-effect" style={{ padding: '32px' }}>
-      <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '24px' }}>
-        Create New Market
-      </h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0 }}>
+          Create New Market
+        </h2>
+        <a 
+          href="/market-owner-guide" 
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ 
+            fontSize: '0.875rem', 
+            color: '#3b82f6', 
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '8px 12px',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            borderRadius: '6px',
+            background: 'rgba(59, 130, 246, 0.1)',
+            transition: 'all 0.2s',
+            cursor: 'pointer'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)'
+            e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)'
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)'
+            e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)'
+          }}
+        >
+          📚 Market Owner Guide
+        </a>
+      </div>
       
       {success && (
         <div style={{ 
