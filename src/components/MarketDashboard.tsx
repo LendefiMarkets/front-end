@@ -618,6 +618,7 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
   const { address } = useAppKitAccount()
   
   const [activeAssetTab, setActiveAssetTab] = useState<'collateral' | 'price' | 'testing'>('collateral')
+  const [showAddAssetModal, setShowAddAssetModal] = useState(false)
 
   const isOwner = address?.toLowerCase() === marketOwner?.toLowerCase()
 
@@ -635,21 +636,53 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
   return (
     <div>
       {/* Asset Management Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px' }}>
-          Asset Management
-        </h2>
-        <p style={{ color: '#9ca3af' }}>
-          Manage collateral assets and price feeds for your {baseAssetSymbol} market
-        </p>
-        <div style={{ 
-          fontSize: '0.875rem', 
-          color: '#9ca3af', 
-          fontFamily: 'monospace',
-          marginTop: '8px'
-        }}>
-          Assets Module: {assetsModuleAddress.slice(0, 10)}...{assetsModuleAddress.slice(-8)}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        marginBottom: '32px' 
+      }}>
+        <div>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px' }}>
+            Asset Management
+          </h2>
+          <p style={{ color: '#9ca3af', margin: 0 }}>
+            Manage collateral assets and price feeds for your {baseAssetSymbol} market
+          </p>
+          <div style={{ 
+            fontSize: '0.875rem', 
+            color: '#9ca3af', 
+            fontFamily: 'monospace',
+            marginTop: '8px'
+          }}>
+            Assets Module: {assetsModuleAddress.slice(0, 10)}...{assetsModuleAddress.slice(-8)}
+          </div>
         </div>
+        <button
+          onClick={() => setShowAddAssetModal(true)}
+          style={{
+            padding: '12px 24px',
+            backgroundColor: '#0ea5e9',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '1rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 4px 12px rgba(14, 165, 233, 0.3)'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#0284c7'
+            e.currentTarget.style.transform = 'translateY(-1px)'
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#0ea5e9'
+            e.currentTarget.style.transform = 'translateY(0)'
+          }}
+        >
+          + Add Asset
+        </button>
       </div>
 
       {/* Asset Management Tabs */}
@@ -712,6 +745,8 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
       {activeAssetTab === 'collateral' ? (
         <CollateralManagement 
           assetsModuleAddress={assetsModuleAddress}
+          showAddAssetModal={showAddAssetModal}
+          setShowAddAssetModal={setShowAddAssetModal}
         />
       ) : activeAssetTab === 'price' ? (
         <PriceFeedManagement 
@@ -729,21 +764,24 @@ function AssetManagementTab({ assetsModuleAddress, marketOwner, baseAssetSymbol 
 // Collateral Management Component
 interface CollateralManagementProps {
   assetsModuleAddress: string
+  showAddAssetModal: boolean
+  setShowAddAssetModal: (show: boolean) => void
 }
 
-function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps) {
+function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowAddAssetModal }: CollateralManagementProps) {
   const { walletProvider } = useAppKitProvider('eip155')
   const [listedAssets, setListedAssets] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Form states for complete asset configuration
+  // Form states
   const [newAssetAddress, setNewAssetAddress] = useState('')
+  const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
   const [assetConfig, setAssetConfig] = useState({
     active: 1,
     decimals: 18, // Will be auto-fetched from token contract
-    borrowThreshold: 8000, // 80.00% in basis points
-    liquidationThreshold: 8500, // 85.00% in basis points
+    borrowThreshold: 800, // 80.00% in basis points (800 = 80%)
+    liquidationThreshold: 850, // 85.00% in basis points (850 = 85%)
     maxSupplyThreshold: '1000000', // Max supply cap (in token units)
     isolationDebtCap: '0', // Isolation debt cap (0 = not isolated)
     assetMinimumOracles: 1, // Minimum number of oracles required
@@ -763,6 +801,42 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
   React.useEffect(() => {
     loadAssets()
   }, [assetsModuleAddress])
+
+  const resetForm = () => {
+    setNewAssetAddress('')
+    setAssetConfig({
+      active: 1,
+      decimals: 18,
+      borrowThreshold: 800,
+      liquidationThreshold: 850,
+      maxSupplyThreshold: '1000000',
+      isolationDebtCap: '0',
+      assetMinimumOracles: 1,
+      porFeed: '',
+      primaryOracleType: 0,
+      tier: 0,
+      chainlinkOracle: '',
+      chainlinkActive: true,
+      uniswapPool: '',
+      twapPeriod: 3600,
+      uniswapActive: false
+    })
+  }
+
+  const closeModal = () => {
+    setShowAddAssetModal(false)
+    resetForm()
+  }
+
+  const copyToClipboard = async (address: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(address)
+      setCopiedAddress(address)
+      setTimeout(() => setCopiedAddress(null), 2000) // Clear after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
 
   const loadAssets = async () => {
     if (!walletProvider) return
@@ -784,21 +858,47 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
             
             const [symbol, price, oracleCount] = await Promise.all([
               tokenContract.symbol(),
-              assetsContract.getAssetPrice(address).catch(() => BigInt(0)),
+              assetsContract.getAssetPrice(address).catch((err) => {
+                console.error(`Failed to get price for ${address}:`, err)
+                
+                // Parse common error types
+                let errorMessage = 'Price unavailable'
+                if (err.message) {
+                  if (err.message.includes('AssetNotListed')) {
+                    errorMessage = 'Asset not listed'
+                  } else if (err.message.includes('CircuitBreakerActive')) {
+                    errorMessage = 'Circuit breaker active'
+                  } else if (err.message.includes('NotEnoughValidOracles')) {
+                    errorMessage = 'Not enough valid oracles'
+                  } else if (err.message.includes('execution reverted')) {
+                    errorMessage = 'Oracle error'
+                  } else {
+                    errorMessage = err.message.split('(')[0] // Take first part before parentheses
+                  }
+                }
+                
+                return { error: errorMessage }
+              }),
               assetsContract.getOracleCount(address)
             ])
 
+            console.log('Loading asset info for', symbol, '- assetInfo.active:', assetInfo.active, 'type:', typeof assetInfo.active)
+            console.log('Oracle status - Chainlink active:', assetInfo.chainlinkConfig.active, 'type:', typeof assetInfo.chainlinkConfig.active)
+            console.log('Oracle status - Uniswap active:', assetInfo.poolConfig.active, 'type:', typeof assetInfo.poolConfig.active)
             return {
               address,
               symbol,
-              active: assetInfo.active === 1,
+              active: Number(assetInfo.active) === 1,
               tier: assetInfo.tier,
               borrowThreshold: assetInfo.borrowThreshold,
               liquidationThreshold: assetInfo.liquidationThreshold,
-              price: Number(price) / 1e8, // Convert from 8 decimals
+              price: price?.error ? { error: price.error } : Number(price) / 1e6, // Convert from 6 decimals (LendefiAssets normalizes to 1e6)
               oracleCount: Number(oracleCount),
-              chainlinkActive: assetInfo.chainlinkConfig.active === 1,
-              uniswapActive: assetInfo.poolConfig.active === 1
+              porFeed: assetInfo.porFeed,
+              chainlinkActive: Number(assetInfo.chainlinkConfig.active) === 1,
+              chainlinkOracle: assetInfo.chainlinkConfig.oracleUSD,
+              uniswapActive: Number(assetInfo.poolConfig.active) === 1,
+              uniswapPool: assetInfo.poolConfig.pool
             }
           } catch (err) {
             console.error('Failed to load asset info:', err)
@@ -835,6 +935,7 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
       const decimals = await tokenContract.decimals()
 
       // Create complete Asset struct matching IASSETS.sol exactly
+      console.log('Submitting assetConfig.active:', assetConfig.active)
       const config = [
         assetConfig.active, // uint8 active
         decimals, // uint8 decimals (auto-fetched from token)
@@ -860,11 +961,9 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
       const tx = await assetsContract.updateAssetConfig(newAssetAddress, config)
       await tx.wait()
       
-      // Reload assets
+      // Close modal and reload assets
+      closeModal()
       await loadAssets()
-      
-      // Reset form
-      setNewAssetAddress('')
     } catch (err: any) {
       console.error('Failed to update asset config:', err)
       setError(err.message || 'Failed to update asset config')
@@ -874,8 +973,9 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
-      {/* Listed Assets */}
+    <>
+
+      {/* Assets List */}
       <div className="glass-effect">
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '16px' }}>
           Listed Collateral Assets
@@ -923,26 +1023,163 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
                     }}>
                       {getTierName(asset.tier)}
                     </span>
+                    
+                    {/* Asset Address */}
+                    <span style={{ 
+                      fontSize: '0.75rem',
+                      fontFamily: 'monospace',
+                      color: '#9ca3af',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => copyToClipboard(asset.address, 'Asset')}
+                    >
+                      {`${asset.address.slice(0, 10)}...${asset.address.slice(-8)}`}
+                    </span>
+                    <button
+                      onClick={() => copyToClipboard(asset.address, 'Asset')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: copiedAddress === asset.address ? '#10b981' : '#9ca3af',
+                        cursor: 'pointer',
+                        fontSize: '0.75rem',
+                        padding: '0'
+                      }}
+                    >
+                      📋
+                    </button>
                   </div>
-                  <span style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
-                    ${asset.price.toFixed(2)}
+                  <span style={{ 
+                    fontSize: '0.875rem', 
+                    color: asset.price?.error ? '#ef4444' : '#9ca3af' 
+                  }}>
+                    {asset.price?.error ? `❌ ${asset.price.error}` : `$${asset.price.toFixed(2)}`}
                   </span>
                 </div>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', fontSize: '0.75rem', color: '#9ca3af' }}>
                   <div>
-                    Borrow LTV: {(asset.borrowThreshold / 100).toFixed(0)}%
+                    Borrow Threshold: {(Number(asset.borrowThreshold) / 10).toFixed(0)}%
                   </div>
                   <div>
-                    Liq. LTV: {(asset.liquidationThreshold / 100).toFixed(0)}%
+                    Liquidation Threshold: {(Number(asset.liquidationThreshold) / 10).toFixed(0)}%
                   </div>
                   <div>
                     Oracles: {asset.oracleCount}
                   </div>
                 </div>
+
+                {/* Oracle Configuration */}
+                <div style={{ marginTop: '8px', fontSize: '0.75rem' }}>
+                  <div style={{ color: '#9ca3af', marginBottom: '4px', fontWeight: 600 }}>Oracle Feeds:</div>
+                  
+                  {/* Chainlink Oracle */}
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px', 
+                    marginBottom: '2px',
+                    padding: '2px 4px',
+                    borderRadius: '3px'
+                  }}>
+                    <span style={{ 
+                      color: asset.chainlinkActive ? '#10b981' : '#ef4444',
+                      fontSize: '0.7rem'
+                    }}>
+                      {asset.chainlinkActive ? '✓' : '✗'}
+                    </span>
+                    <span style={{ color: '#0ea5e9', fontWeight: 600 }}>Chainlink:</span>
+                    <span style={{ 
+                      fontFamily: 'monospace',
+                      color: '#9ca3af',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => copyToClipboard(asset.chainlinkOracle || 'Not configured', 'Chainlink Oracle')}
+                    >
+                      {asset.chainlinkOracle ? `${asset.chainlinkOracle.slice(0, 10)}...${asset.chainlinkOracle.slice(-8)}` : 'Not configured'}
+                    </span>
+                    {asset.chainlinkOracle && (
+                      <button
+                        onClick={() => copyToClipboard(asset.chainlinkOracle, 'Chainlink Oracle')}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: copiedAddress === asset.chainlinkOracle ? '#10b981' : '#9ca3af',
+                          cursor: 'pointer',
+                          fontSize: '0.75rem',
+                          padding: '0'
+                        }}
+                      >
+                        📋
+                      </button>
+                    )}
+                  </div>
+                  
+                  {/* Uniswap Oracle */}
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '8px',
+                    padding: '2px 4px',
+                    borderRadius: '3px'
+                  }}>
+                    <span style={{ 
+                      color: asset.uniswapActive ? '#10b981' : '#ef4444',
+                      fontSize: '0.7rem'
+                    }}>
+                      {asset.uniswapActive ? '✓' : '✗'}
+                    </span>
+                    <span style={{ color: '#10b981', fontWeight: 600 }}>Uniswap V3:</span>
+                    <span style={{ 
+                      fontFamily: 'monospace',
+                      color: '#9ca3af',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => copyToClipboard(asset.uniswapPool || 'Not configured', 'Uniswap Pool')}
+                    >
+                      {asset.uniswapPool ? `${asset.uniswapPool.slice(0, 10)}...${asset.uniswapPool.slice(-8)}` : 'Not configured'}
+                    </span>
+                    {asset.uniswapPool && (
+                      <button
+                        onClick={() => copyToClipboard(asset.uniswapPool, 'Uniswap Pool')}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: copiedAddress === asset.uniswapPool ? '#10b981' : '#9ca3af',
+                          cursor: 'pointer',
+                          fontSize: '0.75rem',
+                          padding: '0'
+                        }}
+                      >
+                        📋
+                      </button>
+                    )}
+                  </div>
+                </div>
                 
                 <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '8px', fontFamily: 'monospace' }}>
-                  {asset.address.slice(0, 10)}...{asset.address.slice(-8)}
+                  {asset.porFeed && asset.porFeed !== '0x0000000000000000000000000000000000000000' && (
+                    <div 
+                      style={{ 
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        cursor: 'pointer',
+                        padding: '2px 4px',
+                        borderRadius: '3px',
+                        transition: 'background-color 0.2s'
+                      }}
+                      onClick={() => copyToClipboard(asset.porFeed, 'PoR Feed')}
+                      onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(75, 85, 99, 0.3)'}
+                      onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                      title="Click to copy PoR Feed address"
+                    >
+                      PoR Feed: {asset.porFeed.slice(0, 10)}...{asset.porFeed.slice(-8)}
+                      <span style={{ fontSize: '10px', color: copiedAddress === asset.porFeed ? '#10b981' : '#9ca3af' }}>
+                        {copiedAddress === asset.porFeed ? '✓' : '📋'}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -950,34 +1187,71 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
         )}
       </div>
 
-      {/* Complete Asset Configuration */}
-      <div className="glass-effect">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0 }}>
-            Complete Asset Configuration
-          </h3>
-          <a 
-            href="/market-owner-guide" 
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ 
-              fontSize: '0.75rem', 
-              color: '#3b82f6', 
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              padding: '4px 8px',
-              border: '1px solid rgba(59, 130, 246, 0.3)',
-              borderRadius: '4px',
-              background: 'rgba(59, 130, 246, 0.1)'
-            }}
-          >
-            📚 Configuration Guide
-          </a>
-        </div>
+      {/* Add Asset Modal */}
+      {showAddAssetModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: '#1f2937',
+            borderRadius: '12px',
+            padding: '24px',
+            maxWidth: '600px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            border: '1px solid rgba(75, 85, 99, 0.5)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0 }}>
+                Add New Asset
+              </h3>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <a 
+                  href="/market-owner-guide" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ 
+                    fontSize: '0.75rem', 
+                    color: '#3b82f6', 
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '4px 8px',
+                    border: '1px solid rgba(59, 130, 246, 0.3)',
+                    borderRadius: '4px',
+                    background: 'rgba(59, 130, 246, 0.1)'
+                  }}
+                >
+                  📚 Guide
+                </a>
+                <button
+                  onClick={closeModal}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#9ca3af',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    padding: '4px'
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+            </div>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '600px', overflowY: 'auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {/* Asset Address */}
           <div>
             <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
@@ -1052,13 +1326,13 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             <div>
               <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
-                Borrow LTV % (bps)
+                Borrow LTV (basis points)
               </label>
               <input
                 type="number"
                 value={assetConfig.borrowThreshold}
                 onChange={(e) => setAssetConfig({...assetConfig, borrowThreshold: Number(e.target.value)})}
-                placeholder="8000 = 80%"
+                placeholder="950 = 95%"
                 style={{
                   width: '100%',
                   padding: '6px 8px',
@@ -1072,13 +1346,13 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
             </div>
             <div>
               <label style={{ display: 'block', marginBottom: '4px', fontSize: '0.75rem', fontWeight: 600 }}>
-                Liq. LTV % (bps)
+                Liq. LTV (basis points)
               </label>
               <input
                 type="number"
                 value={assetConfig.liquidationThreshold}
                 onChange={(e) => setAssetConfig({...assetConfig, liquidationThreshold: Number(e.target.value)})}
-                placeholder="8500 = 85%"
+                placeholder="980 = 98%"
                 style={{
                   width: '100%',
                   padding: '6px 8px',
@@ -1309,11 +1583,13 @@ function CollateralManagement({ assetsModuleAddress }: CollateralManagementProps
               cursor: isLoading ? 'not-allowed' : 'pointer'
             }}
           >
-            {isLoading ? 'Processing...' : 'Update Complete Asset Config'}
+            {isLoading ? 'Processing...' : 'Add Asset'}
           </button>
         </div>
-      </div>
-    </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
@@ -1394,7 +1670,7 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
             return {
               address,
               symbol,
-              price: Number(price) / 1e8,
+              price: Number(price) / 1e6, // Convert from 6 decimals (LendefiAssets normalizes to 1e6)
               oracleCount: Number(oracleCount),
               circuitBroken,
               chainlinkOracle: assetInfo.chainlinkConfig.oracleUSD,
@@ -1881,7 +2157,7 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
   const formatPrice = (price: any) => {
     if (price?.error) return { value: 'Error', color: '#ef4444', details: price.error }
     try {
-      const priceValue = Number(price) / 1e8 // Convert from 8 decimals
+      const priceValue = Number(price) / 1e6 // Convert from 6 decimals (LendefiAssets normalizes to 1e6)
       return { value: `$${priceValue.toFixed(4)}`, color: '#10b981', details: `Raw: ${price.toString()}` }
     } catch {
       return { value: 'Invalid', color: '#ef4444', details: 'Could not parse price' }
