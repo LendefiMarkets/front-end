@@ -49,10 +49,6 @@ function UserHome() {
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/#markets">Markets</a>
-              <a href="/#features">Features</a>
-              <a href="/contact">Contact</a>
-              <a href="#docs">Docs</a>
               {/* Use appkit-account-button for wallet info */}
               <appkit-account-button />
             </div>
