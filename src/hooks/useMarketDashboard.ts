@@ -118,9 +118,9 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
         ? (userShares * totalAssets) / totalSupply 
         : BigInt(0)
 
-      // Calculate share price (assets per share) - normalized by asset decimals
+      // Calculate share price (assets per share) - both vault shares and assets have same decimals
       const sharePrice = totalSupply > BigInt(0)
-        ? Number(ethers.formatUnits(totalAssets, baseAssetDecimals)) / Number(ethers.formatUnits(totalSupply, 18))
+        ? Number(ethers.formatUnits(totalAssets, baseAssetDecimals)) / Number(ethers.formatUnits(totalSupply, baseAssetDecimals))
         : 1
 
       // Convert rates to APY (assuming rates are per second basis points)
@@ -165,14 +165,10 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
     }
   }, [walletProvider, baseAsset, ownerAddress, address, factoryAddress])
 
-  // Auto-refresh data
+  // Initial data load only
   useEffect(() => {
     if (baseAsset && ownerAddress) {
       fetchMarketData()
-      
-      // Refresh every 30 seconds
-      const interval = setInterval(fetchMarketData, 30000)
-      return () => clearInterval(interval)
     }
   }, [fetchMarketData, baseAsset, ownerAddress])
 
