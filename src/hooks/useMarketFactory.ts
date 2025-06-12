@@ -30,6 +30,7 @@ export function useMarketFactory() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [allowedAssets, setAllowedAssets] = useState<AllowedAsset[]>([])
+  const [hasMarketOwnerRole, setHasMarketOwnerRole] = useState(false)
 
   // Get the contract address for the current network
   const factoryAddress = chainId && CONTRACTS[chainId as SupportedChainId]?.marketFactory
@@ -154,7 +155,12 @@ export function useMarketFactory() {
 
       const marketInfo = await factoryContract.getMarketInfo(address, baseAsset)
       return marketInfo.core !== ethers.ZeroAddress
-    } catch (err) {
+    } catch (err: any) {
+      // If getMarketInfo reverts, it likely means the market doesn't exist
+      // This is expected behavior when no market has been created yet
+      if (err.code === 'CALL_EXCEPTION') {
+        return false
+      }
       console.error('Failed to check market existence:', err)
       return false
     }
@@ -176,18 +182,48 @@ export function useMarketFactory() {
       if (marketInfo.core === ethers.ZeroAddress) return null
 
       return marketInfo
-    } catch (err) {
+    } catch (err: any) {
+      // If getMarketInfo reverts, it likely means the market doesn't exist
+      if (err.code === 'CALL_EXCEPTION') {
+        return null
+      }
       console.error('Failed to fetch market info:', err)
       return null
     }
   }, [walletProvider, factoryAddress, address])
 
-  // Fetch allowed assets on mount and when dependencies change
+  // Check if user has MARKET_OWNER_ROLE
+  const checkMarketOwnerRole = useCallback(async () => {
+    if (!walletProvider || !factoryAddress || !address) {
+      setHasMarketOwnerRole(false)
+      return
+    }
+
+    try {
+      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const factoryContract = new ethers.Contract(
+        factoryAddress,
+        MARKET_FACTORY_ABI,
+        provider
+      )
+
+      // MARKET_OWNER_ROLE = keccak256("MARKET_OWNER_ROLE")
+      const MARKET_OWNER_ROLE = '0xc2d8be2f9fead751efa432b3ca8155dd1b8bde7d0d80d72f07850c659afcd0bc'
+      const hasRole = await factoryContract.hasRole(MARKET_OWNER_ROLE, address)
+      setHasMarketOwnerRole(hasRole)
+    } catch (err) {
+      console.error('Failed to check MARKET_OWNER_ROLE:', err)
+      setHasMarketOwnerRole(false)
+    }
+  }, [walletProvider, factoryAddress, address])
+
+  // Fetch allowed assets and check role on mount and when dependencies change
   useEffect(() => {
     if (factoryAddress && walletProvider) {
       fetchAllowedAssets()
+      checkMarketOwnerRole()
     }
-  }, [factoryAddress, walletProvider, fetchAllowedAssets])
+  }, [factoryAddress, walletProvider, fetchAllowedAssets, checkMarketOwnerRole])
 
   return {
     isLoading,
@@ -197,6 +233,7 @@ export function useMarketFactory() {
     checkMarketExists,
     getMarketInfo,
     fetchAllowedAssets,
-    factoryAddress
+    factoryAddress,
+    hasMarketOwnerRole
   }
 }
