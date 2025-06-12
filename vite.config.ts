@@ -15,6 +15,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['@reown/appkit', '@reown/appkit-adapter-ethers', 'ethers']
+    include: ['@reown/appkit', '@reown/appkit-adapter-ethers', 'ethers'],
+    exclude: ['vite-plugin-node-polyfills/shims/buffer', 'vite-plugin-node-polyfills/shims/global', 'vite-plugin-node-polyfills/shims/process']
   }
 })
