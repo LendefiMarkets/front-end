@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useMarketFactory } from '../hooks/useMarketFactory'
 import { FiAlertCircle, FiCheckCircle, FiLoader } from 'react-icons/fi'
+import PendingApprovalModal from './PendingApprovalModal'
 
 function CreateMarket() {
   const { 
@@ -9,7 +10,8 @@ function CreateMarket() {
     allowedAssets, 
     createMarket, 
     checkMarketExists,
-    factoryAddress 
+    factoryAddress,
+    hasMarketOwnerRole
   } = useMarketFactory()
 
   const [selectedAsset, setSelectedAsset] = useState('')
@@ -20,6 +22,7 @@ function CreateMarket() {
   const [success, setSuccess] = useState(false)
   const [marketExists, setMarketExists] = useState(false)
   const [localError, setLocalError] = useState<string | null>(null)
+  const [showPendingModal, setShowPendingModal] = useState(false)
 
   // Check if market exists when asset is selected
   useEffect(() => {
@@ -58,6 +61,12 @@ function CreateMarket() {
 
     if (marketExists) {
       setLocalError('You already have a market for this asset')
+      return
+    }
+
+    // Check if user has MARKET_OWNER_ROLE
+    if (!hasMarketOwnerRole) {
+      setShowPendingModal(true)
       return
     }
 
@@ -297,6 +306,11 @@ function CreateMarket() {
           <li>• Borrowers can use various collateral types to borrow from your market</li>
         </ul>
       </div>
+
+      <PendingApprovalModal 
+        isOpen={showPendingModal} 
+        onClose={() => setShowPendingModal(false)} 
+      />
 
       <style>{`
         @keyframes spin {
