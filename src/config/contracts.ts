@@ -187,6 +187,30 @@ export const MARKET_FACTORY_ABI = [
       }
     ],
     "anonymous": false
+  },
+  {
+    "type": "function",
+    "name": "hasRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
   }
 ] as const
 
@@ -557,7 +581,13 @@ export const CONTRACTS = {
   },
   // Sepolia testnet
   11155111: {
-    marketFactory: "0x1234567890123456789012345678901234567890", // TODO: Replace with actual deployed address
+    marketFactory: "0x25b4E1909becFeFA8972440c2f5AB25Bc738EBEB", // Deployed factory proxy
+    // Implementation addresses (for reference):
+    // - LendefiCore: 0xdB274c6E18479F57d2dE7264EE7EfFfe259E3105
+    // - LendefiMarketVault: 0xa5e19357FdaFd9086F00Cd6a448b10BfB2bB3520
+    // - LendefiPositionVault: 0x722DCfcABE7143635fCa372aF128eBE4a7fEf674
+    // - LendefiAssets: 0x005E69463164D06946f7B1506E2d9f385B8719d7
+    // - LendefiPoRFeed: 0xab6B358687f7347Ae936e3c19188aF6C02fD2eF4
   },
   // Mainnet
   1: {
