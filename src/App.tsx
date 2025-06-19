@@ -72,10 +72,6 @@ function App() {
     return `$${marketCap.toLocaleString()}`;
   };
 
-  // Generate random APY values for demo
-  const getRandomAPY = (min: number, max: number) => {
-    return (Math.random() * (max - min) + min).toFixed(2);
-  };
 
 
   return (
