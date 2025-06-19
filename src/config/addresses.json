@@ -1,0 +1,54 @@
+{
+  "sepolia": {
+    "chainId": 11155111,
+    "marketFactory": "0x08F276a9595160044c2Fb136f6BA8a0520230955"
+  },
+  "base-sepolia": {
+    "chainId": 84532,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "polygon-amoy": {
+    "chainId": 80002,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "avalanche-fuji": {
+    "chainId": 43113,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "arbitrum-sepolia": {
+    "chainId": 421614,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "binance-testnet": {
+    "chainId": 97,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "ethereum-mainnet": {
+    "chainId": 1,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "binance-mainnet": {
+    "chainId": 56,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "base-mainnet": {
+    "chainId": 8453,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "arbitrum-mainnet": {
+    "chainId": 42161,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "avalanche-mainnet": {
+    "chainId": 43114,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "polygon-mainnet": {
+    "chainId": 137,
+    "marketFactory": "0x0000000000000000000000000000000000000000"
+  },
+  "anvil-local": {
+    "chainId": 31337,
+    "marketFactory": "0x59b670e9fA9D0A427751Af201D676719a970857b"
+  }
+}
