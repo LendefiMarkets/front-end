@@ -505,7 +505,7 @@ function MarketOwnerGuide() {
                   textDecoration: 'none'
                 }}
               >
-                💬 Discord Community
+                💬 X Community
               </a>
               <a 
                 href="#" 
