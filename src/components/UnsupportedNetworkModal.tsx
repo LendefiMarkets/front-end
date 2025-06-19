@@ -12,9 +12,9 @@ const UnsupportedNetworkModal: React.FC<UnsupportedNetworkModalProps> = ({ isOpe
 
   if (!isOpen) return null
 
-  const handleNetworkSwitch = async (chainId: number) => {
+  const handleNetworkSwitch = async (network: typeof networks[0]) => {
     try {
-      await switchNetwork(chainId)
+      await switchNetwork(network)
       onClose()
     } catch (error) {
       console.error('Failed to switch network:', error)
@@ -33,7 +33,7 @@ const UnsupportedNetworkModal: React.FC<UnsupportedNetworkModalProps> = ({ isOpe
           {networks.map((network) => (
             <button
               key={network.id}
-              onClick={() => handleNetworkSwitch(network.id)}
+              onClick={() => handleNetworkSwitch(network)}
               className="w-full p-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-left transition-colors duration-200"
             >
               <span className="text-white font-medium">{network.name}</span>
