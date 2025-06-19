@@ -1,4 +1,4 @@
-import { mainnet, sepolia } from '@reown/appkit/networks'
+import { sepolia } from '@reown/appkit/networks'
 import type { AppKitNetwork } from '@reown/appkit/networks'
 import { EthersAdapter } from '@reown/appkit-adapter-ethers'
 
