@@ -575,7 +575,7 @@ export const ERC20_ABI = [
 ] as const
 
 // Contract addresses by network - dynamically built from addresses.json
-export const CONTRACTS = Object.entries(addresses).reduce((acc, [network, config]) => {
+export const CONTRACTS = Object.entries(addresses).reduce((acc, [, config]) => {
   acc[config.chainId] = {
     marketFactory: config.marketFactory
   }
