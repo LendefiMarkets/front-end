@@ -6,6 +6,10 @@ import { Container } from '../ui/Container';
 export const VideoSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  
+  // Try direct public path
+  const videoSrc = '/assets/LendefiPromo.mp4';
+  console.log('VideoSection render - using videoSrc:', videoSrc);
 
   return (
     <section className="py-20">
@@ -54,7 +58,7 @@ export const VideoSection: React.FC = () => {
                     <FaPlay className="text-gray-400 text-2xl ml-1" />
                   </div>
                   <p className="text-gray-400">Video not available</p>
-                  <p className="text-gray-500 text-sm mt-2">promo.mp4 not found</p>
+                  <p className="text-gray-500 text-sm mt-2">LendefiPromo.mp4 not found</p>
                 </div>
               </div>
             )}
@@ -64,13 +68,19 @@ export const VideoSection: React.FC = () => {
               className="w-full h-full rounded-lg object-cover"
               controls
               preload="metadata"
-              onLoadedData={() => setIsLoading(false)}
-              onError={() => {
+              onLoadedData={() => {
+                console.log('Video loaded successfully')
+                setIsLoading(false)
+              }}
+              onError={(e) => {
+                console.error('Video error:', e)
                 setIsLoading(false)
                 setHasError(true)
               }}
+              onLoadStart={() => console.log('Video load started')}
+              onCanPlay={() => console.log('Video can play')}
             >
-              <source src="/promo.mp4" type="video/mp4" />
+              <source src={videoSrc} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
