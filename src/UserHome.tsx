@@ -1,13 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react'
 import { Navigate } from 'react-router-dom'
 import CreateMarket from './components/CreateMarket'
 import MyMarkets from './components/MyMarkets'
+import UnsupportedNetworkModal from './components/UnsupportedNetworkModal'
+import { useNetworkValidation } from './hooks/useNetworkValidation'
 
 function UserHome() {
   const { address, isConnected } = useAppKitAccount()
   const { chainId } = useAppKitNetwork()
+  const { isUnsupportedNetwork } = useNetworkValidation()
   const [activeTab, setActiveTab] = useState<'overview' | 'my-markets' | 'create-market'>('overview')
+  const [showNetworkModal, setShowNetworkModal] = useState(false)
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
@@ -17,10 +21,20 @@ function UserHome() {
     switch (chainId) {
       case 1: return 'Ethereum Mainnet'
       case 11155111: return 'Sepolia Testnet'
-      case 5: return 'Goerli Testnet'
+      case 84532: return 'Base Sepolia'
+      case 421614: return 'Arbitrum Sepolia'
+      case 80002: return 'Polygon Amoy'
+      case 43113: return 'Avalanche Fuji'
+      case 97: return 'BSC Testnet'
+      case 31337: return 'Anvil Local'
       default: return `Chain ${chainId}`
     }
   }
+
+  // Show network modal when on unsupported network
+  useEffect(() => {
+    setShowNetworkModal(isUnsupportedNetwork)
+  }, [isUnsupportedNetwork])
 
   // Redirect to home if not connected
   if (!isConnected) {
@@ -254,6 +268,12 @@ function UserHome() {
           </div>
         </div>
       </footer>
+
+      {/* Unsupported Network Modal */}
+      <UnsupportedNetworkModal 
+        isOpen={showNetworkModal}
+        onClose={() => setShowNetworkModal(false)}
+      />
     </div>
   )
 }
