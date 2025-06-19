@@ -1,4 +1,3 @@
-import React from 'react'
 import { FiX, FiClock } from 'react-icons/fi'
 
 interface PendingApprovalModalProps {
