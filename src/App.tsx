@@ -2,12 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppKitAccount } from '@reown/appkit/react';
 import ConnectWalletButton from './components/ConnectWalletButton';
+import UnsupportedNetworkModal from './components/UnsupportedNetworkModal';
+import { useNetworkValidation } from './hooks/useNetworkValidation';
 
 function App() {
   const navigate = useNavigate();
   const { isConnected } = useAppKitAccount();
+  const { isUnsupportedNetwork } = useNetworkValidation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [marketData, setMarketData] = React.useState<{[key: string]: any}>({});
+  const [showNetworkModal, setShowNetworkModal] = React.useState(false);
 
   // Fetch market cap data from CoinGecko
   React.useEffect(() => {
@@ -32,6 +36,11 @@ function App() {
       navigate('/app');
     }
   }, [isConnected, navigate]);
+
+  // Show network modal when on unsupported network
+  React.useEffect(() => {
+    setShowNetworkModal(isUnsupportedNetwork);
+  }, [isUnsupportedNetwork]);
   
   const handleNavClick = (elementId: string) => {
     document.getElementById(elementId)?.scrollIntoView({ behavior: 'smooth' });
@@ -428,6 +437,12 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Unsupported Network Modal */}
+      <UnsupportedNetworkModal 
+        isOpen={showNetworkModal}
+        onClose={() => setShowNetworkModal(false)}
+      />
     </div>
   );
 }
