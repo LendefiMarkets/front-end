@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { useAppKitAccount, useAppKitProvider, useAppKitNetwork } from '@reown/appkit/react'
 import { ethers } from 'ethers'
 import { CONTRACTS, MARKET_FACTORY_ABI, ERC20_ABI, type SupportedChainId } from '../config/contracts'
-import MarketDashboard from './MarketDashboard'
+
+// Lazy load MarketDashboard to reduce initial bundle size
+const MarketDashboard = lazy(() => import('./MarketDashboard/index'))
 
 interface DeployedMarket {
   baseAsset: string
@@ -104,11 +106,26 @@ export default function MyMarkets() {
 
   if (selectedMarket) {
     return (
-      <MarketDashboard
-        baseAsset={selectedMarket.baseAsset}
-        marketOwner={address}
-        onBack={() => setSelectedMarket(null)}
-      />
+      <Suspense fallback={
+        <div style={{ textAlign: 'center', padding: '64px 0' }}>
+          <div style={{ 
+            display: 'inline-block',
+            width: '40px',
+            height: '40px',
+            border: '4px solid rgba(14, 165, 233, 0.3)',
+            borderTopColor: '#0ea5e9',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }} />
+          <p style={{ marginTop: '16px', color: '#64748b' }}>Loading market dashboard...</p>
+        </div>
+      }>
+        <MarketDashboard
+          baseAsset={selectedMarket.baseAsset}
+          marketOwner={address}
+          onBack={() => setSelectedMarket(null)}
+        />
+      </Suspense>
     )
   }
 
