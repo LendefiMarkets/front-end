@@ -22,13 +22,7 @@ function BookDemo() {
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/">Home</a>
-              <a href="/#markets">Markets</a>
-              <a href="/#features">Features</a>
-              <a href="/#video">Video</a>
-              <a href="/contact">Contact</a>
-              <a href="#docs">Docs</a>
-              <a href="/" className="btn btn-primary">Connect Wallet</a>
+              <a href="/" className="btn btn-outline">← Back to Main</a>
             </div>
           </div>
         </div>
@@ -169,13 +163,12 @@ function BookDemo() {
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '32px' }}>
               <a href="/" className="text-gray-400">Home</a>
-              <a href="#" className="text-gray-400">Documentation</a>
-              <a href="#" className="text-gray-400">GitHub</a>
-              <a href="#" className="text-gray-400">Discord</a>
-              <a href="#" className="text-gray-400">Twitter</a>
+              <a href="/docs/" className="text-gray-400">Documentation</a>
+              <a href="https://github.com/LendefiMarkets" className="text-gray-400">GitHub</a>
+              <a href="https://x.com/LendefiMarkets" className="text-gray-400">X</a>
             </div>
             <p className="text-gray-400" style={{ fontSize: '0.875rem' }}>
-              © 2024 Lendefi Protocol. All rights reserved.
+              © 2025 Lendefi Labs LLC. All rights reserved.
             </p>
           </div>
         </div>
