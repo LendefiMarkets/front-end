@@ -15,8 +15,8 @@ export const MarketsOverview: React.FC = () => {
       color: 'from-blue-500 to-blue-600',
     },
     {
-      asset: 'DAI',
-      name: 'Dai Stablecoin Market',
+      asset: 'USD1',
+      name: 'USD1 Stablecoin Market',
       tvl: '$0M',
       supplyApy: '0.00%',
       borrowApy: '0.00%',
