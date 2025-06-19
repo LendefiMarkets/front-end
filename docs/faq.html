@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Lendefi Markets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e5e7eb;
+            background: #111827;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(17, 24, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo span {
+            background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #14b8a6;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .docs-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .docs-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .faq-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+        
+        .faq-section h2 {
+            color: #14b8a6;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid rgba(20, 184, 166, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .faq-item {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background: rgba(20, 184, 166, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            font-weight: 600;
+            color: #f9fafb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .faq-question:hover {
+            background: rgba(20, 184, 166, 0.15);
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #14b8a6;
+            transition: transform 0.3s;
+        }
+        
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+        
+        .faq-answer p {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+        
+        .faq-answer ul {
+            color: #d1d5db;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq-answer code {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+            color: #14b8a6;
+        }
+        
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .docs-header h1 {
+                font-size: 2rem;
+            }
+            
+            .faq-content {
+                padding: 0 1rem;
+            }
+            
+            .faq-question {
+                padding: 1rem;
+            }
+            
+            .faq-answer.active {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <span>Lendefi Markets</span>
+                </div>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="index.html">Docs</a>
+                    <a href="/contact">Contact</a>
+                    <a href="https://github.com/LendefiMarkets">GitHub</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="docs-header">
+                <h1><span class="gradient-text">Frequently Asked Questions</span></h1>
+                <p style="font-size: 1.2rem; color: #9ca3af; max-width: 600px; margin: 0 auto;">
+                    Find answers to the most common questions about Lendefi Markets.
+                </p>
+            </div>
+
+            <div class="faq-content">
+                <div class="faq-section">
+                    <h2>🚀 Getting Started</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What is Lendefi Markets?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Lendefi Markets is a composable lending protocol that creates isolated markets for each base asset (USDC, USD1, USDT, etc.). Each market operates independently with its own liquidity pools, collateral assets, and risk parameters.</p>
+                            <p>Key features include:</p>
+                            <ul>
+                                <li>Isolated lending markets per base asset</li>
+                                <li>ERC-4626 compliant vaults for liquidity providers</li>
+                                <li>Individual position vaults for complete asset segregation</li>
+                                <li>Cross-collateral and isolated collateral modes</li>
+                                <li>Flash loans with configurable fees</li>
+                                <li>Automated liquidations and MEV protection</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How do I get started as a lender?
+                        </div>
+                        <div class="faq-answer">
+                            <p>To start earning yield as a lender:</p>
+                            <ul>
+                                <li><strong>Connect your wallet</strong> to the Lendefi Markets app</li>
+                                <li><strong>Choose a market</strong> (USDC, USD1, USDT, etc.)</li>
+                                <li><strong>Deposit assets</strong> into the market's ERC-4626 vault</li>
+                                <li><strong>Receive vault shares</strong> that represent your liquidity position</li>
+                                <li><strong>Earn yield</strong> from borrower interest, flash loan fees, and liquidation proceeds</li>
+                            </ul>
+                            <p>You can withdraw your liquidity anytime, subject to available liquidity in the vault.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How do I start borrowing?
+                        </div>
+                        <div class="faq-answer">
+                            <p>To borrow against your collateral:</p>
+                            <ul>
+                                <li><strong>Connect your wallet</strong> and choose a base asset market</li>
+                                <li><strong>Create a position</strong> (this deploys your individual vault)</li>
+                                <li><strong>Supply collateral</strong> to your position vault</li>
+                                <li><strong>Borrow base assets</strong> up to your position's credit limit</li>
+                                <li><strong>Monitor your health factor</strong> to avoid liquidation</li>
+                            </ul>
+                            <div class="warning-box">
+                                <strong>⚠️ Important:</strong> Keep your health factor above 1.0 to avoid liquidation. Consider maintaining it above 1.5 for safety.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What networks are supported?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Lendefi Markets is currently deployed on:</p>
+                            <ul>
+                                <li><strong>Ethereum Mainnet</strong> - Production deployment</li>
+                                <li><strong>Sepolia Testnet</strong> - Testing and development</li>
+                            </ul>
+                            <p>Additional networks may be supported in the future based on community demand and technical requirements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h2>💰 Markets & Assets</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What's the difference between isolated and cross-collateral markets?
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>Cross-Collateral Mode:</strong></p>
+                            <ul>
+                                <li>Use multiple collateral assets in one position</li>
+                                <li>Higher borrowing capacity</li>
+                                <li>Suitable for established assets (WETH, WBTC, major DeFi tokens)</li>
+                                <li>Shared liquidation risk across all collateral</li>
+                            </ul>
+                            <p><strong>Isolated Mode:</strong></p>
+                            <ul>
+                                <li>Single collateral asset per position</li>
+                                <li>Limited borrowing capacity (debt caps)</li>
+                                <li>Ideal for long-tail or newer assets</li>
+                                <li>Risk contained to individual positions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What are collateral tiers?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Lendefi Markets uses four collateral tiers with different risk parameters:</p>
+                            <ul>
+                                <li><strong>STABLE (Tier 0):</strong> Stablecoins - Lowest fees, highest LTV</li>
+                                <li><strong>CROSS_A (Tier 1):</strong> Blue-chip assets (WETH, WBTC) - Low fees</li>
+                                <li><strong>CROSS_B (Tier 2):</strong> Established DeFi tokens - Medium fees</li>
+                                <li><strong>ISOLATED (Tier 3):</strong> Long-tail assets - Higher fees, debt caps</li>
+                            </ul>
+                            <p>Higher tiers have increased borrow rates and liquidation fees to compensate for additional risk.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How are interest rates determined?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Interest rates are dynamic and based on:</p>
+                            <ul>
+                                <li><strong>Utilization Rate:</strong> Higher utilization = higher rates</li>
+                                <li><strong>Collateral Tier:</strong> Riskier collateral = higher rates</li>
+                                <li><strong>Base Rate:</strong> Minimum rate for all borrowing</li>
+                                <li><strong>Jump Rate:</strong> Additional rate based on collateral tier</li>
+                            </ul>
+                            <p><strong>Formula:</strong> <code>Borrow Rate = Base Rate + (Utilization × Multiplier) + Tier Jump Rate</code></p>
+                            <p><strong>Supply Rate:</strong> <code>Supply Rate = Borrow Rate × Utilization × (1 - Protocol Fee)</code></p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What assets can I use as collateral?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Supported collateral assets vary by market but typically include:</p>
+                            <ul>
+                                <li><strong>Stablecoins:</strong> USDC, USDT, USD1, FRAX</li>
+                                <li><strong>Major Cryptocurrencies:</strong> WETH, WBTC</li>
+                                <li><strong>DeFi Tokens:</strong> LINK, UNI, AAVE, CRV</li>
+                                <li><strong>LSTs:</strong> stETH, rETH, cbETH</li>
+                            </ul>
+                            <p>Each asset has specific LTV ratios, liquidation thresholds, and supply caps configured by market owners.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h2>⚡ Flash Loans & Advanced Features</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How do flash loans work?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Flash loans allow you to borrow large amounts without collateral within a single transaction:</p>
+                            <ul>
+                                <li><strong>Borrow:</strong> Get instant access to liquidity</li>
+                                <li><strong>Execute:</strong> Perform your strategy (arbitrage, liquidation, etc.)</li>
+                                <li><strong>Repay:</strong> Return borrowed amount + fee in same transaction</li>
+                            </ul>
+                            <p><strong>Fee:</strong> Default 9 basis points (0.09%) per flash loan</p>
+                            <p><strong>Requirements:</strong> Implement <code>IFlashLoanReceiver</code> interface and return <code>true</code> from <code>executeOperation()</code></p>
+                            <div class="highlight-box">
+                                <strong>💡 Use Cases:</strong> Arbitrage, liquidations, collateral swaps, debt refinancing
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What is MEV protection?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Lendefi Markets includes several MEV protection mechanisms:</p>
+                            <ul>
+                                <li><strong>Same-block prevention:</strong> No deposit/withdraw in same block</li>
+                                <li><strong>Slippage protection:</strong> Maximum slippage limits on borrows</li>
+                                <li><strong>Price validation:</strong> Oracle price checks with deviation limits</li>
+                                <li><strong>Circuit breakers:</strong> Automatic pause on price anomalies</li>
+                            </ul>
+                            <p>These protections help ensure fair pricing and prevent exploitative MEV extraction.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How does liquidation work?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Liquidations occur when a position's health factor falls below 1.0:</p>
+                            <ul>
+                                <li><strong>Trigger:</strong> Health factor &lt; 1.0 due to collateral price drop or interest accrual</li>
+                                <li><strong>Liquidators:</strong> Must hold 20,000+ governance tokens</li>
+                                <li><strong>Process:</strong> Liquidator repays debt, receives collateral + bonus</li>
+                                <li><strong>Bonus:</strong> 1-4% depending on collateral tier</li>
+                            </ul>
+                            <p><strong>Health Factor:</strong> <code>(Collateral Value × Liquidation Threshold) / Total Debt</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h2>🔧 Technical & Integration</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            Is Lendefi Markets open source?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes! Lendefi Markets is open source and available on GitHub:</p>
+                            <ul>
+                                <li><strong>Smart Contracts:</strong> Fully auditable Solidity code</li>
+                                <li><strong>Frontend:</strong> React application with TypeScript</li>
+                                <li><strong>Documentation:</strong> Comprehensive guides and API reference</li>
+                                <li><strong>Tests:</strong> Extensive test suite with Foundry</li>
+                            </ul>
+                            <p>Visit <a href="https://github.com/LendefiMarkets" target="_blank" style="color: #14b8a6;">github.com/LendefiMarkets</a> to explore the codebase.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How can I integrate with Lendefi Markets?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Integration options include:</p>
+                            <ul>
+                                <li><strong>Direct Integration:</strong> Use smart contract ABIs and addresses</li>
+                                <li><strong>SDK:</strong> JavaScript/TypeScript SDK (coming soon)</li>
+                                <li><strong>Subgraph:</strong> GraphQL API for querying protocol data</li>
+                                <li><strong>Webhooks:</strong> Real-time event notifications</li>
+                            </ul>
+                            <p>Check our <a href="api-reference.html" style="color: #14b8a6;">API Reference</a> for detailed integration documentation.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What wallets are supported?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Lendefi Markets supports all wallets compatible with WalletConnect and Web3 standards:</p>
+                            <ul>
+                                <li><strong>Browser Wallets:</strong> MetaMask, Coinbase Wallet, Brave Wallet</li>
+                                <li><strong>Mobile Wallets:</strong> Rainbow, Trust Wallet, 1inch Wallet</li>
+                                <li><strong>Hardware Wallets:</strong> Ledger, Trezor (via MetaMask)</li>
+                                <li><strong>WalletConnect:</strong> Any WalletConnect-compatible wallet</li>
+                            </ul>
+                            <p>The app uses Reown AppKit (formerly WalletConnect) for seamless wallet connections.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h2>🛡️ Security & Risk</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How secure is Lendefi Markets?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Security is our top priority. Lendefi Markets includes:</p>
+                            <ul>
+                                <li><strong>Smart Contract Audits:</strong> Multiple professional audits</li>
+                                <li><strong>Open Source Code:</strong> Transparent and reviewable</li>
+                                <li><strong>Battle-tested Patterns:</strong> ERC-4626, OpenZeppelin contracts</li>
+                                <li><strong>Formal Verification:</strong> Critical functions mathematically proven</li>
+                                <li><strong>Bug Bounty Program:</strong> Rewards for security researchers</li>
+                                <li><strong>Gradual Rollout:</strong> Tested extensively on testnets</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            What are the main risks?
+                        </div>
+                        <div class="faq-answer">
+                            <p>As with all DeFi protocols, there are inherent risks:</p>
+                            <ul>
+                                <li><strong>Smart Contract Risk:</strong> Potential bugs or exploits</li>
+                                <li><strong>Liquidation Risk:</strong> Collateral can be liquidated if health factor falls</li>
+                                <li><strong>Oracle Risk:</strong> Price feed failures or manipulation</li>
+                                <li><strong>Market Risk:</strong> Asset price volatility</li>
+                                <li><strong>Liquidity Risk:</strong> May not be able to withdraw during high utilization</li>
+                            </ul>
+                            <div class="warning-box">
+                                <strong>⚠️ Risk Management:</strong> Never invest more than you can afford to lose. Understand liquidation mechanics and monitor your positions closely.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How are oracles secured?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Lendefi Markets uses a robust oracle system:</p>
+                            <ul>
+                                <li><strong>Primary:</strong> Chainlink price feeds for maximum reliability</li>
+                                <li><strong>Fallback:</strong> Uniswap V3 TWAP for additional validation</li>
+                                <li><strong>Circuit Breakers:</strong> Automatic pause on price deviations >50%</li>
+                                <li><strong>Volatility Checks:</strong> Reject prices with excessive movement</li>
+                                <li><strong>Staleness Protection:</strong> Reject outdated price data</li>
+                            </ul>
+                            <p>This multi-layer approach ensures accurate and manipulation-resistant pricing.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-section">
+                    <h2>🤝 Support & Community</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            How can I get help or support?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Multiple support channels are available:</p>
+                            <ul>
+                                <li><strong>Documentation:</strong> Comprehensive guides at <a href="index.html" style="color: #14b8a6;">docs</a></li>
+                                <li><strong>GitHub:</strong> Technical issues and feature requests</li>
+                                <li><strong>Community:</strong> Join discussions on X/Twitter</li>
+                                <li><strong>Contact:</strong> Direct inquiries via <a href="/contact" style="color: #14b8a6;">contact form</a></li>
+                            </ul>
+                            <p>For urgent security issues, contact: <code>security@lendefimarkets.com</code></p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            Can I contribute to the project?
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes! Lendefi Markets welcomes contributions:</p>
+                            <ul>
+                                <li><strong>Code Contributions:</strong> Submit PRs on GitHub</li>
+                                <li><strong>Bug Reports:</strong> Report issues and help improve stability</li>
+                                <li><strong>Documentation:</strong> Help improve guides and tutorials</li>
+                                <li><strong>Community Support:</strong> Help other users in community channels</li>
+                                <li><strong>Security Research:</strong> Participate in bug bounty program</li>
+                            </ul>
+                            <p>Check our GitHub repository for contribution guidelines and open issues.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        footer {
+            background: rgba(17, 24, 39, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        footer p {
+            color: #9ca3af;
+        }
+        
+        footer a {
+            color: #14b8a6;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: #0ea5e9;
+        }
+    </style>
+
+    <footer>
+        <div class="container">
+            <p>
+                © 2025 Lendefi Labs LLC. All rights reserved. | 
+                <a href="/contact">Contact</a> | 
+                <a href="https://github.com/LendefiMarkets">GitHub</a> | 
+                <a href="https://x.com/LendefiMarkets">X</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const isActive = answer.classList.contains('active');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(faq => {
+                faq.classList.remove('active');
+            });
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.classList.remove('active');
+            });
+            
+            // Toggle current FAQ
+            if (!isActive) {
+                answer.classList.add('active');
+                element.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
