@@ -40,8 +40,8 @@ const anvilLocal: AppKitNetwork = {
   testnet: true
 }
 
-// Setup networks (Anvil first for development)
-export const networks = [anvilLocal, sepolia, mainnet] as [AppKitNetwork, ...AppKitNetwork[]]
+// Setup networks (testnets only for now)
+export const networks = [anvilLocal, sepolia] as [AppKitNetwork, ...AppKitNetwork[]]
 
 // Export supported chain IDs for validation
 export const supportedChainIds = networks.map(network => network.id)
