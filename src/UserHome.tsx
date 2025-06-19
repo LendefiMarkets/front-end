@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react'
 import { Navigate } from 'react-router-dom'
-import CreateMarket from './components/CreateMarket'
-import MyMarkets from './components/MyMarkets'
 import UnsupportedNetworkModal from './components/UnsupportedNetworkModal'
 import { useNetworkValidation } from './hooks/useNetworkValidation'
+
+// Lazy load heavy components to reduce initial bundle size
+const CreateMarket = lazy(() => import('./components/CreateMarket'))
+const MyMarkets = lazy(() => import('./components/MyMarkets'))
 
 function UserHome() {
   const { address, isConnected } = useAppKitAccount()
@@ -220,9 +222,39 @@ function UserHome() {
                 </div>
               </div>
             ) : activeTab === 'my-markets' ? (
-              <MyMarkets />
+              <Suspense fallback={
+                <div style={{ textAlign: 'center', padding: '64px 0' }}>
+                  <div style={{ 
+                    display: 'inline-block',
+                    width: '40px',
+                    height: '40px',
+                    border: '4px solid rgba(14, 165, 233, 0.3)',
+                    borderTopColor: '#0ea5e9',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }} />
+                  <p style={{ marginTop: '16px', color: '#64748b' }}>Loading markets...</p>
+                </div>
+              }>
+                <MyMarkets />
+              </Suspense>
             ) : (
-              <CreateMarket />
+              <Suspense fallback={
+                <div style={{ textAlign: 'center', padding: '64px 0' }}>
+                  <div style={{ 
+                    display: 'inline-block',
+                    width: '40px',
+                    height: '40px',
+                    border: '4px solid rgba(14, 165, 233, 0.3)',
+                    borderTopColor: '#0ea5e9',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }} />
+                  <p style={{ marginTop: '16px', color: '#64748b' }}>Loading create market...</p>
+                </div>
+              }>
+                <CreateMarket />
+              </Suspense>
             )}
 
             {/* Back to Landing */}
