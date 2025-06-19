@@ -2,6 +2,7 @@
 import LendefiMarketFactoryABI from '../abi/LendefiMarketFactory.sol/LendefiMarketFactory.json'
 import LendefiMarketVaultABI from '../abi/LendefiMarketVault.sol/LendefiMarketVault.json'
 import LendefiCoreABI from '../abi/LendefiCore.sol/LendefiCore.json'
+import addresses from './addresses.json'
 
 // Export complete ABIs for more complex interactions
 export { LendefiMarketFactoryABI, LendefiMarketVaultABI, LendefiCoreABI }
@@ -573,27 +574,13 @@ export const ERC20_ABI = [
   }
 ] as const
 
-// Contract addresses by network
-export const CONTRACTS = {
-  // Anvil local testnet
-  31337: {
-    marketFactory: "0x59b670e9fA9D0A427751Af201D676719a970857b",
-  },
-  // Sepolia testnet
-  11155111: {
-    marketFactory: "0x25b4E1909becFeFA8972440c2f5AB25Bc738EBEB", // Deployed factory proxy
-    // Implementation addresses (for reference):
-    // - LendefiCore: 0xdB274c6E18479F57d2dE7264EE7EfFfe259E3105
-    // - LendefiMarketVault: 0xa5e19357FdaFd9086F00Cd6a448b10BfB2bB3520
-    // - LendefiPositionVault: 0x722DCfcABE7143635fCa372aF128eBE4a7fEf674
-    // - LendefiAssets: 0x005E69463164D06946f7B1506E2d9f385B8719d7
-    // - LendefiPoRFeed: 0xab6B358687f7347Ae936e3c19188aF6C02fD2eF4
-  },
-  // Mainnet
-  1: {
-    marketFactory: "0x0000000000000000000000000000000000000000", // TODO: Add deployed address
+// Contract addresses by network - dynamically built from addresses.json
+export const CONTRACTS = Object.entries(addresses).reduce((acc, [network, config]) => {
+  acc[config.chainId] = {
+    marketFactory: config.marketFactory
   }
-} as const
+  return acc
+}, {} as Record<number, { marketFactory: string }>)
 
 // Common token addresses by network
 export const TOKENS = {
