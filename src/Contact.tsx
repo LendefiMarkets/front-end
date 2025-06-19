@@ -1,5 +1,3 @@
-import ConnectWalletButton from './components/ConnectWalletButton';
-
 function Contact() {
 
   return (
