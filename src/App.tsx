@@ -377,7 +377,7 @@ function App() {
                   if (fallback) fallback.style.display = 'flex';
                 }}
               >
-                <source src="/promo.mp4" type="video/mp4" />
+                <source src="/assets/LendefiPromo.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               
@@ -397,7 +397,7 @@ function App() {
               >
                 <div style={{ fontSize: '48px' }}>🎬</div>
                 <p>Video not available</p>
-                <p style={{ fontSize: '0.875rem' }}>Place promo.mp4 in the public folder</p>
+                <p style={{ fontSize: '0.875rem' }}>LendefiPromo.mp4 not found in assets folder</p>
               </div>
             </div>
           </div>
