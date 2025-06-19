@@ -17,5 +17,18 @@ export default defineConfig({
   optimizeDeps: {
     include: ['@reown/appkit', '@reown/appkit-adapter-ethers', 'ethers'],
     exclude: ['vite-plugin-node-polyfills/shims/buffer', 'vite-plugin-node-polyfills/shims/global', 'vite-plugin-node-polyfills/shims/process']
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-web3': ['ethers'],
+          'vendor-appkit': ['@reown/appkit', '@reown/appkit-adapter-ethers'],
+          'vendor-ui': ['framer-motion', 'react-icons']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600 // Increase warning limit slightly
   }
 })
