@@ -8,22 +8,13 @@ export function useNetworkValidation() {
   const [isUnsupportedNetwork, setIsUnsupportedNetwork] = useState(false)
 
   useEffect(() => {
-    console.log('Network validation check:', { 
-      isConnected, 
-      chainId, 
-      supportedChainIds,
-      chainIdType: typeof chainId 
-    })
-    
     if (isConnected && chainId) {
-      const isSupported = supportedChainIds.includes(chainId)
-      console.log('Network supported?', isSupported, 'chainId:', chainId)
+      const chainIdNumber = typeof chainId === 'string' ? parseInt(chainId) : chainId
+      const isSupported = supportedChainIds.includes(chainIdNumber)
       setIsUnsupportedNetwork(!isSupported)
     } else {
       setIsUnsupportedNetwork(false)
     }
   }, [chainId, isConnected])
-
-  console.log('useNetworkValidation returning:', { isUnsupportedNetwork, chainId })
   return { isUnsupportedNetwork }
 }
