@@ -5,6 +5,16 @@ import ConnectWalletButton from './components/ConnectWalletButton';
 import UnsupportedNetworkModal from './components/UnsupportedNetworkModal';
 import { useNetworkValidation } from './hooks/useNetworkValidation';
 
+// Generate correlated APY pairs (borrow slightly higher than supply, max 1.8x)
+const getAPYPair = (supplyMin: number, supplyMax: number) => {
+  const supplyAPY = Math.random() * (supplyMax - supplyMin) + supplyMin;
+  const borrowAPY = supplyAPY * (1.2 + Math.random() * 0.6); // 1.2x to 1.8x of supply
+  return {
+    supply: supplyAPY.toFixed(2),
+    borrow: borrowAPY.toFixed(2)
+  };
+};
+
 function App() {
   const navigate = useNavigate();
   const { isConnected } = useAppKitAccount();
@@ -12,13 +22,18 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [marketData, setMarketData] = React.useState<{[key: string]: any}>({});
   const [showNetworkModal, setShowNetworkModal] = React.useState(false);
+  const [apyData] = React.useState(() => ({
+    usdc: getAPYPair(3, 7),
+    usd1: getAPYPair(2, 5),
+    usdt: getAPYPair(3.5, 6.5)
+  }));
 
   // Fetch market cap data from CoinGecko
   React.useEffect(() => {
     const fetchMarketData = async () => {
       try {
         const response = await fetch(
-          'https://api.coingecko.com/api/v3/simple/price?ids=usd-coin,dai,tether&vs_currencies=usd&include_market_cap=true'
+          'https://api.coingecko.com/api/v3/simple/price?ids=usd-coin,usd1,tether&vs_currencies=usd&include_market_cap=true'
         );
         const data = await response.json();
         setMarketData(data);
@@ -62,6 +77,7 @@ function App() {
     return (Math.random() * (max - min) + min).toFixed(2);
   };
 
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: 'white' }}>
       {/* Navbar */}
@@ -88,7 +104,7 @@ function App() {
               <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}>Features</a>
               <a href="#video" onClick={(e) => { e.preventDefault(); handleNavClick('video'); }}>Video</a>
               <a href="/contact">Contact</a>
-              <a href="#docs">Docs</a>
+              <a href="/docs/">Docs</a>
               <ConnectWalletButton />
             </div>
             
@@ -108,7 +124,7 @@ function App() {
             <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}>Features</a>
             <a href="#video" onClick={(e) => { e.preventDefault(); handleNavClick('video'); }}>Video</a>
             <a href="/contact">Contact</a>
-            <a href="#docs">Docs</a>
+            <a href="/docs/">Docs</a>
             <ConnectWalletButton />
           </div>
         </div>
@@ -128,7 +144,7 @@ function App() {
             </p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '64px' }}>
               <a href="/book-demo" className="btn btn-primary">Book Demo</a>
-              <a href="#docs" className="btn btn-outline">View Documentation</a>
+              <a href="/docs/" className="btn btn-outline">View Documentation</a>
             </div>
             
             {/* Newsletter Signup */}
@@ -179,8 +195,8 @@ function App() {
               <p className="text-gray-400">Standardized yield-bearing tokens for seamless integration with DeFi ecosystem.</p>
             </div>
             <div className="glass-effect hover-glow">
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '12px' }}>Cross-Market Collateral</h3>
-              <p className="text-gray-400">Use any whitelisted asset as collateral across different lending markets.</p>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '12px' }}>Flash Loans</h3>
+              <p className="text-gray-400">Execute instant, uncollateralized loans within a single transaction for arbitrage and liquidations.</p>
             </div>
             <div className="glass-effect hover-glow">
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '12px' }}>Advanced Oracle System</h3>
@@ -242,11 +258,11 @@ function App() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span className="text-gray-400">Supply APY</span>
-                <span style={{ color: '#10b981' }}>{getRandomAPY(2, 8)}%</span>
+                <span style={{ color: '#10b981' }}>{apyData.usdc.supply}%</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span className="text-gray-400">Borrow APY</span>
-                <span style={{ color: '#3b82f6' }}>{getRandomAPY(8, 15)}%</span>
+                <span style={{ color: '#3b82f6' }}>{apyData.usdc.borrow}%</span>
               </div>
             </div>
             
@@ -263,32 +279,32 @@ function App() {
                   overflow: 'hidden'
                 }}>
                   <img 
-                    src="/assets/images/dai-icon.svg" 
-                    alt="DAI" 
+                    src="/assets/images/USD1.webp" 
+                    alt="USD1" 
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                   />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>DAI</h3>
-                  <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Dai Stablecoin Market</p>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>USD1</h3>
+                  <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>USD1 Stablecoin Market</p>
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span className="text-gray-400">Market Cap</span>
                 <span>
-                  {marketData['dai']?.usd_market_cap 
-                    ? formatMarketCap(marketData['dai'].usd_market_cap)
-                    : '--'
+                  {marketData['usd1']?.usd_market_cap 
+                    ? formatMarketCap(marketData['usd1'].usd_market_cap)
+                    : '$2.1B'
                   }
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span className="text-gray-400">Supply APY</span>
-                <span style={{ color: '#10b981' }}>{getRandomAPY(1.5, 6)}%</span>
+                <span style={{ color: '#10b981' }}>{apyData.usd1.supply}%</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span className="text-gray-400">Borrow APY</span>
-                <span style={{ color: '#3b82f6' }}>{getRandomAPY(7, 14)}%</span>
+                <span style={{ color: '#3b82f6' }}>{apyData.usd1.borrow}%</span>
               </div>
             </div>
             
@@ -326,11 +342,11 @@ function App() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span className="text-gray-400">Supply APY</span>
-                <span style={{ color: '#10b981' }}>{getRandomAPY(2.5, 7)}%</span>
+                <span style={{ color: '#10b981' }}>{apyData.usdt.supply}%</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span className="text-gray-400">Borrow APY</span>
-                <span style={{ color: '#3b82f6' }}>{getRandomAPY(9, 16)}%</span>
+                <span style={{ color: '#3b82f6' }}>{apyData.usdt.borrow}%</span>
               </div>
             </div>
           </div>
@@ -425,14 +441,13 @@ function App() {
               Composable lending markets protocol for DeFi
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '32px' }}>
-              <a href="#" className="text-gray-400">Documentation</a>
+              <a href="/docs/" className="text-gray-400">Documentation</a>
               <a href="/market-owner-guide" className="text-gray-400">Market Owner Guide</a>
-              <a href="#" className="text-gray-400">GitHub</a>
-              <a href="#" className="text-gray-400">Discord</a>
-              <a href="#" className="text-gray-400">Twitter</a>
+              <a href="https://github.com/LendefiMarkets" className="text-gray-400">GitHub</a>
+              <a href="https://x.com/LendefiMarkets" className="text-gray-400">X</a>
             </div>
             <p className="text-gray-400" style={{ fontSize: '0.875rem' }}>
-              © 2024 Lendefi Protocol. All rights reserved.
+              © 2025 Lendefi Labs LLC. All rights reserved.
             </p>
           </div>
         </div>
