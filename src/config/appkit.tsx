@@ -43,5 +43,8 @@ const anvilLocal: AppKitNetwork = {
 // Setup networks (Anvil first for development)
 export const networks = [anvilLocal, sepolia, mainnet] as [AppKitNetwork, ...AppKitNetwork[]]
 
+// Export supported chain IDs for validation
+export const supportedChainIds = networks.map(network => network.id)
+
 // Create ethers adapter
 export const ethersAdapter = new EthersAdapter()
