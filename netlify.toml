@@ -1,6 +1,11 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+  command = "cd front-end && npm run build"
+  publish = "front-end/dist"
+
+[[redirects]]
+  from = "/docs/*"
+  to = "/docs/:splat"
+  status = 200
 
 [[redirects]]
   from = "/*"
