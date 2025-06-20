@@ -9,11 +9,11 @@ if (!projectId) {
   throw new Error('VITE_WALLETCONNECT_PROJECT_ID is not defined in .env file')
 }
 
-// Create a metadata object
+// Create a metadata object  
 export const metadata = {
   name: 'Lendefi Markets',
   description: 'Composable lending markets protocol for DeFi',
-  url: import.meta.env.PROD ? 'https://lendefimarkets.com' : window.location.origin,
+  url: 'https://lendefimarkets.com', // Always use production URL for consistency
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
