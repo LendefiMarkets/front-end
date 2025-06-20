@@ -8,6 +8,11 @@ import {
   CONTRACTS,
   type SupportedChainId
 } from '../config/contracts'
+
+// Type definitions
+interface EIP1193Provider {
+  request(args: { method: string; params?: unknown }): Promise<unknown>
+}
 import { type MarketInfo } from './useMarketFactory'
 
 export interface MarketDashboardData {
@@ -73,7 +78,7 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
       setIsLoading(true)
       setError(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       
       // Get market info directly from factory
       const factoryContract = new ethers.Contract(factoryAddress, MARKET_FACTORY_ABI, provider)
@@ -163,7 +168,7 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
     } finally {
       setIsLoading(false)
     }
-  }, [walletProvider, baseAsset, ownerAddress, address, factoryAddress])
+  }, [walletProvider, baseAsset, ownerAddress, address, factoryAddress, chainId])
 
   // Initial data load only
   useEffect(() => {

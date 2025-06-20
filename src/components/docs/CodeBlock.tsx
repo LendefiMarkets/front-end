@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { syntaxColors } from './SyntaxTheme';
+import { syntaxColors } from './syntaxConstants';
 
 interface CodeBlockProps {
   code: string;

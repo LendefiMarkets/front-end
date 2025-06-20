@@ -4,6 +4,109 @@ import { ethers } from 'ethers'
 import { useMarketDashboard, formatTokenAmount, formatBalance, formatPercentage, formatSharePrice } from '../../hooks/useMarketDashboard'
 import { MARKET_VAULT_ABI, ERC20_ABI, ASSETS_ABI } from '../../config/contracts'
 
+// Type definitions
+type EthersError = Error & {
+  code?: string
+  reason?: string
+  data?: unknown
+}
+
+interface EIP1193Provider {
+  request(args: { method: string; params?: unknown }): Promise<unknown>
+}
+
+interface AssetInfo {
+  address: string
+  price: bigint | { error: string }
+  decimals: number
+  symbol: string
+  hasChainlink: boolean
+  hasUniswap: boolean
+  tier: number
+  isValid: boolean
+  circuitBroken: boolean
+  active?: boolean
+  borrowThreshold?: number
+  liquidationThreshold?: number
+  oracleCount?: number
+  chainlinkActive?: boolean
+  chainlinkOracle?: string
+  uniswapActive?: boolean
+  uniswapPool?: string
+  porFeed?: string
+  primaryOracleType?: number
+}
+
+interface OracleData {
+  asset: string
+  address?: string
+  symbol?: string
+  price?: number
+  circuitBroken?: boolean
+  primaryOracleType?: number
+  oracleCount?: number
+  chainlinkActive?: boolean
+  uniswapActive?: boolean
+  twapPeriod?: number
+  chainlink?: {
+    oracle: string
+    active: boolean
+  }
+  uniswap?: {
+    pool: string
+    twapPeriod: number
+    active: boolean
+  }
+}
+
+interface TierRate {
+  jumpRate: bigint
+  liquidationFee: bigint
+}
+
+interface TierRateData extends Record<number, TierRate> {
+  jumpRates?: number[]
+  liquidationFees?: number[]
+}
+
+interface ContractAssetInfo {
+  active: number
+  decimals: number
+  borrowThreshold: number
+  liquidationThreshold: number
+  maxSupplyThreshold: bigint
+  isolationDebtCap: bigint
+  assetMinimumOracles: number
+  porFeed: string
+  primaryOracleType: number
+  tier: number
+  chainlinkConfig: {
+    oracleUSD: string
+    active: number
+  }
+  poolConfig: {
+    pool: string
+    twapPeriod: number
+    active: number
+  }
+}
+
+interface TestResult {
+  address?: string
+  price?: bigint | { error: string }
+  assetPrice?: bigint | { error: string }
+  assetInfo?: ContractAssetInfo | { error: string }
+  oracleCount?: bigint | { error: string }
+  isValid?: boolean | { error: string }
+  circuitBroken?: boolean | { error: string }
+  tokenInfo?: {
+    name?: string
+    symbol: string
+    decimals: number
+  } | { error: string }
+  isListed?: boolean
+}
+
 interface MarketDashboardProps {
   baseAsset: string
   marketOwner?: string
@@ -84,7 +187,7 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
       setIsActionLoading(true)
       setActionError(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const signer = await provider.getSigner()
       const vaultContract = new ethers.Contract(data.marketInfo!.baseVault, MARKET_VAULT_ABI, signer)
       
@@ -118,9 +221,10 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
       setSupplyAction(null)
       setAmount('')
       refresh() // Refresh dashboard data
-    } catch (err: any) {
-      console.error(`${supplyAction} failed:`, err)
-      setActionError(err.message || `${supplyAction} failed`)
+    } catch (err) {
+      const error = err as EthersError
+      console.error(`${supplyAction} failed:`, error)
+      setActionError(error.message || `${supplyAction} failed`)
     } finally {
       setIsActionLoading(false)
     }
@@ -770,7 +874,7 @@ interface CollateralManagementProps {
 
 function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowAddAssetModal }: CollateralManagementProps) {
   const { walletProvider } = useAppKitProvider('eip155')
-  const [listedAssets, setListedAssets] = useState<any[]>([])
+  const [listedAssets, setListedAssets] = useState<AssetInfo[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -797,10 +901,63 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
     uniswapActive: false
   })
 
+  const loadAssets = React.useCallback(async () => {
+    if (!walletProvider) return
+
+    try {
+      setIsLoading(true)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
+      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
+      
+      const assetAddresses = await assetsContract.getListedAssets()
+      
+      const assetsWithInfo = await Promise.all(
+        assetAddresses.map(async (address: string) => {
+          try {
+            const tokenContract = new ethers.Contract(address, ERC20_ABI, provider)
+            const [symbol, assetInfo, oracleCount, price] = await Promise.all([
+              tokenContract.symbol(),
+              assetsContract.getAssetInfo(address),
+              assetsContract.getOracleCount(address),
+              assetsContract.getAssetPrice(address).catch(() => ({ error: 'Price unavailable' }))
+            ])
+
+            return {
+              address,
+              symbol,
+              active: Number(assetInfo.active) === 1,
+              tier: assetInfo.tier,
+              borrowThreshold: assetInfo.borrowThreshold,
+              liquidationThreshold: assetInfo.liquidationThreshold,
+              price: price?.error ? { error: price.error } : Number(price) / 1e6, // Convert from 6 decimals (LendefiAssets normalizes to 1e6)
+              oracleCount: Number(oracleCount),
+              porFeed: assetInfo.porFeed,
+              chainlinkActive: Number(assetInfo.chainlinkConfig.active) === 1,
+              chainlinkOracle: assetInfo.chainlinkConfig.oracleUSD,
+              uniswapActive: Number(assetInfo.poolConfig.active) === 1,
+              uniswapPool: assetInfo.poolConfig.pool,
+              primaryOracleType: assetInfo.primaryOracleType
+            }
+          } catch (err) {
+            console.error('Failed to load asset info:', err)
+            return null
+          }
+        })
+      )
+
+      setListedAssets(assetsWithInfo.filter(Boolean))
+    } catch (err) {
+      console.error('Failed to load assets:', err)
+      setError('Failed to load assets')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [walletProvider, assetsModuleAddress])
+
   // Load existing assets
   React.useEffect(() => {
     loadAssets()
-  }, [assetsModuleAddress])
+  }, [loadAssets])
 
   const resetForm = () => {
     setNewAssetAddress('')
@@ -838,84 +995,6 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
     }
   }
 
-  const loadAssets = async () => {
-    if (!walletProvider) return
-
-    try {
-      setIsLoading(true)
-      const provider = new ethers.BrowserProvider(walletProvider as any)
-      const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
-      
-      const assetAddresses = await assetsContract.getListedAssets()
-      
-      const assetsWithInfo = await Promise.all(
-        assetAddresses.map(async (address: string) => {
-          try {
-            const [assetInfo, tokenContract] = await Promise.all([
-              assetsContract.getAssetInfo(address),
-              new ethers.Contract(address, ERC20_ABI, provider)
-            ])
-            
-            const [symbol, price, oracleCount] = await Promise.all([
-              tokenContract.symbol(),
-              assetsContract.getAssetPrice(address).catch((err) => {
-                console.error(`Failed to get price for ${address}:`, err)
-                
-                // Parse common error types
-                let errorMessage = 'Price unavailable'
-                if (err.message) {
-                  if (err.message.includes('AssetNotListed')) {
-                    errorMessage = 'Asset not listed'
-                  } else if (err.message.includes('CircuitBreakerActive')) {
-                    errorMessage = 'Circuit breaker active'
-                  } else if (err.message.includes('NotEnoughValidOracles')) {
-                    errorMessage = 'Not enough valid oracles'
-                  } else if (err.message.includes('execution reverted')) {
-                    errorMessage = 'Oracle error'
-                  } else {
-                    errorMessage = err.message.split('(')[0] // Take first part before parentheses
-                  }
-                }
-                
-                return { error: errorMessage }
-              }),
-              assetsContract.getOracleCount(address)
-            ])
-
-            console.log('Loading asset info for', symbol, '- assetInfo.active:', assetInfo.active, 'type:', typeof assetInfo.active)
-            console.log('Oracle status - Chainlink active:', assetInfo.chainlinkConfig.active, 'type:', typeof assetInfo.chainlinkConfig.active)
-            console.log('Oracle status - Uniswap active:', assetInfo.poolConfig.active, 'type:', typeof assetInfo.poolConfig.active)
-            return {
-              address,
-              symbol,
-              active: Number(assetInfo.active) === 1,
-              tier: assetInfo.tier,
-              borrowThreshold: assetInfo.borrowThreshold,
-              liquidationThreshold: assetInfo.liquidationThreshold,
-              price: price?.error ? { error: price.error } : Number(price) / 1e6, // Convert from 6 decimals (LendefiAssets normalizes to 1e6)
-              oracleCount: Number(oracleCount),
-              porFeed: assetInfo.porFeed,
-              chainlinkActive: Number(assetInfo.chainlinkConfig.active) === 1,
-              chainlinkOracle: assetInfo.chainlinkConfig.oracleUSD,
-              uniswapActive: Number(assetInfo.poolConfig.active) === 1,
-              uniswapPool: assetInfo.poolConfig.pool
-            }
-          } catch (err) {
-            console.error('Failed to load asset info:', err)
-            return null
-          }
-        })
-      )
-
-      setListedAssets(assetsWithInfo.filter(Boolean))
-    } catch (err) {
-      console.error('Failed to load assets:', err)
-      setError('Failed to load assets')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const getTierName = (tier: number) => {
     const tiers = ['STABLE', 'CROSS_A', 'CROSS_B', 'ISOLATED']
     return tiers[tier] || 'UNKNOWN'
@@ -926,7 +1005,7 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
 
     try {
       setIsLoading(true)
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const signer = await provider.getSigner()
       const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
       
@@ -964,9 +1043,10 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
       // Close modal and reload assets
       closeModal()
       await loadAssets()
-    } catch (err: any) {
-      console.error('Failed to update asset config:', err)
-      setError(err.message || 'Failed to update asset config')
+    } catch (err) {
+      const error = err as EthersError
+      console.error('Failed to update asset config:', error)
+      setError(error.message || 'Failed to update asset config')
     } finally {
       setIsLoading(false)
     }
@@ -1051,9 +1131,9 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
                   </div>
                   <span style={{ 
                     fontSize: '0.875rem', 
-                    color: asset.price?.error ? '#ef4444' : '#9ca3af' 
+                    color: (typeof asset.price === 'object' && asset.price?.error) ? '#ef4444' : '#9ca3af' 
                   }}>
-                    {asset.price?.error ? `❌ ${asset.price.error}` : `$${asset.price.toFixed(2)}`}
+                    {(typeof asset.price === 'object' && asset.price?.error) ? `❌ ${asset.price.error}` : `$${typeof asset.price === 'number' ? (asset.price as number).toFixed(2) : '0.00'}`}
                   </span>
                 </div>
                 
@@ -1100,7 +1180,7 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
                     </span>
                     {asset.chainlinkOracle && (
                       <button
-                        onClick={() => copyToClipboard(asset.chainlinkOracle)}
+                        onClick={() => copyToClipboard(asset.chainlinkOracle || '')}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -1141,7 +1221,7 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
                     </span>
                     {asset.uniswapPool && (
                       <button
-                        onClick={() => copyToClipboard(asset.uniswapPool)}
+                        onClick={() => copyToClipboard(asset.uniswapPool || '')}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -1169,7 +1249,7 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
                         borderRadius: '3px',
                         transition: 'background-color 0.2s'
                       }}
-                      onClick={() => copyToClipboard(asset.porFeed)}
+                      onClick={() => copyToClipboard(asset.porFeed || '')}
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(75, 85, 99, 0.3)'}
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                       title="Click to copy PoR Feed address"
@@ -1600,8 +1680,8 @@ interface PriceFeedManagementProps {
 
 function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) {
   const { walletProvider } = useAppKitProvider('eip155')
-  const [oracleData, setOracleData] = useState<any[]>([])
-  const [tierRates, setTierRates] = useState<any>(null)
+  const [oracleData, setOracleData] = useState<OracleData[]>([])
+  const [tierRates, setTierRates] = useState<TierRateData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -1626,16 +1706,12 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
   })
 
 
-  React.useEffect(() => {
-    loadOracleData()
-  }, [assetsModuleAddress])
-
-  const loadOracleData = async () => {
+  const loadOracleData = React.useCallback(async () => {
     if (!walletProvider) return
 
     try {
       setIsLoading(true)
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
       
       const [assetAddresses, rates] = await Promise.all([
@@ -1694,14 +1770,18 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [walletProvider, assetsModuleAddress])
+
+  React.useEffect(() => {
+    loadOracleData()
+  }, [loadOracleData])
 
   const updateChainlinkOracle = async () => {
     if (!walletProvider || !chainlinkForm.asset || !chainlinkForm.oracle) return
 
     try {
       setIsLoading(true)
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const signer = await provider.getSigner()
       const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
       
@@ -1714,9 +1794,10 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
       
       await loadOracleData()
       setChainlinkForm({ asset: '', oracle: '', active: true })
-    } catch (err: any) {
-      console.error('Failed to update Chainlink oracle:', err)
-      setError(err.message || 'Failed to update Chainlink oracle')
+    } catch (err) {
+      const error = err as EthersError
+      console.error('Failed to update Chainlink oracle:', error)
+      setError(error.message || 'Failed to update Chainlink oracle')
     } finally {
       setIsLoading(false)
     }
@@ -1727,7 +1808,7 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
 
     try {
       setIsLoading(true)
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const signer = await provider.getSigner()
       const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
       
@@ -1741,9 +1822,10 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
       
       await loadOracleData()
       setUniswapForm({ asset: '', pool: '', twapPeriod: 3600, active: true })
-    } catch (err: any) {
-      console.error('Failed to update Uniswap oracle:', err)
-      setError(err.message || 'Failed to update Uniswap oracle')
+    } catch (err) {
+      const error = err as EthersError
+      console.error('Failed to update Uniswap oracle:', error)
+      setError(error.message || 'Failed to update Uniswap oracle')
     } finally {
       setIsLoading(false)
     }
@@ -1754,7 +1836,7 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
 
     try {
       setIsLoading(true)
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const signer = await provider.getSigner()
       const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, signer)
       
@@ -1767,9 +1849,10 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
       
       await loadOracleData()
       setTierForm({ tier: 0, jumpRate: '', liquidationFee: '' })
-    } catch (err: any) {
-      console.error('Failed to update tier config:', err)
-      setError(err.message || 'Failed to update tier config')
+    } catch (err) {
+      const error = err as EthersError
+      console.error('Failed to update tier config:', error)
+      setError(error.message || 'Failed to update tier config')
     } finally {
       setIsLoading(false)
     }
@@ -1823,12 +1906,12 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
                     </span>
                   </div>
                   <span style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
-                    ${oracle.price.toFixed(2)}
+                    ${oracle.price?.toFixed(2) || '0.00'}
                   </span>
                 </div>
                 
                 <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '8px' }}>
-                  Primary: {getOracleTypeName(oracle.primaryOracleType)} • Oracles: {oracle.oracleCount}
+                  Primary: {getOracleTypeName(oracle.primaryOracleType || 0)} • Oracles: {oracle.oracleCount || 0}
                 </div>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '0.75rem' }}>
@@ -1847,7 +1930,7 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
                 </div>
                 
                 <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '8px', fontFamily: 'monospace' }}>
-                  {oracle.address.slice(0, 10)}...{oracle.address.slice(-8)}
+                  {oracle.address?.slice(0, 10) || '0x0000'}...{oracle.address?.slice(-8) || '00000000'}
                 </div>
               </div>
             ))}
@@ -1861,7 +1944,7 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
               Tier Configuration
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', fontSize: '0.75rem' }}>
-              {tierRates.jumpRates.map((rate: number, index: number) => (
+              {tierRates.jumpRates?.map((rate: number, index: number) => (
                 <div key={index} style={{
                   background: 'rgba(17, 24, 39, 0.5)',
                   border: '1px solid rgba(75, 85, 99, 0.3)',
@@ -1873,7 +1956,7 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
                     Jump Rate: {(rate / 10000).toFixed(2)}%
                   </div>
                   <div style={{ color: '#9ca3af' }}>
-                    Liq Fee: {(tierRates.liquidationFees[index] / 10000).toFixed(2)}%
+                    Liq Fee: {((tierRates.liquidationFees?.[index] || 0) / 10000).toFixed(2)}%
                   </div>
                 </div>
               ))}
@@ -2091,7 +2174,7 @@ interface AssetTestingProps {
 function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
   const { walletProvider } = useAppKitProvider('eip155')
   const [testAddress, setTestAddress] = useState('')
-  const [testResults, setTestResults] = useState<any>(null)
+  const [testResults, setTestResults] = useState<TestResult | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -2103,7 +2186,7 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
       setError(null)
       setTestResults(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const assetsContract = new ethers.Contract(assetsModuleAddress, ASSETS_ABI, provider)
       
       // Test all the critical functions
@@ -2115,12 +2198,12 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
         circuitBroken,
         listedAssets
       ] = await Promise.all([
-        assetsContract.getAssetPrice(testAddress).catch((e: any) => ({ error: e.message })),
-        assetsContract.getAssetInfo(testAddress).catch((e: any) => ({ error: e.message })),
-        assetsContract.getOracleCount(testAddress).catch((e: any) => ({ error: e.message })),
-        assetsContract.isAssetValid(testAddress).catch((e: any) => ({ error: e.message })),
-        assetsContract.circuitBroken(testAddress).catch((e: any) => ({ error: e.message })),
-        assetsContract.getListedAssets().catch((e: any) => ({ error: e.message }))
+        assetsContract.getAssetPrice(testAddress).catch((e: unknown) => ({ error: (e as Error).message })),
+        assetsContract.getAssetInfo(testAddress).catch((e: unknown) => ({ error: (e as Error).message })),
+        assetsContract.getOracleCount(testAddress).catch((e: unknown) => ({ error: (e as Error).message })),
+        assetsContract.isAssetValid(testAddress).catch((e: unknown) => ({ error: (e as Error).message })),
+        assetsContract.circuitBroken(testAddress).catch((e: unknown) => ({ error: (e as Error).message })),
+        assetsContract.getListedAssets().catch((e: unknown) => ({ error: (e as Error).message }))
       ])
 
       // Get token info if possible
@@ -2132,7 +2215,7 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
           tokenContract.decimals()
         ])
         tokenInfo = { symbol, decimals: Number(decimals) }
-      } catch (err) {
+      } catch {
         tokenInfo = { error: 'Not a valid ERC-20 token' }
       }
 
@@ -2146,16 +2229,22 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
         circuitBroken,
         isListed: Array.isArray(listedAssets) ? listedAssets.includes(testAddress) : false
       })
-    } catch (err: any) {
-      console.error('Failed to test asset:', err)
-      setError(err.message || 'Failed to test asset')
+    } catch (err) {
+      const error = err as EthersError
+      console.error('Failed to test asset:', error)
+      setError(error.message || 'Failed to test asset')
     } finally {
       setIsLoading(false)
     }
   }
 
-  const formatPrice = (price: any) => {
-    if (price?.error) return { value: 'Error', color: '#ef4444', details: price.error }
+  const formatPrice = (price: bigint | { error: string } | undefined): { value: string; color: string; details: string } => {
+    if (!price) {
+      return { value: 'N/A', color: '#9ca3af', details: 'No price available' }
+    }
+    if (typeof price === 'object' && 'error' in price) {
+      return { value: 'Error', color: '#ef4444', details: price.error }
+    }
     try {
       const priceValue = Number(price) / 1e6 // Convert from 6 decimals (LendefiAssets normalizes to 1e6)
       return { value: `$${priceValue.toFixed(4)}`, color: '#10b981', details: `Raw: ${price.toString()}` }
@@ -2164,16 +2253,26 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
     }
   }
 
-  const formatBoolean = (value: any) => {
-    if (value?.error) return { value: 'Error', color: '#ef4444', details: value.error }
+  const formatBoolean = (value: boolean | { error: string } | undefined): { value: string; color: string; details: string } => {
+    if (!value && value !== false) {
+      return { value: 'N/A', color: '#9ca3af', details: 'No value available' }
+    }
+    if (typeof value === 'object' && 'error' in value) {
+      return { value: 'Error', color: '#ef4444', details: value.error }
+    }
     return value === true ? 
       { value: '✓ True', color: '#10b981', details: 'Function returned true' } : 
       { value: '✗ False', color: '#ef4444', details: 'Function returned false' }
   }
 
-  const formatNumber = (value: any) => {
-    if (value?.error) return { value: 'Error', color: '#ef4444', details: value.error }
-    return { value: value.toString(), color: '#0ea5e9', details: `Raw value: ${value}` }
+  const formatNumber = (value: bigint | boolean | { error: string } | undefined): { value: string; color: string; details: string } => {
+    if (!value && value !== false && value !== 0n) {
+      return { value: 'N/A', color: '#9ca3af', details: 'No value available' }
+    }
+    if (typeof value === 'object' && 'error' in value) {
+      return { value: 'Error', color: '#ef4444', details: value.error }
+    }
+    return { value: String(value), color: '#0ea5e9', details: `Raw value: ${String(value)}` }
   }
 
   return (
@@ -2249,7 +2348,7 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
       {testResults && (
         <div className="glass-effect">
           <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '16px' }}>
-            Test Results for {testResults.address.slice(0, 10)}...{testResults.address.slice(-8)}
+            Test Results for {testResults.address?.slice(0, 10) || '0x0000'}...{testResults.address?.slice(-8) || '00000000'}
           </h4>
 
           {/* Function Results */}
@@ -2312,28 +2411,28 @@ function AssetTesting({ assetsModuleAddress }: AssetTestingProps) {
           </div>
 
           {/* Asset Configuration Details */}
-          {testResults.assetInfo && !testResults.assetInfo.error && (
+          {testResults.assetInfo && typeof testResults.assetInfo === 'object' && !('error' in testResults.assetInfo) && (
             <div style={{ marginTop: '16px', padding: '12px', backgroundColor: 'rgba(17, 24, 39, 0.5)', borderRadius: '6px' }}>
               <h5 style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: '8px', color: '#3b82f6' }}>
                 getAssetInfo() - Configuration Details
               </h5>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.75rem', color: '#d1d5db' }}>
-                <div>Active: {testResults.assetInfo.active === 1 ? '✓ Yes' : '✗ No'}</div>
-                <div>Decimals: {testResults.assetInfo.decimals}</div>
-                <div>Borrow LTV: {(testResults.assetInfo.borrowThreshold / 100).toFixed(1)}%</div>
-                <div>Liquidation LTV: {(testResults.assetInfo.liquidationThreshold / 100).toFixed(1)}%</div>
-                <div>Tier: {['STABLE', 'CROSS_A', 'CROSS_B', 'ISOLATED'][testResults.assetInfo.tier] || 'Unknown'}</div>
-                <div>Primary Oracle: {testResults.assetInfo.primaryOracleType === 0 ? 'Chainlink' : 'Uniswap'}</div>
-                <div>Chainlink Active: {testResults.assetInfo.chainlinkConfig.active === 1 ? '✓' : '✗'}</div>
-                <div>Uniswap Active: {testResults.assetInfo.poolConfig.active === 1 ? '✓' : '✗'}</div>
+                <div>Active: {(testResults.assetInfo as ContractAssetInfo)?.active === 1 ? '✓ Yes' : '✗ No'}</div>
+                <div>Decimals: {(testResults.assetInfo as ContractAssetInfo)?.decimals}</div>
+                <div>Borrow LTV: {((testResults.assetInfo as ContractAssetInfo)?.borrowThreshold / 100).toFixed(1)}%</div>
+                <div>Liquidation LTV: {((testResults.assetInfo as ContractAssetInfo)?.liquidationThreshold / 100).toFixed(1)}%</div>
+                <div>Tier: {['STABLE', 'CROSS_A', 'CROSS_B', 'ISOLATED'][(testResults.assetInfo as ContractAssetInfo)?.tier] || 'Unknown'}</div>
+                <div>Primary Oracle: {(testResults.assetInfo as ContractAssetInfo)?.primaryOracleType === 0 ? 'Chainlink' : 'Uniswap'}</div>
+                <div>Chainlink Active: {(testResults.assetInfo as ContractAssetInfo)?.chainlinkConfig?.active === 1 ? '✓' : '✗'}</div>
+                <div>Uniswap Active: {(testResults.assetInfo as ContractAssetInfo)?.poolConfig?.active === 1 ? '✓' : '✗'}</div>
               </div>
             </div>
           )}
 
-          {testResults.assetInfo?.error && (
+          {testResults.assetInfo && typeof testResults.assetInfo === 'object' && 'error' in testResults.assetInfo && (
             <div style={{ marginTop: '16px', padding: '12px', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderRadius: '6px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
               <div style={{ color: '#ef4444', fontSize: '0.875rem', fontWeight: 600 }}>getAssetInfo() Error:</div>
-              <div style={{ color: '#ef4444', fontSize: '0.75rem' }}>{testResults.assetInfo.error}</div>
+              <div style={{ color: '#ef4444', fontSize: '0.75rem' }}>{(testResults.assetInfo as { error: string })?.error}</div>
             </div>
           )}
         </div>

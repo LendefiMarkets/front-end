@@ -55,7 +55,7 @@ function BookDemo() {
                 fetch('/', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                  body: new URLSearchParams(formData as any).toString()
+                  body: new URLSearchParams(Object.fromEntries(formData) as Record<string, string>).toString()
                 })
                 .then(() => {
                   alert('Thank you for booking a demo! We\'ll contact you soon to schedule.');

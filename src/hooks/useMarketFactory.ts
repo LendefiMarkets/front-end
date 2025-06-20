@@ -3,6 +3,17 @@ import { ethers } from 'ethers'
 import { useAppKitProvider, useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react'
 import { MARKET_FACTORY_ABI, CONTRACTS, ERC20_ABI, type SupportedChainId } from '../config/contracts'
 
+// Type definitions
+type EthersError = Error & {
+  code?: string
+  reason?: string
+  data?: unknown
+}
+
+interface EIP1193Provider {
+  request(args: { method: string; params?: unknown }): Promise<unknown>
+}
+
 export interface AllowedAsset {
   address: string
   name: string
@@ -43,7 +54,7 @@ export function useMarketFactory() {
       setIsLoading(true)
       setError(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const factoryContract = new ethers.Contract(
         factoryAddress,
         MARKET_FACTORY_ABI,
@@ -103,7 +114,7 @@ export function useMarketFactory() {
       setIsLoading(true)
       setError(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const signer = await provider.getSigner()
       const factoryContract = new ethers.Contract(
         factoryAddress,
@@ -115,22 +126,23 @@ export function useMarketFactory() {
       const tx = await factoryContract.createMarket(baseAsset, name, symbol)
       
       return tx
-    } catch (err: any) {
-      console.error('Failed to create market:', err)
+    } catch (err) {
+      const error = err as EthersError
+      console.error('Failed to create market:', error)
       
       // Parse error message
       let errorMessage = 'Failed to create market'
-      if (err.reason) {
-        errorMessage = err.reason
-      } else if (err.message) {
-        if (err.message.includes('MarketAlreadyExists')) {
+      if (error.reason) {
+        errorMessage = error.reason
+      } else if (error.message) {
+        if (error.message.includes('MarketAlreadyExists')) {
           errorMessage = 'A market already exists for this asset'
-        } else if (err.message.includes('BaseAssetNotAllowed')) {
+        } else if (error.message.includes('BaseAssetNotAllowed')) {
           errorMessage = 'This base asset is not allowed'
-        } else if (err.message.includes('user rejected')) {
+        } else if (error.message.includes('user rejected')) {
           errorMessage = 'Transaction cancelled by user'
         } else {
-          errorMessage = err.message
+          errorMessage = error.message
         }
       }
       
@@ -146,7 +158,7 @@ export function useMarketFactory() {
     if (!walletProvider || !factoryAddress || !address) return false
 
     try {
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const factoryContract = new ethers.Contract(
         factoryAddress,
         MARKET_FACTORY_ABI,
@@ -155,13 +167,14 @@ export function useMarketFactory() {
 
       const marketInfo = await factoryContract.getMarketInfo(address, baseAsset)
       return marketInfo.core !== ethers.ZeroAddress
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as EthersError
       // If getMarketInfo reverts, it likely means the market doesn't exist
       // This is expected behavior when no market has been created yet
-      if (err.code === 'CALL_EXCEPTION') {
+      if (error.code === 'CALL_EXCEPTION') {
         return false
       }
-      console.error('Failed to check market existence:', err)
+      console.error('Failed to check market existence:', error)
       return false
     }
   }, [walletProvider, factoryAddress, address])
@@ -171,7 +184,7 @@ export function useMarketFactory() {
     if (!walletProvider || !factoryAddress || !address) return null
 
     try {
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const factoryContract = new ethers.Contract(
         factoryAddress,
         MARKET_FACTORY_ABI,
@@ -182,12 +195,13 @@ export function useMarketFactory() {
       if (marketInfo.core === ethers.ZeroAddress) return null
 
       return marketInfo
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as EthersError
       // If getMarketInfo reverts, it likely means the market doesn't exist
-      if (err.code === 'CALL_EXCEPTION') {
+      if (error.code === 'CALL_EXCEPTION') {
         return null
       }
-      console.error('Failed to fetch market info:', err)
+      console.error('Failed to fetch market info:', error)
       return null
     }
   }, [walletProvider, factoryAddress, address])
@@ -200,7 +214,7 @@ export function useMarketFactory() {
     }
 
     try {
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const factoryContract = new ethers.Contract(
         factoryAddress,
         MARKET_FACTORY_ABI,

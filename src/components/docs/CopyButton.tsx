@@ -20,7 +20,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({ code, className = '' }) => {
         .replace(/&gt;/g, '>')
         .replace(/&lt;/g, '<')
         .replace(/&amp;/g, '&')
-        .replace(/\{'\}\'/g, '}')
+        .replace(/\{'}'/g, '}')
         .replace(/\{'\{'\}/g, '{')
         .trim();
 

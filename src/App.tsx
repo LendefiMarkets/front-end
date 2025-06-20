@@ -20,7 +20,7 @@ function App() {
   const { isConnected } = useAppKitAccount();
   const { isUnsupportedNetwork } = useNetworkValidation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [marketData, setMarketData] = React.useState<{[key: string]: any}>({});
+  const [marketData, setMarketData] = React.useState<{[key: string]: { usd_market_cap?: number }}>({});
   const [showNetworkModal, setShowNetworkModal] = React.useState(false);
   const [apyData] = React.useState(() => ({
     usdc: getAPYPair(3, 7),

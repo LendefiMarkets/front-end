@@ -1,10 +1,23 @@
-import { useEffect, useState, lazy, Suspense } from 'react'
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { useAppKitAccount, useAppKitProvider, useAppKitNetwork } from '@reown/appkit/react'
 import { ethers } from 'ethers'
 import { CONTRACTS, MARKET_FACTORY_ABI, ERC20_ABI, type SupportedChainId } from '../config/contracts'
 
 // Lazy load MarketDashboard to reduce initial bundle size
 const MarketDashboard = lazy(() => import('./MarketDashboard/index'))
+
+// Type definitions
+interface EIP1193Provider {
+  request(args: { method: string; params?: unknown }): Promise<unknown>
+}
+
+interface MarketCreatedEventArgs {
+  baseAsset: string
+  core: string
+  baseVault: string
+  name: string
+  symbol: string
+}
 
 interface DeployedMarket {
   baseAsset: string
@@ -28,7 +41,7 @@ export default function MyMarkets() {
 
   const factoryAddress = chainId && CONTRACTS[chainId as SupportedChainId]?.marketFactory
 
-  const fetchUserMarkets = async () => {
+  const fetchUserMarkets = React.useCallback(async () => {
     console.log('fetchUserMarkets called with:', { 
       walletProvider: !!walletProvider, 
       factoryAddress, 
@@ -45,7 +58,7 @@ export default function MyMarkets() {
       setIsLoading(true)
       setError(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as any)
+      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const factoryContract = new ethers.Contract(factoryAddress, MARKET_FACTORY_ABI, provider)
 
       // Get all MarketCreated events for this user
@@ -55,7 +68,7 @@ export default function MyMarkets() {
       // Process events to get market data
       const marketData = await Promise.all(
         events.map(async (event) => {
-          const args = (event as any).args
+          const args = (event as ethers.EventLog).args as unknown as MarketCreatedEventArgs
           const { baseAsset, core, baseVault, name, symbol } = args
           
           try {
@@ -96,13 +109,13 @@ export default function MyMarkets() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [walletProvider, factoryAddress, address, chainId])
 
   useEffect(() => {
     if (address && factoryAddress) {
       fetchUserMarkets()
     }
-  }, [address, factoryAddress])
+  }, [address, factoryAddress, fetchUserMarkets])
 
   if (selectedMarket) {
     return (

@@ -54,7 +54,7 @@ function Contact() {
                 fetch('/', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                  body: new URLSearchParams(formData as any).toString()
+                  body: new URLSearchParams(Object.fromEntries(formData) as Record<string, string>).toString()
                 })
                 .then(() => {
                   alert('Thank you for your message! We\'ll get back to you soon.');
