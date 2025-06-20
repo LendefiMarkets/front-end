@@ -46,34 +46,15 @@ function BookDemo() {
               name="book-demo" 
               method="POST" 
               data-netlify="true"
+              netlify-honeypot="bot-field"
               className="form-container"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.target as HTMLFormElement;
-                const formData = new FormData(form);
-                
-                // Convert FormData to object and encode properly
-                const data: Record<string, string> = {
-                  'form-name': 'book-demo'
-                };
-                
-                formData.forEach((value, key) => {
-                  data[key] = value.toString();
-                });
-                
-                fetch('/', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                  body: new URLSearchParams(data).toString()
-                })
-                .then(() => {
-                  alert('Thank you for booking a demo! We\'ll contact you soon to schedule.');
-                  form.reset();
-                })
-                .catch(() => alert('Sorry, there was an error. Please try again.'));
-              }}
             >
               <input type="hidden" name="form-name" value="book-demo" />
+              <p hidden>
+                <label>
+                  Don't fill this out: <input name="bot-field" />
+                </label>
+              </p>
               
               <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                 <input 
