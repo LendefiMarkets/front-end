@@ -138,6 +138,99 @@ function App() {
               Create isolated lending markets for any asset. Supply liquidity, borrow against
               collateral, and earn yield in a secure, decentralized environment.
             </p>
+            
+            {/* Supported Blockchains */}
+            <div style={{ 
+              margin: '32px 0 48px', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              gap: '24px' 
+            }}>
+              <div style={{ 
+                height: '1px', 
+                width: '60%', 
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' 
+              }} />
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '32px',
+                flexWrap: 'wrap',
+                justifyContent: 'center'
+              }}>
+                <img 
+                  src="/assets/images/ethereum-eth-logo.svg" 
+                  alt="Ethereum" 
+                  style={{ 
+                    height: '40px', 
+                    width: '40px', 
+                    opacity: '0.8',
+                    transition: 'opacity 0.3s ease',
+                    filter: 'brightness(0.9)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                />
+                <img 
+                  src="/assets/images/bnb-bnb-logo.svg" 
+                  alt="Binance Smart Chain" 
+                  style={{ 
+                    height: '40px', 
+                    width: '40px', 
+                    opacity: '0.8',
+                    transition: 'opacity 0.3s ease',
+                    filter: 'brightness(0.9)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                />
+                <img 
+                  src="/assets/images/avalanche-avax-logo.svg" 
+                  alt="Avalanche" 
+                  style={{ 
+                    height: '40px', 
+                    width: '40px', 
+                    opacity: '0.8',
+                    transition: 'opacity 0.3s ease',
+                    filter: 'brightness(0.9)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                />
+                <img 
+                  src="/assets/images/base-logo.svg" 
+                  alt="Base" 
+                  style={{ 
+                    height: '40px', 
+                    width: '40px', 
+                    opacity: '0.8',
+                    transition: 'opacity 0.3s ease',
+                    filter: 'brightness(0.9)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                />
+                <img 
+                  src="/assets/images/polygon-matic-logo.svg" 
+                  alt="Polygon" 
+                  style={{ 
+                    height: '40px', 
+                    width: '40px', 
+                    opacity: '0.8',
+                    transition: 'opacity 0.3s ease',
+                    filter: 'brightness(0.9)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                />
+              </div>
+              <div style={{ 
+                height: '1px', 
+                width: '60%', 
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' 
+              }} />
+            </div>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '64px' }}>
               <a href="/book-demo" className="btn btn-primary">Book Demo</a>
               <a href="/docs/" className="btn btn-outline">View Documentation</a>
