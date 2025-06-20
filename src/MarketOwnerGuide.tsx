@@ -1,54 +1,39 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Footer from './components/layout/Footer';
 
 function MarketOwnerGuide() {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('usdc');
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: 'white' }}>
-      {/* Header */}
-      <header style={{ 
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)', 
-        padding: '16px 0',
-        position: 'sticky',
-        top: 0,
-        backgroundColor: 'rgba(17, 24, 39, 0.9)',
-        backdropFilter: 'blur(10px)',
-        zIndex: 10
-      }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#121212', color: 'white' }}>
+      {/* Navbar */}
+      <nav className="navbar">
         <div className="container">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <button 
-                onClick={() => navigate(-1)}
-                style={{ 
-                  background: 'none', 
-                  border: '1px solid rgba(255, 255, 255, 0.2)', 
-                  color: 'white', 
-                  padding: '8px 16px', 
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                ← Back
-              </button>
-              <h1 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>
-                Market Owner Guide
-              </h1>
-            </div>
-            <div className="logo">
-              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '32px', width: 'auto' }} />
+          <div className="navbar-content">
+            <a href="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
+              <span style={{ 
+                background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: '1.5rem',
+                fontWeight: 'bold'
+              }}>
+                Lendefi Markets
+              </span>
+            </a>
+            
+            {/* Desktop Navigation */}
+            <div className="nav-links">
+              <a href="/" className="btn btn-outline">← Back to Main</a>
             </div>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Main Content */}
-      <main style={{ padding: '64px 0' }}>
+      <main style={{ padding: '120px 0 64px 0' }}>
         <div className="container" style={{ maxWidth: '900px' }}>
           
           {/* Introduction */}
@@ -476,7 +461,7 @@ function MarketOwnerGuide() {
             
             <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
               <a 
-                href="#" 
+                href="/docs" 
                 style={{ 
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -492,7 +477,9 @@ function MarketOwnerGuide() {
                 📚 Documentation
               </a>
               <a 
-                href="#" 
+                href="https://x.com/LendefiMarkets" 
+                target="_blank" 
+                rel="noopener noreferrer"
                 style={{ 
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -508,7 +495,9 @@ function MarketOwnerGuide() {
                 💬 X Community
               </a>
               <a 
-                href="#" 
+                href="https://github.com/LendefiMarkets" 
+                target="_blank" 
+                rel="noopener noreferrer"
                 style={{ 
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -527,6 +516,8 @@ function MarketOwnerGuide() {
           </div>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 }
