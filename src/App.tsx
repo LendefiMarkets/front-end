@@ -248,8 +248,48 @@ function App() {
               <p style={{ color: '#9ca3af', marginBottom: '16px' }}>
                 Subscribe to our newsletter for updates and launch announcements
               </p>
-              <form className="inline-form" name="newsletter" method="POST" data-netlify="true">
-                <input type="hidden" name="form-name" value="newsletter" />
+              <form 
+                className="inline-form" 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.target as HTMLFormElement;
+                  const formData = new FormData(form);
+                  const email = formData.get('email') as string;
+                  
+                  // Mailchimp API endpoint for Lendefi Markets audience
+                  const MAILCHIMP_ENDPOINT = 'https://us22.api.mailchimp.com/3.0/lists/ef1fb449f6/members';
+                  const MAILCHIMP_API_KEY = import.meta.env.VITE_MAILCHIMP_API_KEY;
+                  
+                  if (!MAILCHIMP_API_KEY) {
+                    console.warn('Mailchimp API key not configured');
+                    alert('Newsletter signup is not configured yet. Please try again later.');
+                    return;
+                  }
+
+                  fetch(MAILCHIMP_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${MAILCHIMP_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                      email_address: email,
+                      status: 'subscribed'
+                    })
+                  })
+                  .then(response => {
+                    if (response.ok) {
+                      alert('Thank you for subscribing! You\'ll receive updates about Lendefi Markets.');
+                      form.reset();
+                    } else {
+                      throw new Error('Subscription failed');
+                    }
+                  })
+                  .catch(() => {
+                    alert('Sorry, there was an error. Please try again or contact us directly.');
+                  });
+                }}
+              >
                 <input 
                   type="email" 
                   name="email" 
