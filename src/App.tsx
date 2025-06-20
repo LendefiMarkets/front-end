@@ -250,49 +250,54 @@ function App() {
               </p>
               <form 
                 className="inline-form" 
+                action="https://lendefimarkets.us22.list-manage.com/subscribe/post"
+                method="POST"
+                target="_blank"
                 onSubmit={(e) => {
                   e.preventDefault();
                   const form = e.target as HTMLFormElement;
                   const formData = new FormData(form);
-                  const email = formData.get('email') as string;
+                  const email = formData.get('EMAIL') as string;
                   
-                  // Mailchimp API endpoint for Lendefi Markets audience
-                  const MAILCHIMP_ENDPOINT = 'https://us22.api.mailchimp.com/3.0/lists/ef1fb449f6/members';
-                  const MAILCHIMP_API_KEY = import.meta.env.VITE_MAILCHIMP_API_KEY;
-                  
-                  if (!MAILCHIMP_API_KEY) {
-                    console.warn('Mailchimp API key not configured');
-                    alert('Newsletter signup is not configured yet. Please try again later.');
+                  if (!email) {
+                    alert('Please enter your email address.');
                     return;
                   }
-
-                  fetch(MAILCHIMP_ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${MAILCHIMP_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                      email_address: email,
-                      status: 'subscribed'
-                    })
-                  })
-                  .then(response => {
-                    if (response.ok) {
-                      alert('Thank you for subscribing! You\'ll receive updates about Lendefi Markets.');
-                      form.reset();
-                    } else {
-                      throw new Error('Subscription failed');
-                    }
-                  })
-                  .catch(() => {
-                    alert('Sorry, there was an error. Please try again or contact us directly.');
+                  
+                  // Create a temporary form with Mailchimp fields
+                  const tempForm = document.createElement('form');
+                  tempForm.method = 'POST';
+                  tempForm.action = 'https://lendefimarkets.us22.list-manage.com/subscribe/post';
+                  tempForm.target = '_blank';
+                  
+                  // Add required Mailchimp fields
+                  const fields = {
+                    'u': 'YOUR_MAILCHIMP_USER_ID', // You need to get this from your Mailchimp embed form
+                    'id': 'ef1fb449f6', // Your list ID
+                    'EMAIL': email,
+                    'subscribe': 'Subscribe'
+                  };
+                  
+                  Object.entries(fields).forEach(([key, value]) => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
                   });
+                  
+                  document.body.appendChild(tempForm);
+                  tempForm.submit();
+                  document.body.removeChild(tempForm);
+                  
+                  // Show success message
+                  alert('Thank you for subscribing! Please check your email to confirm.');
+                  form.reset();
                 }}
               >
                 <input 
                   type="email" 
-                  name="email" 
+                  name="EMAIL" 
                   placeholder="Enter your email" 
                   className="form-input" 
                   required 
