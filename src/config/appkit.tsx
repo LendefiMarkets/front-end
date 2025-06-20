@@ -13,7 +13,7 @@ if (!projectId) {
 export const metadata = {
   name: 'Lendefi Markets',
   description: 'Composable lending markets protocol for DeFi',
-  url: window.location.origin, // Use current origin to avoid mismatch
+  url: import.meta.env.PROD ? 'https://lendefimarkets.com' : window.location.origin,
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
