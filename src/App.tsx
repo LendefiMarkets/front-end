@@ -350,7 +350,7 @@ function App() {
           <div className="text-center" style={{ marginTop: '48px' }}>
             <p className="text-gray-400">
               More markets coming soon! Want to see a specific asset?{' '}
-              <a href="#" style={{ color: '#3b82f6' }}>Join our community</a>
+              <a href="https://x.com/LendefiMarkets" target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6' }}>Join our community</a>
             </p>
           </div>
         </div>
