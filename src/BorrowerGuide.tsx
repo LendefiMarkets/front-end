@@ -316,7 +316,7 @@ function BorrowerGuide() {
                     Call the createPosition function to deploy your isolated position vault.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -405,7 +405,7 @@ function BorrowerGuide() {
                     Approve the market contract and supply your collateral assets.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -460,7 +460,7 @@ function BorrowerGuide() {
                     Calculate how much you can borrow against your collateral.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -548,7 +548,7 @@ function BorrowerGuide() {
                     Borrow base assets with MEV protection and slippage controls.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -603,7 +603,7 @@ function BorrowerGuide() {
                     Track key metrics to ensure your position remains healthy.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -733,7 +733,7 @@ function BorrowerGuide() {
                     Get the exact amount needed to fully repay your position including interest.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -783,7 +783,7 @@ function BorrowerGuide() {
                     Repay the complete outstanding debt to clear your borrowing obligation.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -837,7 +837,7 @@ function BorrowerGuide() {
                     Once debt is fully repaid, withdraw all your collateral to close the position.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -943,7 +943,7 @@ function BorrowerGuide() {
 
                 {/* Solidity Tab */}
                 {activeTab === 'solidity' && (
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -1023,7 +1023,7 @@ function BorrowerGuide() {
 
                 {/* JavaScript Tab */}
                 {activeTab === 'javascript' && (
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -1099,7 +1099,7 @@ function BorrowerGuide() {
 
                 {/* Python Tab */}
                 {activeTab === 'python' && (
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -1350,6 +1350,27 @@ function BorrowerGuide() {
           pre {
             font-size: 0.7rem !important;
           }
+        }
+
+        /* Custom scrollbar styling for code containers */
+        .code-container::-webkit-scrollbar {
+          height: 8px;
+        }
+        .code-container::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .code-container::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+        }
+        .code-container::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Firefox scrollbar styling */
+        .code-container {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
         }
       `}</style>
     </div>

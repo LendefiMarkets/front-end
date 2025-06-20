@@ -1,4 +1,8 @@
+import { useState } from 'react';
+import Footer from './components/layout/Footer';
+
 function LenderGuide() {
+  const [activeTab, setActiveTab] = useState('solidity');
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#e5e7eb' }}>
       {/* Navbar - Contact style */}
@@ -295,7 +299,7 @@ function LenderGuide() {
                     Supply base assets to the market vault and receive vault shares representing your position.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -477,7 +481,7 @@ function LenderGuide() {
                     Monitor important performance indicators for your lending position.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -657,7 +661,7 @@ function LenderGuide() {
                     Verify if you meet the requirements for governance token rewards.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -712,7 +716,7 @@ function LenderGuide() {
                     Claim available governance tokens when eligible.
                   </p>
                   
-                  <div style={{
+                  <div className="code-container" style={{
                     background: '#1f2937',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '8px',
@@ -786,7 +790,7 @@ function LenderGuide() {
                     Decide between withdrawing specific amounts or redeeming shares.
                   </p>
                   
-                  <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
                     <div style={{
                       background: 'rgba(59, 130, 246, 0.1)',
                       border: '1px solid rgba(59, 130, 246, 0.3)',
@@ -795,7 +799,7 @@ function LenderGuide() {
                     }}>
                       <h5 style={{ color: '#3b82f6', marginBottom: '0.5rem' }}>💰 Withdraw Method</h5>
                       <p style={{ color: '#d1d5db', marginBottom: '1rem', fontSize: '0.875rem' }}>Specify the exact amount of underlying assets you want to receive.</p>
-                      <div style={{
+                      <div className="code-container" style={{
                         background: '#1f2937',
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         borderRadius: '8px',
@@ -822,7 +826,7 @@ function LenderGuide() {
                     }}>
                       <h5 style={{ color: '#10b981', marginBottom: '0.5rem' }}>🎫 Redeem Method</h5>
                       <p style={{ color: '#d1d5db', marginBottom: '1rem', fontSize: '0.875rem' }}>Redeem a specific number of vault shares for underlying assets.</p>
-                      <div style={{
+                      <div className="code-container" style={{
                         background: '#1f2937',
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         borderRadius: '8px',
@@ -978,93 +982,351 @@ function LenderGuide() {
                   Complete Example: USDC Lending
                 </h2>
                 
-                <div style={{
-                  background: '#1f2937',
+                {/* Tab Navigation */}
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '8px', 
+                  marginBottom: '0', 
+                  background: 'rgba(17, 24, 39, 0.5)',
+                  padding: '8px',
+                  borderRadius: '8px 8px 0 0',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '8px',
-                  padding: '1.5rem',
-                  margin: '1rem 0',
-                  overflowX: 'auto'
+                  borderBottom: 'none'
                 }}>
-                  <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
-                    <span style={{ color: '#7c7c7c' }}>// Complete USDC lending example</span>{'\n'}
-                    <span style={{ color: '#569cd6' }}>contract</span> <span style={{ color: '#4ec9b0' }}>LenderExample</span> {'{'}
-                    {'\n    '}<span style={{ color: '#4ec9b0' }}>IERC20</span> <span style={{ color: '#9cdcfe' }}>usdc</span> = <span style={{ color: '#4ec9b0' }}>IERC20</span>(<span style={{ color: '#ce9178' }}>0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48</span>);
-                    {'\n    '}<span style={{ color: '#4ec9b0' }}>ILendefiCore</span> <span style={{ color: '#9cdcfe' }}>marketCore</span>;
-                    {'\n    '}<span style={{ color: '#4ec9b0' }}>ILendefiMarketVault</span> <span style={{ color: '#9cdcfe' }}>marketVault</span>;
-                    {'\n    '}
-                    {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>depositLiquidity</span>() <span style={{ color: '#569cd6' }}>external</span> {'{'}
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>depositAmount</span> = <span style={{ color: '#b5cea8' }}>10_000e6</span>; <span style={{ color: '#7c7c7c' }}>// 10,000 USDC</span>
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// 1. Approve the market core contract</span>
-                    {'\n        '}<span style={{ color: '#9cdcfe' }}>usdc</span>.<span style={{ color: '#dcdcaa' }}>approve</span>(<span style={{ color: '#dcdcaa' }}>address</span>(<span style={{ color: '#9cdcfe' }}>marketCore</span>), <span style={{ color: '#9cdcfe' }}>depositAmount</span>);
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// 2. Preview expected shares</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>expectedShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>previewDeposit</span>(<span style={{ color: '#9cdcfe' }}>depositAmount</span>);
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// 3. Deposit with slippage protection</span>
-                    {'\n        '}<span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>depositLiquidity</span>(
-                    {'\n            '}<span style={{ color: '#9cdcfe' }}>depositAmount</span>,
-                    {'\n            '}<span style={{ color: '#9cdcfe' }}>expectedShares</span>,
-                    {'\n            '}<span style={{ color: '#b5cea8' }}>100</span> <span style={{ color: '#7c7c7c' }}>// 1% max slippage</span>
-                    {'\n        '});
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#569cd6' }}>emit</span> <span style={{ color: '#dcdcaa' }}>LiquidityDeposited</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>, <span style={{ color: '#9cdcfe' }}>depositAmount</span>, <span style={{ color: '#9cdcfe' }}>expectedShares</span>);
-                    {'\n    '}{'}'}
-                    {'\n    '}
-                    {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>monitorPerformance</span>() <span style={{ color: '#569cd6' }}>external</span> <span style={{ color: '#569cd6' }}>view</span> <span style={{ color: '#569cd6' }}>returns</span> (
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>currentAPY</span>,
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>utilization</span>,
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>yourValue</span>,
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalGrowth</span>
-                    {'\n    '}) {'{'}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Current market metrics</span>
-                    {'\n        '}<span style={{ color: '#9cdcfe' }}>currentAPY</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>getSupplyRate</span>();
-                    {'\n        '}<span style={{ color: '#9cdcfe' }}>utilization</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>utilization</span>();
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Your position value</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>yourShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>balanceOf</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>);
-                    {'\n        '}<span style={{ color: '#9cdcfe' }}>yourValue</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>previewRedeem</span>(<span style={{ color: '#9cdcfe' }}>yourShares</span>);
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Calculate total vault growth</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalAssets</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>totalBase</span>();
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>totalSupply</span>();
-                    {'\n        '}<span style={{ color: '#9cdcfe' }}>totalGrowth</span> = <span style={{ color: '#9cdcfe' }}>totalAssets</span> &gt; <span style={{ color: '#9cdcfe' }}>totalShares</span> ? 
-                    {'\n            '}((<span style={{ color: '#9cdcfe' }}>totalAssets</span> - <span style={{ color: '#9cdcfe' }}>totalShares</span>) * <span style={{ color: '#b5cea8' }}>10000</span>) / <span style={{ color: '#9cdcfe' }}>totalShares</span> : <span style={{ color: '#b5cea8' }}>0</span>; <span style={{ color: '#7c7c7c' }}>// Growth in bps</span>
-                    {'\n    '}{'}'}
-                    {'\n    '}
-                    {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>claimGovernanceRewards</span>() <span style={{ color: '#569cd6' }}>external</span> {'{'}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Check eligibility</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>require</span>(<span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>isRewardable</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>), <span style={{ color: '#ce9178' }}>"Not eligible for rewards"</span>);
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Claim rewards</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>rewardAmount</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>claimReward</span>();
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#569cd6' }}>emit</span> <span style={{ color: '#dcdcaa' }}>RewardsClaimed</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>, <span style={{ color: '#9cdcfe' }}>rewardAmount</span>);
-                    {'\n    '}{'}'}
-                    {'\n    '}
-                    {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>withdrawLiquidity</span>(<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>) <span style={{ color: '#569cd6' }}>external</span> {'{'}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Check maximum withdrawal</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>maxWithdraw</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>maxWithdraw</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>);
-                    {'\n        '}<span style={{ color: '#569cd6' }}>require</span>(<span style={{ color: '#9cdcfe' }}>amount</span> &lt;= <span style={{ color: '#9cdcfe' }}>maxWithdraw</span>, <span style={{ color: '#ce9178' }}>"Insufficient liquidity"</span>);
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#7c7c7c' }}>// Withdraw specific amount</span>
-                    {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>receivedAmount</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>withdraw</span>(
-                    {'\n            '}<span style={{ color: '#9cdcfe' }}>amount</span>,
-                    {'\n            '}<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>,
-                    {'\n            '}<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>
-                    {'\n        '});
-                    {'\n        '}
-                    {'\n        '}<span style={{ color: '#569cd6' }}>emit</span> <span style={{ color: '#dcdcaa' }}>LiquidityWithdrawn</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>, <span style={{ color: '#9cdcfe' }}>amount</span>, <span style={{ color: '#9cdcfe' }}>receivedAmount</span>);
-                    {'\n    '}{'}'}
-                    {'\n    '}
-                    {'\n    '}<span style={{ color: '#7c7c7c' }}>// Events</span>
-                    {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>LiquidityDeposited</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>shares</span>);
-                    {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>LiquidityWithdrawn</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>requested</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>received</span>);
-                    {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>RewardsClaimed</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>);
-                    {'\n'}{'}'}
-                  </code></pre>
+                  <button 
+                    onClick={() => setActiveTab('solidity')}
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      background: activeTab === 'solidity' ? '#14b8a6' : 'transparent',
+                      color: activeTab === 'solidity' ? '#111827' : '#9ca3af',
+                      border: 'none',
+                      borderRadius: '8px 8px 0 0',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    Solidity
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('javascript')}
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      background: activeTab === 'javascript' ? '#14b8a6' : 'transparent',
+                      color: activeTab === 'javascript' ? '#111827' : '#9ca3af',
+                      border: 'none',
+                      borderRadius: '8px 8px 0 0',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    JavaScript
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('python')}
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      background: activeTab === 'python' ? '#14b8a6' : 'transparent',
+                      color: activeTab === 'python' ? '#111827' : '#9ca3af',
+                      border: 'none',
+                      borderRadius: '8px 8px 0 0',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    Python
+                  </button>
                 </div>
+
+                {/* Solidity Tab */}
+                {activeTab === 'solidity' && (
+                  <div className="code-container" style={{
+                    background: '#1f2937',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '0 0 8px 8px',
+                    padding: '1.5rem',
+                    margin: '0 0 1rem 0',
+                    overflowX: 'auto'
+                  }}>
+                    <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
+                      <span style={{ color: '#7c7c7c' }}>// Complete USDC lending example</span>{'\n'}
+                      <span style={{ color: '#569cd6' }}>contract</span> <span style={{ color: '#4ec9b0' }}>LenderExample</span> {'{'}
+                      {'\n    '}<span style={{ color: '#4ec9b0' }}>IERC20</span> <span style={{ color: '#9cdcfe' }}>usdc</span> = <span style={{ color: '#4ec9b0' }}>IERC20</span>(<span style={{ color: '#ce9178' }}>0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48</span>);
+                      {'\n    '}<span style={{ color: '#4ec9b0' }}>ILendefiCore</span> <span style={{ color: '#9cdcfe' }}>marketCore</span>;
+                      {'\n    '}<span style={{ color: '#4ec9b0' }}>ILendefiMarketVault</span> <span style={{ color: '#9cdcfe' }}>marketVault</span>;
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>depositLiquidity</span>() <span style={{ color: '#569cd6' }}>external</span> {'{'}
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>depositAmount</span> = <span style={{ color: '#b5cea8' }}>10_000e6</span>; <span style={{ color: '#7c7c7c' }}>// 10,000 USDC</span>
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// 1. Approve the market core contract</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>usdc</span>.<span style={{ color: '#dcdcaa' }}>approve</span>(<span style={{ color: '#dcdcaa' }}>address</span>(<span style={{ color: '#9cdcfe' }}>marketCore</span>), <span style={{ color: '#9cdcfe' }}>depositAmount</span>);
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// 2. Preview expected shares</span>
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>expectedShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>previewDeposit</span>(<span style={{ color: '#9cdcfe' }}>depositAmount</span>);
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// 3. Deposit with slippage protection</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>depositLiquidity</span>(
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>depositAmount</span>,
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>expectedShares</span>,
+                      {'\n            '}<span style={{ color: '#b5cea8' }}>100</span> <span style={{ color: '#7c7c7c' }}>// 1% max slippage</span>
+                      {'\n        '});
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#569cd6' }}>emit</span> <span style={{ color: '#dcdcaa' }}>LiquidityDeposited</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>, <span style={{ color: '#9cdcfe' }}>depositAmount</span>, <span style={{ color: '#9cdcfe' }}>expectedShares</span>);
+                      {'\n    '}{'}'}
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>monitorPerformance</span>() <span style={{ color: '#569cd6' }}>external</span> <span style={{ color: '#569cd6' }}>view</span> <span style={{ color: '#569cd6' }}>returns</span> (
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>currentAPY</span>,
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>utilization</span>,
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>yourValue</span>,
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalGrowth</span>
+                      {'\n    '}) {'{'}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// Current market metrics</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>currentAPY</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>getSupplyRate</span>();
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>utilization</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>utilization</span>();
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// Your position value</span>
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>yourShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>balanceOf</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>);
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>yourValue</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>previewRedeem</span>(<span style={{ color: '#9cdcfe' }}>yourShares</span>);
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// Calculate total vault growth</span>
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalAssets</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>totalBase</span>();
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>totalSupply</span>();
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>totalGrowth</span> = <span style={{ color: '#9cdcfe' }}>totalAssets</span> &gt; <span style={{ color: '#9cdcfe' }}>totalShares</span> ? 
+                      {'\n            '}((<span style={{ color: '#9cdcfe' }}>totalAssets</span> - <span style={{ color: '#9cdcfe' }}>totalShares</span>) * <span style={{ color: '#b5cea8' }}>10000</span>) / <span style={{ color: '#9cdcfe' }}>totalShares</span> : <span style={{ color: '#b5cea8' }}>0</span>; <span style={{ color: '#7c7c7c' }}>// Growth in bps</span>
+                      {'\n    '}{'}'}
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>function</span> <span style={{ color: '#dcdcaa' }}>withdrawLiquidity</span>(<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>) <span style={{ color: '#569cd6' }}>external</span> {'{'}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// Check maximum withdrawal</span>
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>maxWithdraw</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>maxWithdraw</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>);
+                      {'\n        '}<span style={{ color: '#569cd6' }}>require</span>(<span style={{ color: '#9cdcfe' }}>amount</span> &lt;= <span style={{ color: '#9cdcfe' }}>maxWithdraw</span>, <span style={{ color: '#ce9178' }}>"Insufficient liquidity"</span>);
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}>// Withdraw specific amount</span>
+                      {'\n        '}<span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>receivedAmount</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>withdraw</span>(
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>amount</span>,
+                      {'\n            '}<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>,
+                      {'\n            '}<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>
+                      {'\n        '});
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#569cd6' }}>emit</span> <span style={{ color: '#dcdcaa' }}>LiquidityWithdrawn</span>(<span style={{ color: '#569cd6' }}>msg</span>.<span style={{ color: '#9cdcfe' }}>sender</span>, <span style={{ color: '#9cdcfe' }}>amount</span>, <span style={{ color: '#9cdcfe' }}>receivedAmount</span>);
+                      {'\n    '}{'}'}
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#7c7c7c' }}>// Events</span>
+                      {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>LiquidityDeposited</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>shares</span>);
+                      {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>LiquidityWithdrawn</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>requested</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>received</span>);
+                      {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>RewardsClaimed</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>);
+                      {'\n'}{'}'}
+                    </code></pre>
+                  </div>
+                )}
+
+                {/* JavaScript Tab */}
+                {activeTab === 'javascript' && (
+                  <div className="code-container" style={{
+                    background: '#1f2937',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '0 0 8px 8px',
+                    padding: '1.5rem',
+                    margin: '0 0 1rem 0',
+                    overflowX: 'auto'
+                  }}>
+                    <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
+                      <span style={{ color: '#7c7c7c' }}>// Complete USDC lending example using ethers.js</span>{'\n'}
+                      <span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#4ec9b0' }}>{'{ ethers }'}</span> = <span style={{ color: '#dcdcaa' }}>require</span>(<span style={{ color: '#ce9178' }}>'ethers'</span>);{'\n'}
+                      <span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>fs</span> = <span style={{ color: '#dcdcaa' }}>require</span>(<span style={{ color: '#ce9178' }}>'fs'</span>);{'\n\n'}
+                      
+                      <span style={{ color: '#569cd6' }}>async function</span> <span style={{ color: '#dcdcaa' }}>completeLendingCycle</span>() {'{'}{'\n'}
+                      {'    '}<span style={{ color: '#ce9178' }}>"""Complete USDC lending lifecycle using Lendefi Markets"""</span>{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#7c7c7c' }}>// Setup provider and wallet</span>{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>provider</span> = <span style={{ color: '#569cd6' }}>new</span> <span style={{ color: '#4ec9b0' }}>ethers.providers.JsonRpcProvider</span>(<span style={{ color: '#ce9178' }}>process.env.RPC_URL</span>);{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>wallet</span> = <span style={{ color: '#569cd6' }}>new</span> <span style={{ color: '#4ec9b0' }}>ethers.Wallet</span>(<span style={{ color: '#ce9178' }}>process.env.PRIVATE_KEY</span>, <span style={{ color: '#9cdcfe' }}>provider</span>);{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#7c7c7c' }}>// Contract addresses and ABIs</span>{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>MARKET_CORE_ADDRESS</span> = <span style={{ color: '#ce9178' }}>'0x...'</span>;{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>USDC_ADDRESS</span> = <span style={{ color: '#ce9178' }}>'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'</span>;{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#7c7c7c' }}>// Load contract ABIs</span>{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>marketCoreABI</span> = <span style={{ color: '#4ec9b0' }}>JSON</span>.<span style={{ color: '#dcdcaa' }}>parse</span>(<span style={{ color: '#9cdcfe' }}>fs</span>.<span style={{ color: '#dcdcaa' }}>readFileSync</span>(<span style={{ color: '#ce9178' }}>'./abi/LendefiCore.json'</span>, <span style={{ color: '#ce9178' }}>'utf8'</span>));{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>erc20ABI</span> = <span style={{ color: '#4ec9b0' }}>JSON</span>.<span style={{ color: '#dcdcaa' }}>parse</span>(<span style={{ color: '#9cdcfe' }}>fs</span>.<span style={{ color: '#dcdcaa' }}>readFileSync</span>(<span style={{ color: '#ce9178' }}>'./abi/ERC20.json'</span>, <span style={{ color: '#ce9178' }}>'utf8'</span>));{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#7c7c7c' }}>// Contract instances</span>{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>marketCore</span> = <span style={{ color: '#569cd6' }}>new</span> <span style={{ color: '#4ec9b0' }}>ethers.Contract</span>(<span style={{ color: '#9cdcfe' }}>MARKET_CORE_ADDRESS</span>, <span style={{ color: '#9cdcfe' }}>marketCoreABI</span>, <span style={{ color: '#9cdcfe' }}>wallet</span>);{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>usdc</span> = <span style={{ color: '#569cd6' }}>new</span> <span style={{ color: '#4ec9b0' }}>ethers.Contract</span>(<span style={{ color: '#9cdcfe' }}>USDC_ADDRESS</span>, <span style={{ color: '#9cdcfe' }}>erc20ABI</span>, <span style={{ color: '#9cdcfe' }}>wallet</span>);{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>depositAmount</span> = <span style={{ color: '#4ec9b0' }}>ethers</span>.<span style={{ color: '#9cdcfe' }}>utils</span>.<span style={{ color: '#dcdcaa' }}>parseUnits</span>(<span style={{ color: '#ce9178' }}>'10000'</span>, <span style={{ color: '#b5cea8' }}>6</span>); <span style={{ color: '#7c7c7c' }}>// 10,000 USDC</span>{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>try</span> {'{'}{'\n'}
+                      {'        '}<span style={{ color: '#7c7c7c' }}>// Step 1: Approve USDC spending</span>{'\n'}
+                      {'        '}<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#dcdcaa' }}>log</span>(<span style={{ color: '#ce9178' }}>"Approving USDC..."</span>);{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>approveTx</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>usdc</span>.<span style={{ color: '#dcdcaa' }}>approve</span>(<span style={{ color: '#9cdcfe' }}>MARKET_CORE_ADDRESS</span>, <span style={{ color: '#9cdcfe' }}>depositAmount</span>);{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>approveTx</span>.<span style={{ color: '#dcdcaa' }}>wait</span>();{'\n'}
+                      {'        '}{'\n'}
+                      {'        '}<span style={{ color: '#7c7c7c' }}>// Step 2: Get vault address and preview deposit</span>{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>vaultAddress</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>marketVault</span>();{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>vault</span> = <span style={{ color: '#569cd6' }}>new</span> <span style={{ color: '#4ec9b0' }}>ethers.Contract</span>(<span style={{ color: '#9cdcfe' }}>vaultAddress</span>, <span style={{ color: '#9cdcfe' }}>vaultABI</span>, <span style={{ color: '#9cdcfe' }}>wallet</span>);{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>expectedShares</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#dcdcaa' }}>previewDeposit</span>(<span style={{ color: '#9cdcfe' }}>depositAmount</span>);{'\n'}
+                      {'        '}{'\n'}
+                      {'        '}<span style={{ color: '#7c7c7c' }}>// Step 3: Deposit liquidity with slippage protection</span>{'\n'}
+                      {'        '}<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#dcdcaa' }}>log</span>(<span style={{ color: '#ce9178' }}>"Depositing liquidity..."</span>);{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>depositTx</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>depositLiquidity</span>({'\n'}
+                      {'            '}<span style={{ color: '#9cdcfe' }}>depositAmount</span>,{'\n'}
+                      {'            '}<span style={{ color: '#9cdcfe' }}>expectedShares</span>,{'\n'}
+                      {'            '}<span style={{ color: '#b5cea8' }}>100</span> <span style={{ color: '#7c7c7c' }}>// 1% max slippage</span>{'\n'}
+                      {'        '});{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>depositTx</span>.<span style={{ color: '#dcdcaa' }}>wait</span>();{'\n'}
+                      {'        '}{'\n'}
+                      {'        '}<span style={{ color: '#7c7c7c' }}>// Step 4: Monitor performance</span>{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>performance</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#dcdcaa' }}>monitorPerformance</span>(<span style={{ color: '#9cdcfe' }}>vault</span>, <span style={{ color: '#9cdcfe' }}>wallet</span>.<span style={{ color: '#9cdcfe' }}>address</span>);{'\n'}
+                      {'        '}<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#dcdcaa' }}>log</span>(<span style={{ color: '#ce9178' }}>"Performance:"</span>, <span style={{ color: '#9cdcfe' }}>performance</span>);{'\n'}
+                      {'        '}{'\n'}
+                      {'        '}<span style={{ color: '#7c7c7c' }}>// Step 5: Withdraw (when ready)</span>{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>withdrawAmount</span> = <span style={{ color: '#4ec9b0' }}>ethers</span>.<span style={{ color: '#9cdcfe' }}>utils</span>.<span style={{ color: '#dcdcaa' }}>parseUnits</span>(<span style={{ color: '#ce9178' }}>'5000'</span>, <span style={{ color: '#b5cea8' }}>6</span>); <span style={{ color: '#7c7c7c' }}>// 5,000 USDC</span>{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>withdrawTx</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#dcdcaa' }}>withdraw</span>({'\n'}
+                      {'            '}<span style={{ color: '#9cdcfe' }}>withdrawAmount</span>,{'\n'}
+                      {'            '}<span style={{ color: '#9cdcfe' }}>wallet</span>.<span style={{ color: '#9cdcfe' }}>address</span>,{'\n'}
+                      {'            '}<span style={{ color: '#9cdcfe' }}>wallet</span>.<span style={{ color: '#9cdcfe' }}>address</span>{'\n'}
+                      {'        '});{'\n'}
+                      {'        '}<span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>withdrawTx</span>.<span style={{ color: '#dcdcaa' }}>wait</span>();{'\n'}
+                      {'        '}{'\n'}
+                      {'        '}<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#dcdcaa' }}>log</span>(<span style={{ color: '#ce9178' }}>"Lending cycle completed successfully!"</span>);{'\n'}
+                      {'    '}{'}'} <span style={{ color: '#569cd6' }}>catch</span> (<span style={{ color: '#9cdcfe' }}>error</span>) {'{'}{'\n'}
+                      {'        '}<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#dcdcaa' }}>error</span>(<span style={{ color: '#ce9178' }}>"Error in lending cycle:"</span>, <span style={{ color: '#9cdcfe' }}>error</span>);{'\n'}
+                      {'    '}{'}'}{'\n'}
+                      {'}'}{'\n\n'}
+                      
+                      <span style={{ color: '#569cd6' }}>async function</span> <span style={{ color: '#dcdcaa' }}>monitorPerformance</span>(<span style={{ color: '#9cdcfe' }}>vault</span>, <span style={{ color: '#9cdcfe' }}>userAddress</span>) {'{'}{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>currentAPY</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#dcdcaa' }}>getSupplyRate</span>();{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>utilization</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#dcdcaa' }}>utilization</span>();{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>yourShares</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#dcdcaa' }}>balanceOf</span>(<span style={{ color: '#9cdcfe' }}>userAddress</span>);{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#9cdcfe' }}>yourValue</span> = <span style={{ color: '#569cd6' }}>await</span> <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#dcdcaa' }}>previewRedeem</span>(<span style={{ color: '#9cdcfe' }}>yourShares</span>);{'\n'}
+                      {'    '}{'\n'}
+                      {'    '}<span style={{ color: '#569cd6' }}>return</span> {'{'}{'\n'}
+                      {'        '}<span style={{ color: '#9cdcfe' }}>currentAPY</span>: <span style={{ color: '#4ec9b0' }}>ethers</span>.<span style={{ color: '#9cdcfe' }}>utils</span>.<span style={{ color: '#dcdcaa' }}>formatUnits</span>(<span style={{ color: '#9cdcfe' }}>currentAPY</span>, <span style={{ color: '#b5cea8' }}>4</span>) + <span style={{ color: '#ce9178' }}>'%'</span>,{'\n'}
+                      {'        '}<span style={{ color: '#9cdcfe' }}>utilization</span>: <span style={{ color: '#4ec9b0' }}>ethers</span>.<span style={{ color: '#9cdcfe' }}>utils</span>.<span style={{ color: '#dcdcaa' }}>formatUnits</span>(<span style={{ color: '#9cdcfe' }}>utilization</span>, <span style={{ color: '#b5cea8' }}>4</span>) + <span style={{ color: '#ce9178' }}>'%'</span>,{'\n'}
+                      {'        '}<span style={{ color: '#9cdcfe' }}>yourValue</span>: <span style={{ color: '#4ec9b0' }}>ethers</span>.<span style={{ color: '#9cdcfe' }}>utils</span>.<span style={{ color: '#dcdcaa' }}>formatUnits</span>(<span style={{ color: '#9cdcfe' }}>yourValue</span>, <span style={{ color: '#b5cea8' }}>6</span>) + <span style={{ color: '#ce9178' }}>' USDC'</span>{'\n'}
+                      {'    '}{'}'}; {'\n'}
+                      {'}'}{'\n\n'}
+                      
+                      <span style={{ color: '#7c7c7c' }}>// Run the example</span>{'\n'}
+                      <span style={{ color: '#dcdcaa' }}>completeLendingCycle</span>().<span style={{ color: '#dcdcaa' }}>catch</span>(<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#9cdcfe' }}>error</span>);{'\n'}
+                    </code></pre>
+                  </div>
+                )}
+
+                {/* Python Tab */}
+                {activeTab === 'python' && (
+                  <div className="code-container" style={{
+                    background: '#1f2937',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '0 0 8px 8px',
+                    padding: '1.5rem',
+                    margin: '0 0 1rem 0',
+                    overflowX: 'auto'
+                  }}>
+                    <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
+                      <span style={{ color: '#7c7c7c' }}># Complete USDC lending example using web3.py</span>{'\n'}
+                      <span style={{ color: '#569cd6' }}>from</span> <span style={{ color: '#9cdcfe' }}>web3</span> <span style={{ color: '#569cd6' }}>import</span> <span style={{ color: '#9cdcfe' }}>Web3</span>{'\n'}
+                      <span style={{ color: '#569cd6' }}>from</span> <span style={{ color: '#9cdcfe' }}>eth_account</span> <span style={{ color: '#569cd6' }}>import</span> <span style={{ color: '#9cdcfe' }}>Account</span>{'\n'}
+                      <span style={{ color: '#569cd6' }}>import</span> <span style={{ color: '#9cdcfe' }}>json</span>{'\n'}
+                      <span style={{ color: '#569cd6' }}>import</span> <span style={{ color: '#9cdcfe' }}>os</span>{'\n\n'}
+                      
+                      <span style={{ color: '#569cd6' }}>def</span> <span style={{ color: '#dcdcaa' }}>complete_lending_cycle</span>():
+                      {'\n    '}<span style={{ color: '#ce9178' }}>"""Complete USDC lending lifecycle using Lendefi Markets"""</span>
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#7c7c7c' }}># Setup Web3 connection</span>
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>w3</span> = <span style={{ color: '#dcdcaa' }}>Web3</span>(<span style={{ color: '#dcdcaa' }}>Web3</span>.<span style={{ color: '#9cdcfe' }}>HTTPProvider</span>(<span style={{ color: '#9cdcfe' }}>os</span>.<span style={{ color: '#9cdcfe' }}>getenv</span>(<span style={{ color: '#ce9178' }}>'RPC_URL'</span>)))
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>account</span> = <span style={{ color: '#dcdcaa' }}>Account</span>.<span style={{ color: '#dcdcaa' }}>from_key</span>(<span style={{ color: '#9cdcfe' }}>os</span>.<span style={{ color: '#9cdcfe' }}>getenv</span>(<span style={{ color: '#ce9178' }}>'PRIVATE_KEY'</span>))
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#7c7c7c' }}># Contract addresses and ABIs</span>
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>MARKET_CORE_ADDRESS</span> = <span style={{ color: '#ce9178' }}>'0x...'</span>
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>USDC_ADDRESS</span> = <span style={{ color: '#ce9178' }}>'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'</span>
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#7c7c7c' }}># Load contract ABIs</span>
+                      {'\n    '}<span style={{ color: '#569cd6' }}>with</span> <span style={{ color: '#dcdcaa' }}>open</span>(<span style={{ color: '#ce9178' }}>'./abi/LendefiCore.json'</span>) <span style={{ color: '#569cd6' }}>as</span> <span style={{ color: '#9cdcfe' }}>f</span>:
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>market_core_abi</span> = <span style={{ color: '#9cdcfe' }}>json</span>.<span style={{ color: '#dcdcaa' }}>load</span>(<span style={{ color: '#9cdcfe' }}>f</span>)
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>with</span> <span style={{ color: '#dcdcaa' }}>open</span>(<span style={{ color: '#ce9178' }}>'./abi/ERC20.json'</span>) <span style={{ color: '#569cd6' }}>as</span> <span style={{ color: '#9cdcfe' }}>f</span>:
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>erc20_abi</span> = <span style={{ color: '#9cdcfe' }}>json</span>.<span style={{ color: '#dcdcaa' }}>load</span>(<span style={{ color: '#9cdcfe' }}>f</span>)
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#7c7c7c' }}># Contract instances</span>
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>market_core</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>contract</span>(<span style={{ color: '#9cdcfe' }}>address</span>=<span style={{ color: '#9cdcfe' }}>MARKET_CORE_ADDRESS</span>, <span style={{ color: '#9cdcfe' }}>abi</span>=<span style={{ color: '#9cdcfe' }}>market_core_abi</span>)
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>usdc</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>contract</span>(<span style={{ color: '#9cdcfe' }}>address</span>=<span style={{ color: '#9cdcfe' }}>USDC_ADDRESS</span>, <span style={{ color: '#9cdcfe' }}>abi</span>=<span style={{ color: '#9cdcfe' }}>erc20_abi</span>)
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>deposit_amount</span> = <span style={{ color: '#b5cea8' }}>10_000</span> * <span style={{ color: '#b5cea8' }}>10</span>**<span style={{ color: '#b5cea8' }}>6</span>  <span style={{ color: '#7c7c7c' }}># 10,000 USDC</span>
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>try</span>:
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}># Step 1: Approve USDC spending</span>
+                      {'\n        '}<span style={{ color: '#dcdcaa' }}>print</span>(<span style={{ color: '#ce9178' }}>"Approving USDC..."</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>approve_txn</span> = <span style={{ color: '#9cdcfe' }}>usdc</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>approve</span>(<span style={{ color: '#9cdcfe' }}>MARKET_CORE_ADDRESS</span>, <span style={{ color: '#9cdcfe' }}>deposit_amount</span>).<span style={{ color: '#dcdcaa' }}>build_transaction</span>({'{'}
+                      {'\n            '}<span style={{ color: '#ce9178' }}>'from'</span>: <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>,
+                      {'\n            '}<span style={{ color: '#ce9178' }}>'nonce'</span>: <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>get_transaction_count</span>(<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>)
+                      {'\n        '}{'}'}
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>signed_approve</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#dcdcaa' }}>sign_transaction</span>(<span style={{ color: '#9cdcfe' }}>approve_txn</span>, <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>key</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>approve_hash</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>send_raw_transaction</span>(<span style={{ color: '#9cdcfe' }}>signed_approve</span>.<span style={{ color: '#9cdcfe' }}>rawTransaction</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>wait_for_transaction_receipt</span>(<span style={{ color: '#9cdcfe' }}>approve_hash</span>)
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}># Step 2: Get vault address and preview deposit</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>vault_address</span> = <span style={{ color: '#9cdcfe' }}>market_core</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>marketVault</span>().<span style={{ color: '#dcdcaa' }}>call</span>()
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>vault</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>contract</span>(<span style={{ color: '#9cdcfe' }}>address</span>=<span style={{ color: '#9cdcfe' }}>vault_address</span>, <span style={{ color: '#9cdcfe' }}>abi</span>=<span style={{ color: '#9cdcfe' }}>vault_abi</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>expected_shares</span> = <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>previewDeposit</span>(<span style={{ color: '#9cdcfe' }}>deposit_amount</span>).<span style={{ color: '#dcdcaa' }}>call</span>()
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}># Step 3: Deposit liquidity with slippage protection</span>
+                      {'\n        '}<span style={{ color: '#dcdcaa' }}>print</span>(<span style={{ color: '#ce9178' }}>"Depositing liquidity..."</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>deposit_txn</span> = <span style={{ color: '#9cdcfe' }}>market_core</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>depositLiquidity</span>(
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>deposit_amount</span>,
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>expected_shares</span>,
+                      {'\n            '}<span style={{ color: '#b5cea8' }}>100</span>  <span style={{ color: '#7c7c7c' }}># 1% max slippage</span>
+                      {'\n        '}).<span style={{ color: '#dcdcaa' }}>build_transaction</span>({'{'}
+                      {'\n            '}<span style={{ color: '#ce9178' }}>'from'</span>: <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>,
+                      {'\n            '}<span style={{ color: '#ce9178' }}>'nonce'</span>: <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>get_transaction_count</span>(<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>)
+                      {'\n        '}{'}'}
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>signed_deposit</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#dcdcaa' }}>sign_transaction</span>(<span style={{ color: '#9cdcfe' }}>deposit_txn</span>, <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>key</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>deposit_hash</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>send_raw_transaction</span>(<span style={{ color: '#9cdcfe' }}>signed_deposit</span>.<span style={{ color: '#9cdcfe' }}>rawTransaction</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>wait_for_transaction_receipt</span>(<span style={{ color: '#9cdcfe' }}>deposit_hash</span>)
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}># Step 4: Monitor performance</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>performance</span> = <span style={{ color: '#dcdcaa' }}>monitor_performance</span>(<span style={{ color: '#9cdcfe' }}>vault</span>, <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>)
+                      {'\n        '}<span style={{ color: '#dcdcaa' }}>print</span>(<span style={{ color: '#ce9178' }}>"Performance:"</span>, <span style={{ color: '#9cdcfe' }}>performance</span>)
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#7c7c7c' }}># Step 5: Withdraw (when ready)</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>withdraw_amount</span> = <span style={{ color: '#b5cea8' }}>5_000</span> * <span style={{ color: '#b5cea8' }}>10</span>**<span style={{ color: '#b5cea8' }}>6</span>  <span style={{ color: '#7c7c7c' }}># 5,000 USDC</span>
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>withdraw_txn</span> = <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>withdraw</span>(
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>withdraw_amount</span>,
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>,
+                      {'\n            '}<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>
+                      {'\n        '}).<span style={{ color: '#dcdcaa' }}>build_transaction</span>({'{'}
+                      {'\n            '}<span style={{ color: '#ce9178' }}>'from'</span>: <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>,
+                      {'\n            '}<span style={{ color: '#ce9178' }}>'nonce'</span>: <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>get_transaction_count</span>(<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>address</span>)
+                      {'\n        '}{'}'}
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>signed_withdraw</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#dcdcaa' }}>sign_transaction</span>(<span style={{ color: '#9cdcfe' }}>withdraw_txn</span>, <span style={{ color: '#9cdcfe' }}>account</span>.<span style={{ color: '#9cdcfe' }}>key</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>withdraw_hash</span> = <span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>send_raw_transaction</span>(<span style={{ color: '#9cdcfe' }}>signed_withdraw</span>.<span style={{ color: '#9cdcfe' }}>rawTransaction</span>)
+                      {'\n        '}<span style={{ color: '#9cdcfe' }}>w3</span>.<span style={{ color: '#9cdcfe' }}>eth</span>.<span style={{ color: '#dcdcaa' }}>wait_for_transaction_receipt</span>(<span style={{ color: '#9cdcfe' }}>withdraw_hash</span>)
+                      {'\n        '}
+                      {'\n        '}<span style={{ color: '#dcdcaa' }}>print</span>(<span style={{ color: '#ce9178' }}>"Lending cycle completed successfully!"</span>)
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>except</span> <span style={{ color: '#4ec9b0' }}>Exception</span> <span style={{ color: '#569cd6' }}>as</span> <span style={{ color: '#9cdcfe' }}>e</span>:
+                      {'\n        '}<span style={{ color: '#dcdcaa' }}>print</span>(<span style={{ color: '#9cdcfe' }}>f</span><span style={{ color: '#ce9178' }}>"Error in lending cycle: </span>{'{e}'}<span style={{ color: '#ce9178' }}>"</span>)
+                      {'\n'}
+                      {'\n'}<span style={{ color: '#569cd6' }}>def</span> <span style={{ color: '#dcdcaa' }}>monitor_performance</span>(<span style={{ color: '#9cdcfe' }}>vault</span>, <span style={{ color: '#9cdcfe' }}>user_address</span>):
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>current_apy</span> = <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>getSupplyRate</span>().<span style={{ color: '#dcdcaa' }}>call</span>()
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>utilization</span> = <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>utilization</span>().<span style={{ color: '#dcdcaa' }}>call</span>()
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>your_shares</span> = <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>balanceOf</span>(<span style={{ color: '#9cdcfe' }}>user_address</span>).<span style={{ color: '#dcdcaa' }}>call</span>()
+                      {'\n    '}<span style={{ color: '#9cdcfe' }}>your_value</span> = <span style={{ color: '#9cdcfe' }}>vault</span>.<span style={{ color: '#9cdcfe' }}>functions</span>.<span style={{ color: '#dcdcaa' }}>previewRedeem</span>(<span style={{ color: '#9cdcfe' }}>your_shares</span>).<span style={{ color: '#dcdcaa' }}>call</span>()
+                      {'\n    '}
+                      {'\n    '}<span style={{ color: '#569cd6' }}>return</span> {'{'}
+                      {'\n        '}<span style={{ color: '#ce9178' }}>'current_apy'</span>: <span style={{ color: '#9cdcfe' }}>f</span><span style={{ color: '#ce9178' }}>"</span>{'{current_apy / 10000:.2f}'}<span style={{ color: '#ce9178' }}>%"</span>,
+                      {'\n        '}<span style={{ color: '#ce9178' }}>'utilization'</span>: <span style={{ color: '#9cdcfe' }}>f</span><span style={{ color: '#ce9178' }}>"</span>{'{utilization / 10000:.2f}'}<span style={{ color: '#ce9178' }}>%"</span>,
+                      {'\n        '}<span style={{ color: '#ce9178' }}>'your_value'</span>: <span style={{ color: '#9cdcfe' }}>f</span><span style={{ color: '#ce9178' }}>"</span>{'{your_value / 10**6:.2f}'}<span style={{ color: '#ce9178' }}> USDC"</span>
+                      {'\n    '}{'}'}
+                      {'\n'}
+                      {'\n'}<span style={{ color: '#7c7c7c' }}># Run the example</span>
+                      {'\n'}<span style={{ color: '#569cd6' }}>if</span> <span style={{ color: '#9cdcfe' }}>__name__</span> == <span style={{ color: '#ce9178' }}>"__main__"</span>:
+                      {'\n    '}<span style={{ color: '#dcdcaa' }}>complete_lending_cycle</span>()
+                    </code></pre>
+                  </div>
+                )}
 
                 <div style={{
                   background: 'rgba(20, 184, 166, 0.1)',
@@ -1201,6 +1463,27 @@ function LenderGuide() {
           pre {
             font-size: 0.7rem !important;
           }
+        }
+
+        /* Custom scrollbar styling for code containers */
+        .code-container::-webkit-scrollbar {
+          height: 8px;
+        }
+        .code-container::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .code-container::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+        }
+        .code-container::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Firefox scrollbar styling */
+        .code-container {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
         }
       `}</style>
     </div>
