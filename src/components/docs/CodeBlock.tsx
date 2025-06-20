@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { syntaxColors } from './SyntaxTheme';
 
 interface CodeBlockProps {
   code: string;
@@ -170,6 +171,50 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
       </div>
 
       {children}
+      
+      {/* Enhanced scrollbar styling */}
+      <style>{`
+        .code-container {
+          scrollbar-width: thin;
+          scrollbar-color: ${syntaxColors.bracket} rgba(31, 41, 55, 0.3);
+        }
+        
+        .code-container::-webkit-scrollbar {
+          height: 8px;
+          width: 8px;
+        }
+        
+        .code-container::-webkit-scrollbar-track {
+          background: rgba(31, 41, 55, 0.3);
+          border-radius: 4px;
+        }
+        
+        .code-container::-webkit-scrollbar-thumb {
+          background: ${syntaxColors.bracket};
+          border-radius: 4px;
+          border: 1px solid rgba(31, 41, 55, 0.5);
+        }
+        
+        .code-container::-webkit-scrollbar-thumb:hover {
+          background: ${syntaxColors.keyword};
+        }
+        
+        .code-container code {
+          color: ${syntaxColors.bracket};
+          font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+          font-size: 0.875rem;
+          line-height: 1.6;
+        }
+        
+        .code-container .comment { color: ${syntaxColors.comment}; }
+        .code-container .keyword { color: ${syntaxColors.keyword}; font-weight: 600; }
+        .code-container .string { color: ${syntaxColors.string}; }
+        .code-container .number { color: ${syntaxColors.number}; }
+        .code-container .function { color: ${syntaxColors.function}; font-weight: 600; }
+        .code-container .variable { color: ${syntaxColors.variable}; }
+        .code-container .type { color: ${syntaxColors.type}; }
+        .code-container .operator { color: ${syntaxColors.operator}; }
+      `}</style>
     </div>
   );
 };

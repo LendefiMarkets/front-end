@@ -1,5 +1,6 @@
 import React from 'react';
-import Navbar from './components/layout/Navbar';
+import DocsNavbar from './components/layout/DocsNavbar';
+import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
 
 const SmartContracts: React.FC = () => {
@@ -25,7 +26,7 @@ const SmartContracts: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#e5e7eb' }}>
-      <Navbar />
+      <DocsNavbar />
       
       <main style={{ padding: '120px 0 64px 0' }}>
         <div className="container" style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 20px' }}>
@@ -296,6 +297,7 @@ const SmartContracts: React.FC = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };

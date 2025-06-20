@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
 
 function MarketOwnerGuide() {
@@ -26,7 +27,7 @@ function MarketOwnerGuide() {
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/" className="btn btn-outline">← Back to Main</a>
+              <a href="/docs" className="btn btn-outline">← Back to Docs</a>
             </div>
           </div>
         </div>
@@ -518,6 +519,7 @@ function MarketOwnerGuide() {
       </main>
       
       <Footer />
+      <BackToTop />
     </div>
   );
 }

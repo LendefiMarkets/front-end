@@ -2,9 +2,23 @@ import { useState } from 'react';
 import CodeBlock from './components/docs/CodeBlock';
 import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
+import MobileNavigation from './components/docs/MobileNavigation';
 
 function LenderGuide() {
   const [activeTab, setActiveTab] = useState('solidity');
+
+  const sections = [
+    { id: 'overview', title: 'Overview' },
+    { id: 'getting-started', title: 'Getting Started' },
+    { id: 'deposit-liquidity', title: '1. Deposit Liquidity' },
+    { id: 'revenue-streams', title: '2. Earn Revenue' },
+    { id: 'monitor-performance', title: '3. Monitor Performance' },
+    { id: 'claim-rewards', title: '4. Claim Rewards' },
+    { id: 'withdraw-liquidity', title: '5. Withdraw Liquidity' },
+    { id: 'strategies', title: 'Yield Strategies' },
+    { id: 'risk-considerations', title: 'Risk Considerations' },
+    { id: 'examples', title: 'Code Examples' }
+  ];
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -17,8 +31,22 @@ function LenderGuide() {
       });
     }
   };
+
+  const handleSectionClick = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const elementPosition = element.offsetTop - 120;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#e5e7eb' }}>
+      {/* Mobile Navigation */}
+      <MobileNavigation sections={sections} onSectionClick={handleSectionClick} />
+      
       {/* Navbar - Contact style */}
       <nav className="navbar">
         <div className="container">
@@ -39,7 +67,7 @@ function LenderGuide() {
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/" className="btn btn-outline">← Back to Main</a>
+              <a href="/docs" className="btn btn-outline">← Back to Docs</a>
             </div>
           </div>
         </div>

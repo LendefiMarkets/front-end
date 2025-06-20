@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Navbar from './components/layout/Navbar';
+import DocsNavbar from './components/layout/DocsNavbar';
+import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
 import ApiReferenceHeader from './components/docs/ApiReferenceHeader';
 import ApiReferenceContent from './components/docs/ApiReferenceContent';
@@ -20,7 +21,7 @@ const ApiReference: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#e5e7eb' }}>
-      <Navbar />
+      <DocsNavbar />
       
       <main style={{ padding: '120px 0 64px 0' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
@@ -85,6 +86,7 @@ const ApiReference: React.FC = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };

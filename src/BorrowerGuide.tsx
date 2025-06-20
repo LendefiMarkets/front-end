@@ -1,11 +1,55 @@
 import { useState } from 'react';
+import CodeBlock from './components/docs/CodeBlock';
+import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
+import MobileNavigation from './components/docs/MobileNavigation';
 
 function BorrowerGuide() {
   const [activeTab, setActiveTab] = useState('solidity');
 
+  const sections = [
+    { id: 'overview', title: 'Overview' },
+    { id: 'getting-started', title: 'Getting Started' },
+    { id: 'create-position', title: '1. Create Position' },
+    { id: 'supply-collateral', title: '2. Supply Collateral' },
+    { id: 'borrow-funds', title: '3. Borrow Funds' },
+    { id: 'manage-position', title: '4. Manage Position' },
+    { id: 'repay-close', title: '5. Repay & Close' },
+    { id: 'flash-loans', title: 'Flash Loans' },
+    { id: 'collateral-tiers', title: 'Collateral Tiers' },
+    { id: 'liquidation', title: 'Liquidation' },
+    { id: 'mev-protection', title: 'MEV Protection' },
+    { id: 'examples', title: 'Code Examples' }
+  ];
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      const elementPosition = element.offsetTop - 120; // Account for fixed navbar
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleSectionClick = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const elementPosition = element.offsetTop - 120;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#e5e7eb' }}>
+      {/* Mobile Navigation */}
+      <MobileNavigation sections={sections} onSectionClick={handleSectionClick} />
+      
       {/* Navbar - Contact style */}
       <nav className="navbar">
         <div className="container">
@@ -26,7 +70,7 @@ function BorrowerGuide() {
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/" className="btn btn-outline">← Back to Main</a>
+              <a href="/docs" className="btn btn-outline">← Back to Docs</a>
             </div>
           </div>
         </div>
@@ -73,40 +117,40 @@ function BorrowerGuide() {
               </h3>
               <ul style={{ listStyle: 'none' }}>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#overview" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Overview</a>
+                  <a href="#overview" onClick={(e) => handleSmoothScroll(e, 'overview')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Overview</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#getting-started" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Getting Started</a>
+                  <a href="#getting-started" onClick={(e) => handleSmoothScroll(e, 'getting-started')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Getting Started</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#create-position" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>1. Create Position</a>
+                  <a href="#create-position" onClick={(e) => handleSmoothScroll(e, 'create-position')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>1. Create Position</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#supply-collateral" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>2. Supply Collateral</a>
+                  <a href="#supply-collateral" onClick={(e) => handleSmoothScroll(e, 'supply-collateral')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>2. Supply Collateral</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#borrow-funds" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>3. Borrow Funds</a>
+                  <a href="#borrow-funds" onClick={(e) => handleSmoothScroll(e, 'borrow-funds')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>3. Borrow Funds</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#manage-position" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>4. Manage Position</a>
+                  <a href="#manage-position" onClick={(e) => handleSmoothScroll(e, 'manage-position')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>4. Manage Position</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#repay-close" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>5. Repay & Close</a>
+                  <a href="#repay-close" onClick={(e) => handleSmoothScroll(e, 'repay-close')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>5. Repay & Close</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#flash-loans" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Flash Loans</a>
+                  <a href="#flash-loans" onClick={(e) => handleSmoothScroll(e, 'flash-loans')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Flash Loans</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#collateral-tiers" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Collateral Tiers</a>
+                  <a href="#collateral-tiers" onClick={(e) => handleSmoothScroll(e, 'collateral-tiers')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Collateral Tiers</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#liquidation" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Liquidation</a>
+                  <a href="#liquidation" onClick={(e) => handleSmoothScroll(e, 'liquidation')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Liquidation</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#mev-protection" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>MEV Protection</a>
+                  <a href="#mev-protection" onClick={(e) => handleSmoothScroll(e, 'mev-protection')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>MEV Protection</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#examples" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Code Examples</a>
+                  <a href="#examples" onClick={(e) => handleSmoothScroll(e, 'examples')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Code Examples</a>
                 </li>
               </ul>
             </aside>
@@ -316,14 +360,18 @@ function BorrowerGuide() {
                     Call the createPosition function to deploy your isolated position vault.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Create a position for WETH collateral
+uint256 positionId = marketCore.createPosition(
+    address(weth),    // Collateral asset address
+    false            // isIsolated: false for cross-collateral, true for isolated
+);
+
+// Position ID is returned for all future operations
+// Position vaults are deployed using minimal proxy pattern for gas efficiency`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Create a position for WETH collateral</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>positionId</span> = <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>createPosition</span>({'\n'}
@@ -333,7 +381,7 @@ function BorrowerGuide() {
                       <span style={{ color: '#7c7c7c' }}>// Position ID is returned for all future operations</span>{'\n'}
                       <span style={{ color: '#7c7c7c' }}>// Position vaults are deployed using minimal proxy pattern for gas efficiency</span>
                     </code></pre>
-                  </div>
+                  </CodeBlock>
 
                   <div style={{
                     background: 'rgba(16, 185, 129, 0.1)',
@@ -405,14 +453,11 @@ function BorrowerGuide() {
                     Approve the market contract and supply your collateral assets.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Approve the market core contract to transfer your collateral</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>collateralAmount</span> = <span style={{ color: '#b5cea8' }}>50</span> <span style={{ color: '#9cdcfe' }}>ether</span>; <span style={{ color: '#7c7c7c' }}>// 50 WETH</span>{'\n'}
@@ -424,7 +469,7 @@ function BorrowerGuide() {
                       {'    '}<span style={{ color: '#9cdcfe' }}>positionId</span>          <span style={{ color: '#7c7c7c' }}>// Your position ID</span>{'\n'}
                       );
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 </div>
 
                 <div style={{
@@ -460,14 +505,11 @@ function BorrowerGuide() {
                     Calculate how much you can borrow against your collateral.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Calculate your credit limit</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>creditLimit</span> = <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>calculateCreditLimit</span>(<span style={{ color: '#9cdcfe' }}>borrower</span>, <span style={{ color: '#9cdcfe' }}>positionId</span>);{'\n\n'}
@@ -476,7 +518,7 @@ function BorrowerGuide() {
                       <span style={{ color: '#7c7c7c' }}>// Check collateral value</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>collateralValue</span> = <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>calculateCollateralValue</span>(<span style={{ color: '#9cdcfe' }}>borrower</span>, <span style={{ color: '#9cdcfe' }}>positionId</span>);
                     </code></pre>
-                  </div>
+                  </CodeBlock>
 
                   <div style={{
                     background: 'rgba(16, 185, 129, 0.1)',
@@ -548,14 +590,11 @@ function BorrowerGuide() {
                     Borrow base assets with MEV protection and slippage controls.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Borrow USDC against WETH collateral</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>borrowAmount</span> = <span style={{ color: '#b5cea8' }}>80_000e6</span>; <span style={{ color: '#7c7c7c' }}>// 80,000 USDC (staying below credit limit)</span>{'\n'}
@@ -567,7 +606,7 @@ function BorrowerGuide() {
                       {'    '}<span style={{ color: '#b5cea8' }}>100</span>                   <span style={{ color: '#7c7c7c' }}>// Maximum slippage in basis points (1%)</span>{'\n'}
                       );
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 </div>
 
                 <div style={{
@@ -603,14 +642,11 @@ function BorrowerGuide() {
                     Track key metrics to ensure your position remains healthy.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Check your health factor (must stay above 1.0)</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>healthFactor</span> = <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>healthFactor</span>(<span style={{ color: '#9cdcfe' }}>borrower</span>, <span style={{ color: '#9cdcfe' }}>positionId</span>);{'\n\n'}
@@ -619,7 +655,7 @@ function BorrowerGuide() {
                       <span style={{ color: '#7c7c7c' }}>// Check remaining borrowing capacity</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>remainingCredit</span> = <span style={{ color: '#9cdcfe' }}>creditLimit</span> - <span style={{ color: '#9cdcfe' }}>currentDebt</span>;
                     </code></pre>
-                  </div>
+                  </CodeBlock>
 
                   <div style={{
                     background: 'rgba(245, 158, 11, 0.1)',
@@ -733,21 +769,18 @@ function BorrowerGuide() {
                     Get the exact amount needed to fully repay your position including interest.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Get total debt including all accrued interest</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalDebt</span> = <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>calculateDebtWithInterest</span>(<span style={{ color: '#9cdcfe' }}>borrower</span>, <span style={{ color: '#9cdcfe' }}>positionId</span>);{'\n\n'}
                       <span style={{ color: '#7c7c7c' }}>// Add small buffer for any interest that might accrue during transaction</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>repayAmount</span> = <span style={{ color: '#9cdcfe' }}>totalDebt</span> + <span style={{ color: '#b5cea8' }}>100e6</span>; <span style={{ color: '#7c7c7c' }}>// Add 100 USDC buffer</span>
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 </div>
 
                 <div style={{
@@ -783,14 +816,11 @@ function BorrowerGuide() {
                     Repay the complete outstanding debt to clear your borrowing obligation.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Approve and repay full debt</span>{'\n'}
                       <span style={{ color: '#9cdcfe' }}>usdc</span>.<span style={{ color: '#dcdcaa' }}>approve</span>(<span style={{ color: '#dcdcaa' }}>address</span>(<span style={{ color: '#9cdcfe' }}>marketCore</span>), <span style={{ color: '#9cdcfe' }}>repayAmount</span>);{'\n\n'}
@@ -801,7 +831,7 @@ function BorrowerGuide() {
                       {'    '}<span style={{ color: '#b5cea8' }}>100</span>                  <span style={{ color: '#7c7c7c' }}>// 1% max slippage</span>{'\n'}
                       );
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 </div>
 
                 <div style={{
@@ -837,14 +867,11 @@ function BorrowerGuide() {
                     Once debt is fully repaid, withdraw all your collateral to close the position.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Withdraw all collateral after full debt repayment</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>expectedCreditLimit</span> = <span style={{ color: '#9cdcfe' }}>marketCore</span>.<span style={{ color: '#dcdcaa' }}>calculateCreditLimit</span>(<span style={{ color: '#9cdcfe' }}>borrower</span>, <span style={{ color: '#9cdcfe' }}>positionId</span>);{'\n'}
@@ -856,7 +883,7 @@ function BorrowerGuide() {
                       {'    '}<span style={{ color: '#b5cea8' }}>100</span>                         <span style={{ color: '#7c7c7c' }}>// Max slippage in basis points</span>{'\n'}
                       );
                     </code></pre>
-                  </div>
+                  </CodeBlock>
 
                   <div style={{
                     background: 'rgba(16, 185, 129, 0.1)',
@@ -943,14 +970,11 @@ function BorrowerGuide() {
 
                 {/* Solidity Tab */}
                 {activeTab === 'solidity' && (
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                     <span style={{ color: '#7c7c7c' }}>// Complete borrowing lifecycle example</span>{'\n'}
                     <span style={{ color: '#569cd6' }}>contract</span> <span style={{ color: '#4ec9b0' }}>BorrowerExample</span> {'{'}
@@ -1018,19 +1042,16 @@ function BorrowerGuide() {
                     {'\n    '}{'}'}
                     {'\n'}{'}'}
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 )}
 
                 {/* JavaScript Tab */}
                 {activeTab === 'javascript' && (
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Complete borrowing lifecycle example using ethers.js</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>import</span> {'{ '}<span style={{ color: '#9cdcfe' }}>ethers</span> {'} '}<span style={{ color: '#569cd6' }}>from</span> <span style={{ color: '#ce9178' }}>'ethers'</span>;{'\n'}
@@ -1094,19 +1115,16 @@ function BorrowerGuide() {
                       {'\n    '}{'}'}
                       {'\n'}{'}'}
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 )}
 
                 {/* Python Tab */}
                 {activeTab === 'python' && (
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Code content extracted from syntax highlighting below`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~150k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}># Complete borrowing lifecycle example using web3.py</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>from</span> <span style={{ color: '#9cdcfe' }}>web3</span> <span style={{ color: '#569cd6' }}>import</span> <span style={{ color: '#9cdcfe' }}>Web3</span>{'\n'}
@@ -1228,7 +1246,7 @@ function BorrowerGuide() {
                       <span style={{ color: '#569cd6' }}>if</span> <span style={{ color: '#9cdcfe' }}>__name__</span> == <span style={{ color: '#ce9178' }}>"__main__"</span>:
                       {'\n    '}<span style={{ color: '#dcdcaa' }}>complete_borrowing_cycle</span>()
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 )}
 
                 <div style={{
@@ -1373,6 +1391,8 @@ function BorrowerGuide() {
           scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
         }
       `}</style>
+
+      <BackToTop />
     </div>
   );
 }
