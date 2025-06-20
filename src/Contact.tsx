@@ -109,15 +109,15 @@ function Contact() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="glass-effect p-6">
                 <h4 className="text-lg font-semibold mb-2">General Inquiries</h4>
-                <p className="text-gray-400">hello@lendefi.com</p>
+                <p className="text-gray-400">hello@lendefimarkets.com</p>
               </div>
               <div className="glass-effect p-6">
                 <h4 className="text-lg font-semibold mb-2">Developer Support</h4>
-                <p className="text-gray-400">dev@lendefi.com</p>
+                <p className="text-gray-400">dev@lendefimarkets.com</p>
               </div>
               <div className="glass-effect p-6">
                 <h4 className="text-lg font-semibold mb-2">Partnership</h4>
-                <p className="text-gray-400">partners@lendefi.com</p>
+                <p className="text-gray-400">partners@lendefimarkets.com</p>
               </div>
             </div>
           </div>
