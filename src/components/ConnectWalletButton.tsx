@@ -47,7 +47,9 @@ const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = () => {
           Connect Wallet
         </button>
       )}
-      <appkit-button style={{ display: isLoaded ? 'block' : 'none' }} />
+      <div style={{ display: isLoaded ? 'block' : 'none' }}>
+        <appkit-button />
+      </div>
     </div>
   )
 }

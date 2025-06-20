@@ -101,7 +101,7 @@ export default function MyMarkets() {
     } finally {
       setIsLoading(false)
     }
-  }, [walletProvider, factoryAddress, address, chainId])
+  }, [walletProvider, factoryAddress, address])
 
   useEffect(() => {
     if (address && factoryAddress) {
