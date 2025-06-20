@@ -1,8 +1,22 @@
 import { useState } from 'react';
+import CodeBlock from './components/docs/CodeBlock';
+import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
 
 function LenderGuide() {
   const [activeTab, setActiveTab] = useState('solidity');
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      const elementPosition = element.offsetTop - 120; // Account for fixed navbar
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#e5e7eb' }}>
       {/* Navbar - Contact style */}
@@ -74,34 +88,34 @@ function LenderGuide() {
               </h3>
               <ul style={{ listStyle: 'none' }}>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#overview" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Overview</a>
+                  <a href="#overview" onClick={(e) => handleSmoothScroll(e, 'overview')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Overview</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#getting-started" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Getting Started</a>
+                  <a href="#getting-started" onClick={(e) => handleSmoothScroll(e, 'getting-started')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Getting Started</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#deposit-liquidity" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>1. Deposit Liquidity</a>
+                  <a href="#deposit-liquidity" onClick={(e) => handleSmoothScroll(e, 'deposit-liquidity')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>1. Deposit Liquidity</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#revenue-streams" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>2. Earn Revenue</a>
+                  <a href="#revenue-streams" onClick={(e) => handleSmoothScroll(e, 'revenue-streams')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>2. Earn Revenue</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#monitor-performance" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>3. Monitor Performance</a>
+                  <a href="#monitor-performance" onClick={(e) => handleSmoothScroll(e, 'monitor-performance')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>3. Monitor Performance</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#claim-rewards" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>4. Claim Rewards</a>
+                  <a href="#claim-rewards" onClick={(e) => handleSmoothScroll(e, 'claim-rewards')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>4. Claim Rewards</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#withdraw-liquidity" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>5. Withdraw Liquidity</a>
+                  <a href="#withdraw-liquidity" onClick={(e) => handleSmoothScroll(e, 'withdraw-liquidity')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>5. Withdraw Liquidity</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#strategies" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Yield Strategies</a>
+                  <a href="#strategies" onClick={(e) => handleSmoothScroll(e, 'strategies')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Yield Strategies</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#risk-considerations" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Risk Considerations</a>
+                  <a href="#risk-considerations" onClick={(e) => handleSmoothScroll(e, 'risk-considerations')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Risk Considerations</a>
                 </li>
                 <li style={{ marginBottom: '0.5rem' }}>
-                  <a href="#examples" style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s' }}>Code Examples</a>
+                  <a href="#examples" onClick={(e) => handleSmoothScroll(e, 'examples')} style={{ color: '#9ca3af', textDecoration: 'none', padding: '0.5rem', display: 'block', borderRadius: '6px', transition: 'all 0.3s', cursor: 'pointer' }}>Code Examples</a>
                 </li>
               </ul>
             </aside>
@@ -299,14 +313,22 @@ function LenderGuide() {
                     Supply base assets to the market vault and receive vault shares representing your position.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Approve the market core contract to spend your tokens
+usdc.approve(address(marketCore), depositAmount);
+
+// Get expected shares from the vault
+uint256 expectedShares = marketVault.previewDeposit(depositAmount);
+
+// Deposit with MEV protection
+marketCore.depositLiquidity(
+    depositAmount,     // Amount of USDC to deposit
+    expectedShares,    // Expected vault shares to receive
+    100               // Maximum 1% slippage
+);`}
+                    etherscanAddress="0xDe70388f3267718caEB9a66623a3176C05b38236"
+                    gasEstimate="~80k gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Approve the market core contract to spend your tokens</span>{'\n'}
                       <span style={{ color: '#9cdcfe' }}>usdc</span>.<span style={{ color: '#dcdcaa' }}>approve</span>(<span style={{ color: '#dcdcaa' }}>address</span>(<span style={{ color: '#9cdcfe' }}>marketCore</span>), <span style={{ color: '#9cdcfe' }}>depositAmount</span>);{'\n\n'}
@@ -319,7 +341,7 @@ function LenderGuide() {
                       {'    '}<span style={{ color: '#b5cea8' }}>100</span>               <span style={{ color: '#7c7c7c' }}>// Maximum 1% slippage</span>{'\n'}
                       );
                     </code></pre>
-                  </div>
+                  </CodeBlock>
 
                   <div style={{
                     background: 'rgba(16, 185, 129, 0.1)',
@@ -481,14 +503,21 @@ function LenderGuide() {
                     Monitor important performance indicators for your lending position.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Check current supply rate (APY)
+uint256 currentAPY = marketVault.getSupplyRate(); // Returns rate in 1e6 format
+
+// Check market utilization
+uint256 utilization = marketVault.utilization(); // Percentage of funds borrowed
+
+// Check your current position value
+uint256 yourShares = marketVault.balanceOf(yourAddress);
+uint256 currentValue = marketVault.previewRedeem(yourShares);
+
+// Check total vault performance
+uint256 totalVaultValue = marketVault.totalBase();
+uint256 totalShares = marketVault.totalSupply();`}
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Check current supply rate (APY)</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>currentAPY</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>getSupplyRate</span>(); <span style={{ color: '#7c7c7c' }}>// Returns rate in 1e6 format</span>{'\n\n'}
@@ -501,7 +530,7 @@ function LenderGuide() {
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalVaultValue</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>totalBase</span>();{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>totalShares</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>totalSupply</span>();
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 </div>
 
                 <div style={{
@@ -661,14 +690,18 @@ function LenderGuide() {
                     Verify if you meet the requirements for governance token rewards.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Check if you're eligible for rewards
+bool isEligible = marketVault.isRewardable(yourAddress);
+
+// View your current reward balance (if eligible)
+if (isEligible) {
+    // Eligibility confirmed - rewards available
+}
+else {
+    // Check requirements: minimum amount and time
+}`}
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Check if you're eligible for rewards</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>bool</span> <span style={{ color: '#9cdcfe' }}>isEligible</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>isRewardable</span>(<span style={{ color: '#9cdcfe' }}>yourAddress</span>);{'\n\n'}
@@ -680,7 +713,7 @@ function LenderGuide() {
                       {'\n    '}<span style={{ color: '#7c7c7c' }}>// Check requirements: minimum amount and time</span>
                       {'\n'}{'}'}
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 </div>
 
                 <div style={{
@@ -716,21 +749,21 @@ function LenderGuide() {
                     Claim available governance tokens when eligible.
                   </p>
                   
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '8px',
-                    padding: '1.5rem',
-                    margin: '1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Claim governance token rewards
+uint256 rewardAmount = marketVault.claimReward();
+
+// Note: Claiming resets your eligibility timer
+// You'll need to maintain minimum liquidity for the required period again`}
+                    gasEstimate="~30,000 gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Claim governance token rewards</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>rewardAmount</span> = <span style={{ color: '#9cdcfe' }}>marketVault</span>.<span style={{ color: '#dcdcaa' }}>claimReward</span>();{'\n\n'}
                       <span style={{ color: '#7c7c7c' }}>// Note: Claiming resets your eligibility timer</span>{'\n'}
                       <span style={{ color: '#7c7c7c' }}>// You'll need to maintain minimum liquidity for the required period again</span>
                     </code></pre>
-                  </div>
+                  </CodeBlock>
 
                   <div style={{
                     background: 'rgba(16, 185, 129, 0.1)',
@@ -799,13 +832,16 @@ function LenderGuide() {
                     }}>
                       <h5 style={{ color: '#3b82f6', marginBottom: '0.5rem' }}>💰 Withdraw Method</h5>
                       <p style={{ color: '#d1d5db', marginBottom: '1rem', fontSize: '0.875rem' }}>Specify the exact amount of underlying assets you want to receive.</p>
-                      <div className="code-container" style={{
-                        background: '#1f2937',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: '8px',
-                        padding: '1rem',
-                        overflowX: 'auto'
-                      }}>
+                      <CodeBlock 
+                        code={`// Withdraw specific amount
+uint256 withdrawAmount = 1000e6; // 1000 USDC
+marketVault.withdraw(
+    withdrawAmount,
+    yourAddress,  // receiver
+    yourAddress   // owner
+);`}
+                            gasEstimate="~50,000 gas"
+                      >
                         <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.75rem' }}><code>
                           <span style={{ color: '#7c7c7c' }}>// Withdraw specific amount</span>{'\n'}
                           <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>withdrawAmount</span> = <span style={{ color: '#b5cea8' }}>1000e6</span>; <span style={{ color: '#7c7c7c' }}>// 1000 USDC</span>{'\n'}
@@ -815,7 +851,7 @@ function LenderGuide() {
                           {'    '}<span style={{ color: '#9cdcfe' }}>yourAddress</span>   <span style={{ color: '#7c7c7c' }}>// owner</span>{'\n'}
                           );
                         </code></pre>
-                      </div>
+                      </CodeBlock>
                     </div>
                     
                     <div style={{
@@ -826,13 +862,16 @@ function LenderGuide() {
                     }}>
                       <h5 style={{ color: '#10b981', marginBottom: '0.5rem' }}>🎫 Redeem Method</h5>
                       <p style={{ color: '#d1d5db', marginBottom: '1rem', fontSize: '0.875rem' }}>Redeem a specific number of vault shares for underlying assets.</p>
-                      <div className="code-container" style={{
-                        background: '#1f2937',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: '8px',
-                        padding: '1rem',
-                        overflowX: 'auto'
-                      }}>
+                      <CodeBlock 
+                        code={`// Redeem specific shares
+uint256 sharesToRedeem = 1000e6; // 1000 shares
+marketVault.redeem(
+    sharesToRedeem,
+    yourAddress,  // receiver
+    yourAddress   // owner
+);`}
+                            gasEstimate="~45,000 gas"
+                      >
                         <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.75rem' }}><code>
                           <span style={{ color: '#7c7c7c' }}>// Redeem specific shares</span>{'\n'}
                           <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>sharesToRedeem</span> = <span style={{ color: '#b5cea8' }}>1000e6</span>; <span style={{ color: '#7c7c7c' }}>// 1000 shares</span>{'\n'}
@@ -842,7 +881,7 @@ function LenderGuide() {
                           {'    '}<span style={{ color: '#9cdcfe' }}>yourAddress</span>   <span style={{ color: '#7c7c7c' }}>// owner</span>{'\n'}
                           );
                         </code></pre>
-                      </div>
+                      </CodeBlock>
                     </div>
                   </div>
                 </div>
@@ -1042,14 +1081,75 @@ function LenderGuide() {
 
                 {/* Solidity Tab */}
                 {activeTab === 'solidity' && (
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '0 0 8px 8px',
-                    padding: '1.5rem',
-                    margin: '0 0 1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Complete USDC lending example
+contract LenderExample {
+    IERC20 usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
+    ILendefiCore marketCore;
+    ILendefiMarketVault marketVault;
+    
+    function depositLiquidity() external {
+        uint256 depositAmount = 10_000e6; // 10,000 USDC
+        
+        // 1. Approve the market core contract
+        usdc.approve(address(marketCore), depositAmount);
+        
+        // 2. Preview expected shares
+        uint256 expectedShares = marketVault.previewDeposit(depositAmount);
+        
+        // 3. Deposit with slippage protection
+        marketCore.depositLiquidity(
+            depositAmount,
+            expectedShares,
+            100 // 1% max slippage
+        );
+        
+        emit LiquidityDeposited(msg.sender, depositAmount, expectedShares);
+    }
+    
+    function monitorPerformance() external view returns (
+        uint256 currentAPY,
+        uint256 utilization,
+        uint256 yourValue,
+        uint256 totalGrowth
+    ) {
+        // Current market metrics
+        currentAPY = marketVault.getSupplyRate();
+        utilization = marketVault.utilization();
+        
+        // Your position value
+        uint256 yourShares = marketVault.balanceOf(msg.sender);
+        yourValue = marketVault.previewRedeem(yourShares);
+        
+        // Calculate total vault growth
+        uint256 totalAssets = marketVault.totalBase();
+        uint256 totalShares = marketVault.totalSupply();
+        totalGrowth = totalAssets > totalShares ? 
+            ((totalAssets - totalShares) * 10000) / totalShares : 0; // Growth in bps
+    }
+    
+    function withdrawLiquidity(uint256 amount) external {
+        // Check maximum withdrawal
+        uint256 maxWithdraw = marketVault.maxWithdraw(msg.sender);
+        require(amount <= maxWithdraw, "Insufficient liquidity");
+        
+        // Withdraw specific amount
+        uint256 receivedAmount = marketVault.withdraw(
+            amount,
+            msg.sender,
+            msg.sender
+        );
+        
+        emit LiquidityWithdrawn(msg.sender, amount, receivedAmount);
+    }
+    
+    // Events
+    event LiquidityDeposited(address indexed user, uint256 amount, uint256 shares);
+    event LiquidityWithdrawn(address indexed user, uint256 requested, uint256 received);
+    event RewardsClaimed(address indexed user, uint256 amount);
+}`}
+                    gasEstimate="Deploy: ~2,500,000 gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Complete USDC lending example</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>contract</span> <span style={{ color: '#4ec9b0' }}>LenderExample</span> {'{'}
@@ -1118,19 +1218,91 @@ function LenderGuide() {
                       {'\n    '}<span style={{ color: '#569cd6' }}>event</span> <span style={{ color: '#dcdcaa' }}>RewardsClaimed</span>(<span style={{ color: '#569cd6' }}>address</span> <span style={{ color: '#569cd6' }}>indexed</span> <span style={{ color: '#9cdcfe' }}>user</span>, <span style={{ color: '#569cd6' }}>uint256</span> <span style={{ color: '#9cdcfe' }}>amount</span>);
                       {'\n'}{'}'}
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 )}
 
                 {/* JavaScript Tab */}
                 {activeTab === 'javascript' && (
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '0 0 8px 8px',
-                    padding: '1.5rem',
-                    margin: '0 0 1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`// Complete USDC lending example using ethers.js
+const { ethers } = require('ethers');
+
+async function completeLendingCycle() {
+    // Setup provider and wallet
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+
+    // Contract addresses and ABIs
+    const MARKET_CORE_ADDRESS = '0x...';
+    const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+
+    // Load contract ABIs
+    const marketCoreABI = JSON.parse(fs.readFileSync('./abi/LendefiCore.json', 'utf8'));
+    const erc20ABI = JSON.parse(fs.readFileSync('./abi/ERC20.json', 'utf8'));
+
+    // Contract instances
+    const marketCore = new ethers.Contract(MARKET_CORE_ADDRESS, marketCoreABI, wallet);
+    const usdc = new ethers.Contract(USDC_ADDRESS, erc20ABI, wallet);
+
+    const depositAmount = ethers.utils.parseUnits('10000', 6); // 10,000 USDC
+
+    try {
+        // Step 1: Approve USDC spending
+        console.log('Approving USDC...');
+        const approveTx = await usdc.approve(MARKET_CORE_ADDRESS, depositAmount);
+        await approveTx.wait();
+
+        // Step 2: Get vault address and preview deposit
+        const vaultAddress = await marketCore.marketVault();
+        const vault = new ethers.Contract(vaultAddress, vaultABI, wallet);
+        const expectedShares = await vault.previewDeposit(depositAmount);
+
+        // Step 3: Deposit liquidity with slippage protection
+        console.log('Depositing liquidity...');
+        const depositTx = await marketCore.depositLiquidity(
+            depositAmount,
+            expectedShares,
+            100 // 1% max slippage
+        );
+        await depositTx.wait();
+
+        // Step 4: Monitor performance
+        const performance = await monitorPerformance(vault, wallet.address);
+        console.log('Performance:', performance);
+
+        // Step 5: Withdraw (when ready)
+        const withdrawAmount = ethers.utils.parseUnits('5000', 6); // 5,000 USDC
+        const withdrawTx = await vault.withdraw(
+            withdrawAmount,
+            wallet.address,
+            wallet.address
+        );
+        await withdrawTx.wait();
+
+        console.log('Lending cycle completed successfully!');
+    } catch (error) {
+        console.error('Error in lending cycle:', error);
+    }
+}
+
+async function monitorPerformance(vault, userAddress) {
+    const currentAPY = await vault.getSupplyRate();
+    const utilization = await vault.utilization();
+    const yourShares = await vault.balanceOf(userAddress);
+    const yourValue = await vault.previewRedeem(yourShares);
+    
+    return {
+        currentAPY: ethers.utils.formatUnits(currentAPY, 6),
+        utilization: ethers.utils.formatUnits(utilization, 4),
+        yourValue: ethers.utils.formatUnits(yourValue, 6),
+        yourShares: ethers.utils.formatUnits(yourShares, 6)
+    };
+}
+
+// Run the lending cycle
+completeLendingCycle().catch(console.error);`}
+                    gasEstimate="Deposit: ~150,000 gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}>// Complete USDC lending example using ethers.js</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>const</span> <span style={{ color: '#4ec9b0' }}>{'{ ethers }'}</span> = <span style={{ color: '#dcdcaa' }}>require</span>(<span style={{ color: '#ce9178' }}>'ethers'</span>);{'\n'}
@@ -1212,19 +1384,112 @@ function LenderGuide() {
                       <span style={{ color: '#7c7c7c' }}>// Run the example</span>{'\n'}
                       <span style={{ color: '#dcdcaa' }}>completeLendingCycle</span>().<span style={{ color: '#dcdcaa' }}>catch</span>(<span style={{ color: '#4ec9b0' }}>console</span>.<span style={{ color: '#9cdcfe' }}>error</span>);{'\n'}
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 )}
 
                 {/* Python Tab */}
                 {activeTab === 'python' && (
-                  <div className="code-container" style={{
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '0 0 8px 8px',
-                    padding: '1.5rem',
-                    margin: '0 0 1rem 0',
-                    overflowX: 'auto'
-                  }}>
+                  <CodeBlock 
+                    code={`# Complete USDC lending example using web3.py
+from web3 import Web3
+from eth_account import Account
+import json
+import os
+
+def complete_lending_cycle():
+    """Complete USDC lending lifecycle using Lendefi Markets"""
+    
+    # Setup Web3 connection
+    w3 = Web3(Web3.HTTPProvider(os.getenv('RPC_URL')))
+    account = Account.from_key(os.getenv('PRIVATE_KEY'))
+    
+    # Contract addresses and ABIs
+    MARKET_CORE_ADDRESS = '0x...'
+    USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+    
+    # Load contract ABIs
+    with open('./abi/LendefiCore.json') as f:
+        market_core_abi = json.load(f)
+    
+    with open('./abi/ERC20.json') as f:
+        erc20_abi = json.load(f)
+    
+    # Contract instances
+    market_core = w3.eth.contract(address=MARKET_CORE_ADDRESS, abi=market_core_abi)
+    usdc = w3.eth.contract(address=USDC_ADDRESS, abi=erc20_abi)
+    
+    deposit_amount = 10_000 * 10**6  # 10,000 USDC
+    
+    try:
+        # Step 1: Approve USDC spending
+        print("Approving USDC...")
+        approve_txn = usdc.functions.approve(MARKET_CORE_ADDRESS, deposit_amount).build_transaction({
+            'from': account.address,
+            'nonce': w3.eth.get_transaction_count(account.address)
+        })
+        signed_approve = w3.eth.account.sign_transaction(approve_txn, account.key)
+        approve_hash = w3.eth.send_raw_transaction(signed_approve.rawTransaction)
+        w3.eth.wait_for_transaction_receipt(approve_hash)
+        
+        # Step 2: Get vault address and preview deposit
+        vault_address = market_core.functions.marketVault().call()
+        vault = w3.eth.contract(address=vault_address, abi=vault_abi)
+        expected_shares = vault.functions.previewDeposit(deposit_amount).call()
+        
+        # Step 3: Deposit liquidity with slippage protection
+        print("Depositing liquidity...")
+        deposit_txn = market_core.functions.depositLiquidity(
+            deposit_amount,
+            expected_shares,
+            100  # 1% max slippage
+        ).build_transaction({
+            'from': account.address,
+            'nonce': w3.eth.get_transaction_count(account.address)
+        })
+        signed_deposit = w3.eth.account.sign_transaction(deposit_txn, account.key)
+        deposit_hash = w3.eth.send_raw_transaction(signed_deposit.rawTransaction)
+        w3.eth.wait_for_transaction_receipt(deposit_hash)
+        
+        # Step 4: Monitor performance
+        performance = monitor_performance(vault, account.address)
+        print("Performance:", performance)
+        
+        # Step 5: Withdraw (when ready)
+        withdraw_amount = 5_000 * 10**6  # 5,000 USDC
+        withdraw_txn = vault.functions.withdraw(
+            withdraw_amount,
+            account.address,
+            account.address
+        ).build_transaction({
+            'from': account.address,
+            'nonce': w3.eth.get_transaction_count(account.address)
+        })
+        signed_withdraw = w3.eth.account.sign_transaction(withdraw_txn, account.key)
+        withdraw_hash = w3.eth.send_raw_transaction(signed_withdraw.rawTransaction)
+        w3.eth.wait_for_transaction_receipt(withdraw_hash)
+        
+        print("Lending cycle completed successfully!")
+    
+    except Exception as e:
+        print(f"Error in lending cycle: {e}")
+
+def monitor_performance(vault, user_address):
+    current_apy = vault.functions.getSupplyRate().call()
+    utilization = vault.functions.utilization().call()
+    your_shares = vault.functions.balanceOf(user_address).call()
+    your_value = vault.functions.previewRedeem(your_shares).call()
+    
+    return {
+        'current_apy': current_apy / 10000,  # Convert from basis points
+        'utilization': utilization / 10000,  # Convert from basis points
+        'your_value': your_value / 10**6,  # Convert from wei to USDC
+        'your_shares': your_shares / 10**6  # Convert from wei to shares
+    }
+
+if __name__ == "__main__":
+    complete_lending_cycle()`}
+                    gasEstimate="Deposit: ~150,000 gas"
+                  >
                     <pre style={{ color: '#e5e7eb', fontFamily: 'Monaco, Menlo, monospace', fontSize: '0.875rem' }}><code>
                       <span style={{ color: '#7c7c7c' }}># Complete USDC lending example using web3.py</span>{'\n'}
                       <span style={{ color: '#569cd6' }}>from</span> <span style={{ color: '#9cdcfe' }}>web3</span> <span style={{ color: '#569cd6' }}>import</span> <span style={{ color: '#9cdcfe' }}>Web3</span>{'\n'}
@@ -1325,7 +1590,7 @@ function LenderGuide() {
                       {'\n'}<span style={{ color: '#569cd6' }}>if</span> <span style={{ color: '#9cdcfe' }}>__name__</span> == <span style={{ color: '#ce9178' }}>"__main__"</span>:
                       {'\n    '}<span style={{ color: '#dcdcaa' }}>complete_lending_cycle</span>()
                     </code></pre>
-                  </div>
+                  </CodeBlock>
                 )}
 
                 <div style={{
@@ -1351,23 +1616,7 @@ function LenderGuide() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer style={{
-        background: 'rgba(17, 24, 39, 0.5)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '2rem 0',
-        marginTop: '4rem',
-        textAlign: 'center'
-      }}>
-        <div className="container">
-          <p style={{ color: '#9ca3af' }}>
-            © 2025 Lendefi Labs LLC. All rights reserved. | 
-            <a href="/contact" style={{ color: '#14b8a6', textDecoration: 'none' }}> Contact</a> | 
-            <a href="https://github.com/LendefiMarkets" style={{ color: '#14b8a6', textDecoration: 'none' }}> GitHub</a> | 
-            <a href="https://x.com/LendefiMarkets" style={{ color: '#14b8a6', textDecoration: 'none' }}> X</a>
-          </p>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Mobile Responsive CSS */}
       <style>{`
@@ -1486,6 +1735,8 @@ function LenderGuide() {
           scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
         }
       `}</style>
+
+      <BackToTop />
     </div>
   );
 }
