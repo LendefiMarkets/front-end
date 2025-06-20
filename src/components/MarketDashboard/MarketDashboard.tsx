@@ -1014,7 +1014,6 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
       const decimals = await tokenContract.decimals()
 
       // Create complete Asset struct matching IASSETS.sol exactly
-      console.log('Submitting assetConfig.active:', assetConfig.active)
       const config = [
         assetConfig.active, // uint8 active
         decimals, // uint8 decimals (auto-fetched from token)
@@ -1719,9 +1718,6 @@ function PriceFeedManagement({ assetsModuleAddress }: PriceFeedManagementProps) 
         assetsContract.getTierRates()
       ])
 
-      console.log('Raw tier rates from contract:', rates)
-      console.log('Jump rates:', rates[0].map((rate: bigint) => rate.toString()))
-      console.log('Liquidation fees:', rates[1].map((fee: bigint) => fee.toString()))
       
       setTierRates({
         jumpRates: rates[0].map((rate: bigint) => Number(rate)),

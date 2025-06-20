@@ -42,15 +42,7 @@ export default function MyMarkets() {
   const factoryAddress = chainId && CONTRACTS[chainId as SupportedChainId]?.marketFactory
 
   const fetchUserMarkets = React.useCallback(async () => {
-    console.log('fetchUserMarkets called with:', { 
-      walletProvider: !!walletProvider, 
-      factoryAddress, 
-      address,
-      chainId 
-    })
-    
     if (!walletProvider || !factoryAddress || !address) {
-      console.log('Missing required data for fetching user markets')
       return
     }
 

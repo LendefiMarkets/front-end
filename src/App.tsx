@@ -20,10 +20,6 @@ function App() {
   const { isConnected, address } = useAppKitAccount();
   const { isUnsupportedNetwork } = useNetworkValidation();
   
-  // Debug logging
-  React.useEffect(() => {
-    console.log('App component - isConnected:', isConnected, 'address:', address);
-  }, [isConnected, address]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [marketData, setMarketData] = React.useState<{[key: string]: { usd_market_cap?: number }}>({});
   const [showNetworkModal, setShowNetworkModal] = React.useState(false);
@@ -52,9 +48,7 @@ function App() {
 
   // Navigate to /app when connected
   React.useEffect(() => {
-    console.log('Navigation effect - isConnected:', isConnected, 'address:', address);
     if (isConnected && address) {
-      console.log('Navigating to /app...');
       navigate('/app');
     }
   }, [isConnected, address, navigate]);

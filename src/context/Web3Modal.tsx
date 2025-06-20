@@ -1,17 +1,8 @@
 import { createAppKit } from '@reown/appkit/react'
 import { networks, projectId, metadata, ethersAdapter } from '../config/appkit'
 
-// Debug logging for production
-console.log('Web3Modal initialization:', {
-  projectId,
-  metadata,
-  networks,
-  isProd: import.meta.env.PROD,
-  currentOrigin: window.location.origin
-})
-
 // Create AppKit instance
-const appKit = createAppKit({
+createAppKit({
   adapters: [ethersAdapter],
   networks,
   metadata,
@@ -27,8 +18,6 @@ const appKit = createAppKit({
     '--w3m-color-mix-strength': 20
   }
 })
-
-console.log('AppKit instance created:', appKit)
 
 import type { ReactNode } from 'react';
 
