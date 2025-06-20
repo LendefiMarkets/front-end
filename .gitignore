@@ -11,6 +11,7 @@ node_modules
 opus
 dist
 dist-ssr
+site-html5-main
 *.local
 .env
 package-lock.json

@@ -249,52 +249,13 @@ function App() {
                 Subscribe to our newsletter for updates and launch announcements
               </p>
               <form 
-                className="inline-form" 
+                className="inline-form"
                 action="https://lendefimarkets.us22.list-manage.com/subscribe/post"
                 method="POST"
                 target="_blank"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const form = e.target as HTMLFormElement;
-                  const formData = new FormData(form);
-                  const email = formData.get('EMAIL') as string;
-                  
-                  if (!email) {
-                    alert('Please enter your email address.');
-                    return;
-                  }
-                  
-                  // Create a temporary form with Mailchimp fields
-                  const tempForm = document.createElement('form');
-                  tempForm.method = 'POST';
-                  tempForm.action = 'https://lendefimarkets.us22.list-manage.com/subscribe/post';
-                  tempForm.target = '_blank';
-                  
-                  // Add required Mailchimp fields
-                  const fields = {
-                    'u': 'YOUR_MAILCHIMP_USER_ID', // You need to get this from your Mailchimp embed form
-                    'id': 'ef1fb449f6', // Your list ID
-                    'EMAIL': email,
-                    'subscribe': 'Subscribe'
-                  };
-                  
-                  Object.entries(fields).forEach(([key, value]) => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = key;
-                    input.value = value;
-                    tempForm.appendChild(input);
-                  });
-                  
-                  document.body.appendChild(tempForm);
-                  tempForm.submit();
-                  document.body.removeChild(tempForm);
-                  
-                  // Show success message
-                  alert('Thank you for subscribing! Please check your email to confirm.');
-                  form.reset();
-                }}
               >
+                <input type="hidden" name="u" value="64c323f9fdfbbb467ed66b1ff" />
+                <input type="hidden" name="id" value="ef1fb449f6" />
                 <input 
                   type="email" 
                   name="EMAIL" 
@@ -302,7 +263,9 @@ function App() {
                   className="form-input" 
                   required 
                 />
-                <button type="submit" className="btn btn-primary">Subscribe</button>
+                <button type="submit" className="btn btn-primary">
+                  Subscribe
+                </button>
               </form>
             </div>
           </div>
