@@ -86,6 +86,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ sections, onSection
 
           {/* Navigation Panel */}
           <div
+            className="mobile-nav-panel"
             style={{
               position: 'fixed',
               top: '80px',
@@ -157,6 +158,31 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ sections, onSection
           .docs-content {
             grid-template-columns: 1fr !important;
           }
+        }
+        
+        /* Custom scrollbar styling for mobile navigation */
+        .mobile-nav-panel::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .mobile-nav-panel::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 4px;
+        }
+        
+        .mobile-nav-panel::-webkit-scrollbar-thumb {
+          background: rgba(20, 184, 166, 0.3);
+          border-radius: 4px;
+        }
+        
+        .mobile-nav-panel::-webkit-scrollbar-thumb:hover {
+          background: rgba(20, 184, 166, 0.5);
+        }
+        
+        /* Firefox scrollbar styling */
+        .mobile-nav-panel {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(20, 184, 166, 0.3) rgba(255, 255, 255, 0.05);
         }
       `}</style>
     </>

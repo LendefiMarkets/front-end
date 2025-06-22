@@ -80,6 +80,7 @@ const MobileTagFilter: React.FC<MobileTagFilterProps> = ({ tags, selectedTag, on
 
           {/* Tag Filter Panel */}
           <div
+            className="mobile-tag-panel"
             style={{
               position: 'fixed',
               top: '140px',
@@ -181,6 +182,33 @@ const MobileTagFilter: React.FC<MobileTagFilterProps> = ({ tags, selectedTag, on
           </div>
         </>
       )}
+      
+      <style>{`
+        /* Custom scrollbar styling for mobile tag filter */
+        .mobile-tag-panel::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .mobile-tag-panel::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 4px;
+        }
+        
+        .mobile-tag-panel::-webkit-scrollbar-thumb {
+          background: rgba(20, 184, 166, 0.3);
+          border-radius: 4px;
+        }
+        
+        .mobile-tag-panel::-webkit-scrollbar-thumb:hover {
+          background: rgba(20, 184, 166, 0.5);
+        }
+        
+        /* Firefox scrollbar styling */
+        .mobile-tag-panel {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(20, 184, 166, 0.3) rgba(255, 255, 255, 0.05);
+        }
+      `}</style>
     </>
   );
 };
