@@ -4,7 +4,7 @@ date: "2025-06-10"
 author: "Lendefi Education Team"
 excerpt: "Learn everything you need to know about decentralized lending and how it's changing the financial landscape."
 image: "/assets/images/blog/defi-lending.png"
-tags: ["DeFi Lending", "Aave", "Morpho", "Institutional DeFi", "Yield Strategies"]
+tags: ["DeFi Lending", "Aave", "Institutional DeFi"]
 ---
 
 # The institutional revolution reshaping DeFi lending in 2025

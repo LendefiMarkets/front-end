@@ -4,7 +4,7 @@ date: "2025-06-05"
 author: "Lendefi Security Team"
 excerpt: "Essential security tips to protect your assets while using DeFi protocols like Lendefi Markets."
 image: "/assets/images/blog/security-best.png"
-tags: ["Security", "Best Practices", "DeFi Safety"]
+tags: ["Security", "DeFi Safety"]
 ---
 
 # DeFi Security 2025: The Complete Guide to Protecting Your Assets in the Wild West of Finance

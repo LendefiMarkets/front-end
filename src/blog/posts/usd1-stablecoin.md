@@ -4,7 +4,7 @@ date: "2025-06-20"
 author: "Lendefi Investigative Team"
 excerpt: "USD1 has grown from zero to $2.1 billion in just 60 days, becoming the fastest-growing stablecoin in history. But behind this meteoric rise lies a complex web of political connections and regulatory questions."
 image: "/assets/images/blog/world-liberty-finance.png"
-tags: ["USD1", "Stablecoins", "Politics", "Regulation", "World Liberty Financial"]
+tags: ["USD1", "Stablecoins", "Politics", "Regulation"]
 ---
 
 # The rise of USD1: Inside World Liberty Finance's controversial crypto empire

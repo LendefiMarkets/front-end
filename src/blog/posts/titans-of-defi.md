@@ -4,7 +4,7 @@ date: "2025-06-10"
 author: "Lendefi Education Team"
 excerpt: "At the heart of DeFi's competitive dynamics lies a fundamental tension: the established giants defending their territories against nimble challengers armed with innovative architectures."
 image: "/assets/images/blog/titans-of-defi.png"
-tags: ["DeFi Protocols", "Competition", "Uniswap", "Aave", "Market Analysis"]
+tags: ["DeFi Protocols", "Competition", "Market Analysis"]
 ---
 
 # The Titans of DeFi: Giants Battling for the Future of Finance

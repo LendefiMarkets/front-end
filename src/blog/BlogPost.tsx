@@ -205,7 +205,7 @@ export default function BlogPost() {
               rel="noopener noreferrer"
               className="share-button twitter"
             >
-              Share on Twitter
+              Share on X
             </a>
           </div>
         </div>

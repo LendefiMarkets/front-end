@@ -4,7 +4,7 @@ date: "2025-06-15"
 author: "Lendefi Team"
 excerpt: "Discover how Lendefi Markets is revolutionizing DeFi lending with innovative features and unmatched security."
 image: "/assets/images/blog/lendefi.png"
-tags: ["DeFi", "DeFi Lending", "Lendefi", "Lending Protocol", "Composability", "Stablecoins", "Tokenization", "Institutional DeFi", "ERC-4626", "Financial Infrastructure", "Decentralized Finance"]
+tags: ["DeFi", "DeFi Lending", "Lendefi", "Composability", "Stablecoins", "Tokenization", "Institutional DeFi"]
 seo_title: "Lendefi Markets: Revolutionary DeFi Lending Protocol | Composable Architecture & Tokenized Liquidity"
 seo_description: "Discover Lendefi Markets, the next-generation DeFi lending protocol with composable architecture, tokenized liquidity, and institutional-grade infrastructure for the future of decentralized finance."
 keywords: ["DeFi lending protocol", "composable DeFi", "tokenized liquidity", "decentralized lending", "DeFi infrastructure", "tokenization"]
