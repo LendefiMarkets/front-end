@@ -540,6 +540,7 @@ function App() {
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '32px' }}>
               <a href="/docs/" className="text-gray-400">Documentation</a>
+              <a href="/blog" className="text-gray-400">Blog</a>
               <a href="/market-owner-guide" className="text-gray-400">Market Owner Guide</a>
               <a href="https://github.com/LendefiMarkets" className="text-gray-400">GitHub</a>
               <a href="https://x.com/LendefiMarkets" className="text-gray-400">X</a>

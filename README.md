@@ -275,7 +275,7 @@ This project is part of the Lendefi Markets protocol.
 ## 🔗 Links
 
 - **Protocol**: [Lendefi Markets](https://lendefimarkets.com)
-- **Documentation**: [docs.lendefimarkets.com](https://docs.lendefimarkets.com)
+- **Documentation**: [docs.lendefimarkets.com](https://lendefimarkets.com/docs/)
 - **GitHub**: [github.com/LendefiMarkets](https://github.com/LendefiMarkets)
 - **X (Twitter)**: [@LendefiMarkets](https://x.com/LendefiMarkets)
 
