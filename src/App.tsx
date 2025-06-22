@@ -1,9 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppKitAccount } from '@reown/appkit/react';
 import ConnectWalletButton from './components/ConnectWalletButton';
 import UnsupportedNetworkModal from './components/UnsupportedNetworkModal';
 import { useNetworkValidation } from './hooks/useNetworkValidation';
+import { getBlogPosts, formatDate } from './utils/blogUtils';
+import type { BlogPost } from './utils/blogUtils';
+import BlogImagePlaceholder from './blog/BlogImagePlaceholder';
 
 // Generate correlated APY pairs (borrow slightly higher than supply, max 1.8x)
 const getAPYPair = (supplyMin: number, supplyMax: number) => {
@@ -23,6 +26,7 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [marketData, setMarketData] = React.useState<{[key: string]: { usd_market_cap?: number }}>({});
   const [showNetworkModal, setShowNetworkModal] = React.useState(false);
+  const [latestPosts, setLatestPosts] = React.useState<BlogPost[]>([]);
   const [apyData] = React.useState(() => ({
     usdc: getAPYPair(3, 7),
     usd1: getAPYPair(2, 5),
@@ -44,6 +48,21 @@ function App() {
     };
 
     fetchMarketData();
+  }, []);
+
+  // Fetch latest blog posts
+  React.useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const posts = await getBlogPosts();
+        // Get the latest 3 posts
+        setLatestPosts(posts.slice(0, 3));
+      } catch (error) {
+        console.error('Failed to fetch blog posts:', error);
+      }
+    };
+
+    fetchBlogPosts();
   }, []);
 
   // Navigate to /app when connected
@@ -234,7 +253,8 @@ function App() {
             </div>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '64px' }}>
               <a href="/book-demo" className="btn btn-primary">Book Demo</a>
-              <a href="/docs/" className="btn btn-outline">View Documentation</a>
+              <a href="/docs/" className="btn btn-outline">View Docs</a>
+              <Link to="/blog" className="btn btn-primary">Read Blog</Link>
             </div>
             
             {/* Newsletter Signup */}
@@ -454,6 +474,116 @@ function App() {
               More markets coming soon! Want to see a specific asset?{' '}
               <a href="https://x.com/LendefiMarkets" target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6' }}>Join our community</a>
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Blog Posts Section */}
+      <section className="section" style={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl mb-4">
+              Latest <span className="gradient-text">Insights</span>
+            </h2>
+            <p className="text-xl text-gray-300">
+              Stay updated with the latest news, tutorials, and insights from the Lendefi ecosystem
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-3">
+            {latestPosts.length > 0 ? latestPosts.map((post) => (
+              <Link 
+                key={post.slug} 
+                to={`/blog/${post.slug}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <div className="glass-effect hover-glow" style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: 0 }}>
+                  {/* Blog Image */}
+                  <div style={{ 
+                    width: '100%', 
+                    height: '180px', 
+                    marginBottom: '16px',
+                    overflow: 'hidden',
+                    borderRadius: '8px 8px 0 0',
+                    background: 'rgba(20, 184, 166, 0.1)'
+                  }}>
+                    {post.image ? (
+                      <img 
+                        src={post.image} 
+                        alt={post.title}
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'cover',
+                          transition: 'transform 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      />
+                    ) : (
+                      <BlogImagePlaceholder 
+                        title={post.title} 
+                        type={
+                          post.slug.includes('security') ? 'security' : 
+                          post.slug.includes('lending') ? 'lending' : 
+                          'intro'
+                        }
+                      />
+                    )}
+                  </div>
+                  
+                  <div style={{ padding: '0 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    <div style={{ marginBottom: '16px' }}>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#ffffff', marginBottom: '8px' }}>
+                        {post.title}
+                      </h3>
+                      <p style={{ fontSize: '0.875rem', color: '#14b8a6', marginBottom: '12px' }}>
+                        {formatDate(post.date)} • {post.author}
+                      </p>
+                    </div>
+                    
+                    <p style={{ color: '#d1d5db', lineHeight: 1.6, marginBottom: '16px', flex: 1 }}>
+                      {post.excerpt}
+                    </p>
+                    
+                    <div style={{ marginTop: 'auto' }}>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                        {post.tags.slice(0, 3).map((tag) => (
+                          <span 
+                            key={tag} 
+                            style={{
+                              padding: '4px 12px',
+                              background: 'rgba(20, 184, 166, 0.2)',
+                              border: '1px solid rgba(20, 184, 166, 0.3)',
+                              borderRadius: '12px',
+                              fontSize: '0.75rem',
+                              color: '#14b8a6'
+                            }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      
+                      <span style={{ color: '#3b82f6', fontSize: '0.875rem', fontWeight: 500 }}>
+                        Read More →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            )) : (
+              // Placeholder for when no posts are loaded yet
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 0' }}>
+                <p style={{ color: '#9ca3af' }}>Loading latest posts...</p>
+              </div>
+            )}
+          </div>
+          
+          <div className="text-center" style={{ marginTop: '48px' }}>
+            <Link to="/blog" className="btn btn-outline">
+              View All Posts
+            </Link>
           </div>
         </div>
       </section>
