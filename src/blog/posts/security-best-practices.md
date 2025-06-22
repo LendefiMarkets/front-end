@@ -5,6 +5,10 @@ author: "Lendefi Security Team"
 excerpt: "Essential security tips to protect your assets while using DeFi protocols like Lendefi Markets."
 image: "/assets/images/blog/security-best.png"
 tags: ["Security", "DeFi Safety"]
+seo_title: "DeFi Security 2025: Complete Guide to Protecting Your Crypto Assets | Best Practices"
+seo_description: "Essential DeFi security guide for 2025. Learn how to protect your crypto assets from hacks, scams, and smart contract vulnerabilities. $730M+ lost to DeFi hacks in 2024."
+keywords: ["DeFi security", "crypto security", "DeFi safety", "smart contract security", "crypto wallet security", "DeFi best practices", "blockchain security"]
+canonical_url: "/blog/security-best-practices"
 ---
 
 # DeFi Security 2025: The Complete Guide to Protecting Your Assets in the Wild West of Finance

@@ -44,12 +44,11 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     })
   }
 
+  // Sort by date (newest first)
   return posts.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1
-    } else {
-      return -1
-    }
+    const dateA = new Date(a.date)
+    const dateB = new Date(b.date)
+    return dateB.getTime() - dateA.getTime()
   })
 }
 
@@ -76,7 +75,8 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 }
 
 export function formatDate(dateString: string): string {
-  const date = new Date(dateString)
+  // Parse the date string and add time to avoid timezone issues
+  const date = new Date(dateString + 'T12:00:00')
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
