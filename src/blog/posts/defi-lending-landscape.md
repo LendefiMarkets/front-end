@@ -17,11 +17,11 @@ The DeFi lending landscape has undergone a dramatic transformation in 2025, evol
 
 ## Aave V4's unified liquidity layer eliminates capital fragmentation
 
-The most significant technical advancement comes from Aave V4's revolutionary Unified Liquidity Layer (ULL) architecture, scheduled for mid-2025 deployment. This innovation **eliminates capital fragmentation by unifying all assets across networks in a single liquidity pool**, dramatically improving capital efficiency. The protocol's $43.8 billion TVL across 14+ blockchains represents 19% of total DeFi TVL, with the main Ethereum market alone holding $35.2 billion.
+The most significant technical advancement comes from **[Aave](https://aave.com)** V4's revolutionary Unified Liquidity Layer (ULL) architecture, scheduled for mid-2025 deployment. This innovation **eliminates capital fragmentation by unifying all assets across networks in a single liquidity pool**, dramatically improving capital efficiency. The protocol's $43.8 billion TVL across 14+ blockchains represents 19% of total DeFi TVL, with the main Ethereum market alone holding $35.2 billion.
 
 The ULL architecture introduces specialized "Spokes" as entry points optimized for specific assets while liquidity flows through a central hub. This design, combined with fuzzy-controlled dynamic interest rates using Chainlink Oracle data and smart accounts for unified position management, positions Aave V4 as the "Ethereum of DeFi lending." **Liquidity premiums now adjust borrowing costs based on collateral risk profiles**, creating more efficient markets that benefit sophisticated users who understand risk dynamics.
 
-Morpho has emerged as a formidable competitor with $6.3 billion TVL, pioneering zero borrower fees and peer-to-peer matching that delivers the highest yields in the market. The protocol's V2 introduces **intent-based lending with fixed-rate, fixed-term loans**, enabling institutional-grade lending through customizable parameters. Professional curators managing Morpho Vaults are on track to generate $7.8 million in annual revenue, demonstrating the profitability of sophisticated DeFi strategies.
+**[Morpho](https://morpho.org)** has emerged as a formidable competitor with $6.3 billion TVL, pioneering zero borrower fees and peer-to-peer matching that delivers the highest yields in the market. The protocol's V2 introduces **intent-based lending with fixed-rate, fixed-term loans**, enabling institutional-grade lending through customizable parameters. Professional curators managing Morpho Vaults are on track to generate $7.8 million in annual revenue, demonstrating the profitability of sophisticated DeFi strategies.
 
 ## Advanced strategies still achieve double-digit returns despite compression
 
@@ -33,11 +33,11 @@ Flash loan strategies remain highly profitable for technical traders, with **Aav
 
 ## Institutional adoption accelerates with regulatory clarity and infrastructure
 
-The institutional transformation of DeFi lending gained decisive momentum in 2025. **Coinbase's full-circle DeFi integration** exemplifies this shift - users post BTC collateral to mint cbBTC, then borrow USDC on Morpho (a Coinbase-funded platform) on Base (Coinbase's L2), creating a seamless institutional-grade experience while leveraging DeFi infrastructure.
+The institutional transformation of DeFi lending gained decisive momentum in 2025. **[Coinbase's](https://www.coinbase.com) full-circle DeFi integration** exemplifies this shift - users post BTC collateral to mint cbBTC, then borrow USDC on Morpho (a Coinbase-funded platform) on Base (Coinbase's L2), creating a seamless institutional-grade experience while leveraging DeFi infrastructure.
 
 Cantor Fitzgerald's unveiling of a **$2 billion bitcoin credit facility** using segregated on-chain collateral accounts bridges traditional broker-dealer services with DeFi liquidity. This allows institutional rehypothecation while satisfying auditors, demonstrating how traditional finance can adopt DeFi rails without compromising compliance standards.
 
-The regulatory landscape has shifted dramatically with the US GENIUS Act establishing a federal framework for stablecoins, requiring 1:1 reserve backing and transparency. Combined with crypto-forward SEC leadership replacing the enforcement-first approach and the likely overturn of SAB 121, **institutional participation has doubled to 10% of DeFi TVL** despite yield compression. Europe's MiCA implementation provides uniform market rules across 27 countries, though DeFi-specific regulations won't arrive until 2026.
+The regulatory landscape has shifted dramatically with the US **[GENIUS Act](https://www.congress.gov/bill/118th-congress/house-bill/4766)** establishing a federal framework for stablecoins, requiring 1:1 reserve backing and transparency. Combined with crypto-forward SEC leadership replacing the enforcement-first approach and the likely overturn of SAB 121, **institutional participation has doubled to 10% of DeFi TVL** despite yield compression. Europe's MiCA implementation provides uniform market rules across 27 countries, though DeFi-specific regulations won't arrive until 2026.
 
 ## Protocol innovations unlock new lending primitives and use cases
 
@@ -49,9 +49,9 @@ The undercollateralized lending space has matured significantly. **Maple Finance
 
 ## Real-world asset integration creates institutional bridges
 
-The convergence of traditional finance and DeFi accelerated with real-world asset (RWA) integration. **MakerDAO's Sky Protocol now derives 60% of revenues from RWAs** like treasury bills, successfully allocating $50 million to yield-generating vaults. BlackRock's BUIDL fund integration through Ondo Finance moved $95 million into tokenized treasuries, while Centrifuge tokenized a $230 million Janus Henderson Treasury fund for use as DeFi collateral.
+The convergence of traditional finance and DeFi accelerated with real-world asset (RWA) integration. **[MakerDAO's](https://makerdao.com) Sky Protocol now derives 60% of revenues from RWAs** like treasury bills, successfully allocating $50 million to yield-generating vaults. **[BlackRock's](https://www.blackrock.com)** BUIDL fund integration through **[Ondo Finance](https://ondo.finance)** moved $95 million into tokenized treasuries, while **[Centrifuge](https://centrifuge.io)** tokenized a $230 million Janus Henderson Treasury fund for use as DeFi collateral.
 
-Pendle Finance achieved explosive 20x TVL growth to $4.4 billion by enabling yield tokenization. Users can **achieve fixed yields of 8.7% on aUSDT or 44.68% APY on ENA tokens** through sophisticated Principal Token and Yield Token strategies. The protocol processed over $18.5 billion in trading volume, demonstrating massive demand for advanced yield management tools.
+**[Pendle Finance](https://www.pendle.finance)** achieved explosive 20x TVL growth to $4.4 billion by enabling yield tokenization. Users can **achieve fixed yields of 8.7% on aUSDT or 44.68% APY on ENA tokens** through sophisticated Principal Token and Yield Token strategies. The protocol processed over $18.5 billion in trading volume, demonstrating massive demand for advanced yield management tools.
 
 The tokenized treasury market grew 539% from January 2024 to April 2025, with institutional players increasingly comfortable using tokenized traditional assets as DeFi collateral. This trend accelerates as **88% of major global banks explore blockchain-based services** and 25% of global custodians prepare to offer compliant digital asset custody by 2025.
 
@@ -59,9 +59,9 @@ The tokenized treasury market grew 539% from January 2024 to April 2025, with in
 
 The maturation of DeFi lending brings sophisticated risk vectors requiring advanced mitigation strategies. Smart contract vulnerabilities caused **$953.2 million in losses during 2024**, with oracle manipulation emerging as the top threat. Leading protocols now implement multiple oracle sources, time-weighted average pricing, and circuit breakers for extreme deviations.
 
-Insurance solutions have evolved to institutional standards. Nexus Mutual maintains a $230 million capital pool having paid $9 million in claims, while InsurAce offers cross-chain coverage for 140+ protocols across 20+ chains. **Bridge Mutual pioneered stablecoin depeg coverage**, addressing a critical risk as 60% of DeFi collateral now consists of stablecoins.
+Insurance solutions have evolved to institutional standards. **[Nexus Mutual](https://nexusmutual.io)** maintains a $230 million capital pool having paid $9 million in claims, while **[InsurAce](https://www.insurace.io)** offers cross-chain coverage for 140+ protocols across 20+ chains. **Bridge Mutual pioneered stablecoin depeg coverage**, addressing a critical risk as 60% of DeFi collateral now consists of stablecoins.
 
-Formal verification and AI-driven threat detection have become standard for serious protocols. **Euler Finance completed 40+ audits** before relaunching with modular vault architecture that isolates risk. Automated monitoring tools like Tenderly and OpenZeppelin Defender provide real-time anomaly detection, while mathematical proofs verify contract correctness.
+Formal verification and AI-driven threat detection have become standard for serious protocols. **[Euler Finance](https://euler.finance)** completed 40+ audits before relaunching with modular vault architecture that isolates risk. Automated monitoring tools like Tenderly and OpenZeppelin Defender provide real-time anomaly detection, while mathematical proofs verify contract correctness.
 
 ## Conclusion
 

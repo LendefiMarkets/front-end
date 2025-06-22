@@ -25,7 +25,7 @@ In 2013 then-Representative Cynthia Lummis first heard about a new form of curre
 
 Fast-forward to 2025, and Lummis has become the first-ever chair of a new Senate panel devoted to digital assets. The Senate Banking Committee panel will focus on passing bipartisan legislation that boosts the industry while protecting investors, with a specific focus on market structure, stablecoins and a strategic Bitcoin reserve.
 
-Her latest achievement? Introducing the Boosting Innovation, Technology, and Competitiveness through Optimized Investment Nationwide (BITCOIN) Act in the U.S. Senate, which would establish a Strategic Bitcoin Reserve and represents the culmination of years of groundwork. The bill aims to accumulate 1 million Bitcoin—5% of the total supply—over five years, funded by reallocating existing Federal Reserve assets rather than creating new debt.
+Her latest achievement? Introducing the **[Boosting Innovation, Technology, and Competitiveness through Optimized Investment Nationwide (BITCOIN) Act](https://www.lummis.senate.gov/press-releases/lummis-introduces-bitcoin-act/)** in the U.S. Senate, which would establish a Strategic Bitcoin Reserve and represents the culmination of years of groundwork. The bill aims to accumulate 1 million Bitcoin—5% of the total supply—over five years, funded by reallocating existing Federal Reserve assets rather than creating new debt.
 
 "This Bitcoin Act is going to be transformative for this country. With a strategic Bitcoin reserve, we will have an asset that, before 2045, can cut our debt in half," Lummis declared during her speech at the Bitcoin conference in Nashville.
 
@@ -39,13 +39,13 @@ Wyoming's most groundbreaking innovation is the Special Purpose Depository Insti
 
 Unlike traditional banks, SPDIs are prohibited from making loans with customer deposits and must maintain 100% reserves, with $15 million upfront to protect customers if the digital asset bank were to fail. This framework bridges the gap between crypto and traditional banking while maintaining the security standards users expect.
 
-The results speak for themselves: Wyoming has now chartered two new banks in less than two months; before September, the last newly chartered bank in Wyoming was approved over a decade ago. Kraken focuses on individual consumers while Avanti (now Custodia Bank) targets institutional investors, creating a comprehensive ecosystem for different market segments.
+The results speak for themselves: Wyoming has now chartered two new banks in less than two months; before September, the last newly chartered bank in Wyoming was approved over a decade ago. **[Kraken Bank](https://www.kraken.com/bank)** focuses on individual consumers while **[Custodia Bank](https://www.custodiabank.com)** (formerly Avanti) targets institutional investors, creating a comprehensive ecosystem for different market segments.
 
 ### **Legal Recognition for DAOs: Democracy Meets Blockchain**
 
 Wyoming didn't stop with banking. The state has become the Delaware of DAOs with new crypto law for decentralized autonomous organizations, providing legal frameworks that other states lack entirely.
 
-Wyoming has passed a law recognizing blockchain-based decentralized autonomous organizations (DAOs) as legal entities, moving away from treating them as simple LLCs. The new Decentralized Unincorporated Nonprofit Association (DUNA) Act provides a legal framework for DAOs with at least 100 members to become unincorporated nonprofit associations.
+Wyoming has passed a law recognizing blockchain-based decentralized autonomous organizations (DAOs) as legal entities, moving away from treating them as simple LLCs. The new **[Decentralized Unincorporated Nonprofit Association (DUNA) Act](https://wyoleg.gov/Legislation/2024/HB0101)** provides a legal framework for DAOs with at least 100 members to become unincorporated nonprofit associations.
 
 This legislation matters because DAOs are often composed of anonymous members and differ significantly from traditional businesses, creating compliance challenges that Wyoming's framework directly addresses.
 
@@ -65,7 +65,7 @@ The bill proposed that the Wyoming state treasurer may use the general fund, the
 
 ## **A Comprehensive Legal Framework**
 
-Wyoming's approach is notable for its comprehensiveness. The state's key legislation includes HB 19, exempting cryptocurrencies from the Money Transmitter Act, and HB 70, differentiating utility tokens from traditional securities. HB 101 encourages blockchain applications in business, while HB 126 and SF 111 focus on series LLCs and tax exemptions for virtual currencies.
+Wyoming's approach is notable for its comprehensiveness. The state's key legislation includes **[HB 19](https://wyoleg.gov/Legislation/2019/HB0019)**, exempting cryptocurrencies from the Money Transmitter Act, and **[HB 70](https://wyoleg.gov/Legislation/2019/HB0070)**, differentiating utility tokens from traditional securities. HB 101 encourages blockchain applications in business, while HB 126 and SF 111 focus on series LLCs and tax exemptions for virtual currencies.
 
 They've enacted about 30 since 2019. The Cowboy State continues to try and attract business from companies interested in blockchain, which is the underlying technology behind cryptocurrencies like Bitcoin.
 

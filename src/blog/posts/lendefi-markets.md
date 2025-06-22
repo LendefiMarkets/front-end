@@ -23,7 +23,7 @@ Built by **Lendefi Labs LLC**, Lendefi introduces a **composable market architec
 
 **One of DeFi's most powerful innovations is turning illiquid positions into liquid, tradeable tokens**. We've seen this with LP tokens in AMMs, with yield farming receipts, and with governance positions. **Lendefi extends this tokenization revolution to lending markets through sophisticated yield-bearing tokens**.
 
-**Traditional lending locks your capital**. Deposit USDC into Aave, and you get aUSDC that represents your position—but these tokens have limited utility beyond the original protocol. **Lendefi creates ERC-4626 compliant yield tokens for each market that become building blocks for the broader DeFi ecosystem**.
+**Traditional lending locks your capital**. Deposit USDC into **[Aave](https://aave.com)**, and you get aUSDC that represents your position—but these tokens have limited utility beyond the original protocol. **Lendefi creates [ERC-4626](https://ethereum.org/en/developers/docs/standards/tokens/erc-4626/) compliant yield tokens for each market that become building blocks for the broader DeFi ecosystem**.
 
 **This matters because liquidity tokenization is the foundation of DeFi's future**. **As real-world assets get tokenized and traditional finance moves on-chain, the ability to create liquid, composable representations of any financial position becomes crucial**. Lendefi's market-specific yield tokens aren't just receipts—they're **financial primitives that other protocols can build upon**.
 
@@ -47,23 +47,23 @@ Built by **Lendefi Labs LLC**, Lendefi introduces a **composable market architec
 
 **Lendefi's market architecture acknowledges that different stablecoins serve different purposes and risk profiles**. Rather than pooling USDC, DAI, USDT, and newer stablecoins like USD1 together, **Lendefi creates specialized markets for each**, enabling optimal capital allocation and risk management for the stablecoin economy.
 
-**This matters because stablecoin adoption is accelerating globally**. **The GENIUS Act is creating regulatory clarity for stablecoins. Central banks are developing CBDCs. Major corporations are adopting stablecoins for treasury management**. As this ecosystem grows to trillions of dollars, **it needs infrastructure designed specifically for stablecoin diversity and specialization**.
+**This matters because stablecoin adoption is accelerating globally**. **The [GENIUS Act](https://www.congress.gov/bill/118th-congress/house-bill/4766) is creating regulatory clarity for stablecoins. Central banks are developing CBDCs. Major corporations are adopting stablecoins for treasury management**. As this ecosystem grows to trillions of dollars, **it needs infrastructure designed specifically for stablecoin diversity and specialization**.
 
 **Lendefi's isolated markets mean that issues with one stablecoin can't affect others**. **Regulatory changes affecting USDT don't impact DAI markets. Technical problems with one issuer don't create systemic risks across all USD-denominated lending**. This isolation becomes crucial as stablecoins face different regulatory requirements across jurisdictions.
 
-**The protocol also supports emerging stablecoins like USD1 through easily deployable new markets**. **As the stablecoin landscape diversifies with yield-bearing stablecoins, regulatory-compliant options, and specialized use cases, Lendefi can adapt quickly without affecting existing infrastructure**.
+**The protocol also supports emerging stablecoins like [USD1](https://worldlibertyfinancial.com) through easily deployable new markets**. **As the stablecoin landscape diversifies with yield-bearing stablecoins, regulatory-compliant options, and specialized use cases, Lendefi can adapt quickly without affecting existing infrastructure**.
 
 ## **Institutional readiness: Building for the next wave of capital**
 
 **The biggest opportunity in DeFi isn't retail users—it's the trillions of dollars in traditional finance looking for on-chain yield and efficiency**. **But here's the problem: existing DeFi lending protocols aren't adapting fast enough to emerging legal and institutional requirements**.
 
-**Aave and Compound were designed for a crypto-native world where users accepted counterparty risks and regulatory uncertainty**. **As institutions enter DeFi, they need asset segregation, compliance transparency, and risk isolation that monolithic protocols simply can't provide**. **When everything is pooled together, one compliance issue can shut down access for all participants**.
+**[Aave](https://aave.com) and [Compound](https://compound.finance) were designed for a crypto-native world where users accepted counterparty risks and regulatory uncertainty**. **As institutions enter DeFi, they need asset segregation, compliance transparency, and risk isolation that monolithic protocols simply can't provide**. **When everything is pooled together, one compliance issue can shut down access for all participants**.
 
 **This adaptation gap is creating a two-tier DeFi ecosystem**: **crypto natives using existing protocols, and institutions waiting for compliant infrastructure**. **Lendefi bridges this gap by designing institutional requirements into the protocol architecture from day one**.
 
 **Lendefi's position vault system provides institutional-grade asset segregation**. **Each position operates through a dedicated smart contract that completely isolates user collateral**—meeting qualified custodian standards that institutions require. **This isn't retrofitted compliance; it's compliance-by-design**.
 
-**The market isolation architecture solves another institutional challenge: jurisdictional requirements**. **While Aave must apply the same rules globally, Lendefi can create specialized markets that meet specific regulatory requirements**. **A USDC market can comply with U.S. regulations while a EUR stablecoin market meets MiCA requirements—without affecting each other**.
+**The market isolation architecture solves another institutional challenge: jurisdictional requirements**. **While Aave must apply the same rules globally, Lendefi can create specialized markets that meet specific regulatory requirements**. **A USDC market can comply with U.S. regulations while a EUR stablecoin market meets [MiCA](https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica) requirements—without affecting each other**.
 
 **Integrated Proof of Reserve provides the real-time transparency that institutional compliance teams demand**. **Unlike protocols that rely on periodic attestations, Lendefi offers continuous verification of protocol solvency and asset backing**. **This transparency isn't just good governance—it's institutional table stakes**.
 

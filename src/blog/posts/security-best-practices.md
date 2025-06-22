@@ -49,7 +49,7 @@ canonical_url: "/blog/security-best-practices"
 
 ### **Hardware wallets: The gold standard**
 
-**Hardware wallets represent the most secure option for serious DeFi users**. **Devices like Ledger, Trezor, and Coldcard store your private keys offline, making them immune to remote attacks that plague software wallets**. **For significant DeFi holdings, hardware wallets aren't optional—they're essential**.
+**Hardware wallets represent the most secure option for serious DeFi users**. **Devices like [Ledger](https://www.ledger.com), [Trezor](https://trezor.io), and [Coldcard](https://coldcard.com) store your private keys offline, making them immune to remote attacks that plague software wallets**. **For significant DeFi holdings, hardware wallets aren't optional—they're essential**.
 
 **However, hardware wallet security extends beyond the device itself**. **The recent Ledger Connect Kit exploit that drained $610,000 demonstrates that even hardware wallets can be compromised through software vulnerabilities**. **Always verify transaction details on the device screen, never trust computer displays, and regularly update firmware only from official sources**.
 
@@ -191,7 +191,7 @@ canonical_url: "/blog/security-best-practices"
 **Approval best practices**:
 - **Never approve unlimited amounts unless absolutely necessary**
 - **Set specific amounts for each transaction rather than maximum allowances**
-- **Regularly audit and revoke unused approvals using tools like Revoke.cash**
+- **Regularly audit and revoke unused approvals using tools like [Revoke.cash](https://revoke.cash)**
 - **Monitor approval transactions as carefully as transfers**
 - **Consider using approval-limited wallets for experimental protocols**
 

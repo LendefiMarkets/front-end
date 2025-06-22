@@ -23,7 +23,7 @@ The numbers tell an extraordinary story. **BlackRock's BUIDL fund grew from zero
 
 ## **Breaking the trillion-dollar predictions: Why experts can't agree on the scope**
 
-The forecasts for tokenization are staggering—and wildly divergent. **Security Token Market predicts $30 trillion by 2030. Boston Consulting Group estimates $16 trillion. McKinsey suggests a more conservative $2-4 trillion. Standard Chartered focuses on specific sectors, projecting $30.1 trillion in demand for tokenized real-world assets by 2034**.
+The forecasts for tokenization are staggering—and wildly divergent. **Security Token Market predicts $30 trillion by 2030. [Boston Consulting Group](https://www.bcg.com/publications/2022/how-tokenization-is-revolutionizing-asset-management) estimates $16 trillion. [McKinsey](https://www.mckinsey.com/industries/financial-services/our-insights/tokenization-a-digital-asset-deployment-framework) suggests a more conservative $2-4 trillion. [Standard Chartered](https://www.sc.com/en/insights/capital-markets/tokenization-of-real-world-assets/) focuses on specific sectors, projecting $30.1 trillion in demand for tokenized real-world assets by 2034**.
 
 **This $28 trillion spread in predictions reflects the revolutionary uncertainty** of a technology reshaping fundamental market structures. **The conservative estimates assume tokenization captures less than 1% of existing asset classes**. The bullish forecasts factor in new market dynamics: 24/7 trading, fractional ownership, global accessibility, and programmable compliance that traditional finance simply cannot match.
 
@@ -31,13 +31,13 @@ The forecasts for tokenization are staggering—and wildly divergent. **Security
 
 **Current momentum supports aggressive growth projections**. R3's Corda platform already hosts **over $10 billion in on-chain real-world assets**, processing over 1 million transactions daily. **The tokenized Treasury market exploded from $100 million in early 2023 to over $1.3 billion today**—a 13x increase in just two years. **If this growth trajectory continues, trillion-dollar markets become inevitable rather than aspirational**.
 
-**The World Economic Forum estimates that $867 trillion of global value is "ready to be disrupted by tokenization"**—suggesting we're only scratching the surface of what's possible when traditional assets gain programmable, frictionless, and globally accessible characteristics.
+**The [World Economic Forum](https://www.weforum.org/agenda/2024/01/what-is-asset-tokenization/) estimates that $867 trillion of global value is "ready to be disrupted by tokenization"**—suggesting we're only scratching the surface of what's possible when traditional assets gain programmable, frictionless, and globally accessible characteristics.
 
 ## **Wall Street's tokenization arms race: BlackRock vs. Franklin Templeton**
 
 **The competition between traditional finance giants to dominate tokenized markets has reached fever pitch**. BlackRock and Franklin Templeton are engaged in a high-stakes race that's defining how institutional-grade tokenization will evolve.
 
-**BlackRock's BUIDL fund represents a masterclass in strategic tokenization**. Launched in March 2024 in partnership with Securitize, **BUIDL grew from zero to $637 million in assets under management in just months**, overtaking Franklin Templeton's previously dominant FOBXX fund. **The fund targets institutional investors with a $5 million minimum investment**, demonstrating that tokenization isn't just for retail—it's becoming essential infrastructure for sophisticated capital.
+**[BlackRock's](https://www.blackrock.com) BUIDL fund represents a masterclass in strategic tokenization**. Launched in March 2024 in partnership with **[Securitize](https://securitize.io)**, **BUIDL grew from zero to $637 million in assets under management in just months**, overtaking Franklin Templeton's previously dominant FOBXX fund. **The fund targets institutional investors with a $5 million minimum investment**, demonstrating that tokenization isn't just for retail—it's becoming essential infrastructure for sophisticated capital.
 
 **BUIDL's success stems from institutional-grade architecture**. Built on Ethereum, **the fund holds U.S. Treasury bills and repo agreements with tokens pegged to $1 that automatically distribute yield**. **The innovation isn't just technical—it's operational**: investors can subscribe and redeem 24/7, circumventing traditional banking hours and settlement delays. **Circle's integration allows BUIDL holders to convert to USDC stablecoin instantly**, creating seamless liquidity between tokenized assets and digital dollars.
 
@@ -53,7 +53,7 @@ The forecasts for tokenization are staggering—and wildly divergent. **Security
 
 **Real estate tokenization represents perhaps the most compelling use case for blockchain technology in traditional finance**. **The global real estate tokenization market, valued at $3.5 billion in 2024, is projected to reach $3 trillion by 2030**—nearly a 100x increase driven by fundamental advantages over traditional property investment.
 
-**The transformation is already visible in live markets**. **Deloitte found that 12% of real estate firms globally have already implemented tokenization solutions, with another 46% running pilot programs** as of June 2024. **Platforms like RealT, Lofty, and RedSwan are demonstrating that fractional real estate ownership works**, enabling investors to purchase portions of premium properties for as little as $1,000.
+**The transformation is already visible in live markets**. **[Deloitte](https://www2.deloitte.com/us/en/insights/industry/financial-services/tokenization-in-real-estate.html) found that 12% of real estate firms globally have already implemented tokenization solutions, with another 46% running pilot programs** as of June 2024. **Platforms like RealT, Lofty, and RedSwan are demonstrating that fractional real estate ownership works**, enabling investors to purchase portions of premium properties for as little as $1,000.
 
 **The economic logic is compelling**. Traditional real estate investment requires massive capital commitments, lacks liquidity, and involves complex intermediaries that slow transactions and increase costs. **Tokenization enables fractional ownership of high-value properties, instant trading of ownership stakes, and automated compliance through smart contracts**. **A Manhattan apartment building that previously required $10 million minimum investment can be tokenized into 10,000 shares at $1,000 each**, democratizing access to premium real estate.
 
