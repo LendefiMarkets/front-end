@@ -19,7 +19,7 @@ This isn't just another bull market narrative. The convergence of macroeconomic 
 
 ## The corporate Bitcoin gold rush reaches fever pitch
 
-The numbers tell a compelling story. Since January 2024, corporate Bitcoin adoption has exploded by **80%**, with companies acquiring over **1,000 BTC daily**. Leading the charge is Strategy (formerly MicroStrategy), which now holds a mind-boggling **592,100 BTC**—nearly 3% of total supply—acquired at an average price of $66,384. Their stock has surged **1,752% over five years**, transforming from a struggling software company into an $80+ billion Bitcoin proxy.
+The numbers tell a compelling story. Since January 2024, corporate Bitcoin adoption has exploded by **80%**, with companies acquiring over **1,000 BTC daily**. Leading the charge is [Strategy (formerly MicroStrategy)](https://www.microstrategy.com), which now holds a mind-boggling **592,100 BTC**—nearly 3% of total supply—acquired at an average price of $66,384. Their stock has surged **1,752% over five years**, transforming from a struggling software company into an $80+ billion Bitcoin proxy.
 
 But Strategy isn't alone. The institutional landscape now includes:
 - **MARA Holdings**: 47,600 BTC
@@ -62,7 +62,7 @@ The accounting change immediately benefits early adopters. Tesla recognized a **
 
 ## Bitcoin ETFs rewrite the institutional playbook
 
-The spot Bitcoin ETF approval transformed institutional access, with approximately **$125-129 billion** now invested across 11 approved ETFs. BlackRock's IBIT alone manages over **$70 billion**, becoming the fastest ETF to reach this milestone in just 341 days—five times faster than gold ETFs.
+The spot Bitcoin ETF approval transformed institutional access, with approximately **$125-129 billion** now invested across 11 approved ETFs. [BlackRock's IBIT](https://www.blackrock.com/us/individual/products/346584/ishares-bitcoin-trust-etf) alone manages over **$70 billion**, becoming the fastest ETF to reach this milestone in just 341 days—five times faster than gold ETFs.
 
 Institutional ownership patterns reveal sophisticated adoption:
 - **Hedge funds**: 41% of institutional Bitcoin ETF holdings
@@ -70,7 +70,7 @@ Institutional ownership patterns reveal sophisticated adoption:
 - **Sovereign wealth funds**: Abu Dhabi's Mubadala holds a $408.5 million position
 - **University endowments**: Brown University made the first crypto ETF investment
 
-A Coinbase/EY survey of 352 institutional investors found **77% expect to increase digital asset allocations in 2025**, with 59% planning to allocate over 5% of AUM. The preference has shifted decisively toward regulated vehicles, with 62% preferring ETF exposure over direct Bitcoin ownership.
+A [Coinbase](https://www.coinbase.com)/EY survey of 352 institutional investors found **77% expect to increase digital asset allocations in 2025**, with 59% planning to allocate over 5% of AUM. The preference has shifted decisively toward regulated vehicles, with 62% preferring ETF exposure over direct Bitcoin ownership.
 
 ## Macroeconomic forces create the perfect storm
 

@@ -49,7 +49,7 @@ The international competitive context is crucial. **The EU's MiCA regulation has
 
 ## **From regulatory warfare to White House summits**
 
-The transformation in regulatory approach has been nothing short of revolutionary. **The Securities and Exchange Commission, which spent years pursuing enforcement actions against major crypto companies, has dramatically shifted course**. The SEC suspended its fraud case against Chinese crypto entrepreneur Justin Sun (who invested $75 million in Trump's crypto business), stood down enforcement actions against Coinbase and Binance, and established a new crypto task force to "recommend practical policy measures that aim to foster innovation."
+The transformation in regulatory approach has been nothing short of revolutionary. **The [Securities and Exchange Commission](https://www.sec.gov), which spent years pursuing enforcement actions against major crypto companies, has dramatically shifted course**. The SEC suspended its fraud case against Chinese crypto entrepreneur Justin Sun (who invested $75 million in Trump's crypto business), stood down enforcement actions against [Coinbase](https://www.coinbase.com) and [Binance](https://www.binance.com), and established a new crypto task force to "recommend practical policy measures that aim to foster innovation."
 
 **Trump's nominee to head the SEC, Paul Atkins, is widely perceived as pro-crypto**—a stark contrast to the previous administration's aggressive enforcement stance. This represents the end of what crypto advocates called "regulation by enforcement" in favor of clear legal frameworks.
 

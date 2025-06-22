@@ -13,7 +13,7 @@ canonical_url: "/blog/openzeppelin"
 
 # OpenZeppelin: The Silent Architect Dominating DeFi's Foundation
 
-** OpenZeppelin has quietly become the backbone of decentralized finance, with their contracts library powering 100% of the top 20 DeFi protocols and their security audits protecting over $15 billion in funds. From Uniswap to Aave, from Compound to the latest DeFi innovations, OpenZeppelin's influence is everywhere—and growing stronger.
+** [OpenZeppelin](https://www.openzeppelin.com) has quietly become the backbone of decentralized finance, with their contracts library powering 100% of the top 20 DeFi protocols and their security audits protecting over $15 billion in funds. From [Uniswap](https://uniswap.org) to [Aave](https://aave.com), from [Compound](https://compound.finance) to the latest DeFi innovations, OpenZeppelin's influence is everywhere—and growing stronger.
 
 While flashy DeFi protocols grab headlines with their billion-dollar TVLs and innovative yield farming strategies, there's a quiet giant that has been methodically building the foundation upon which the entire decentralized finance ecosystem rests. OpenZeppelin, the company that started as a simple smart contract library, has evolved into the most trusted name in DeFi security and infrastructure—and their dominance is more complete than most realize.
 
