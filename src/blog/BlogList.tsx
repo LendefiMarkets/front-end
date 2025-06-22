@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { formatDate, getBlogPosts } from '../utils/blogUtils'
 import type { BlogPost } from '../utils/blogUtils'
 import BlogImagePlaceholder from './BlogImagePlaceholder'
+import MobileTagFilter from './MobileTagFilter'
 
 export default function BlogList() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -50,8 +51,9 @@ export default function BlogList() {
         <p>Insights, updates, and education about DeFi lending and Lendefi Markets</p>
       </div>
 
+      {/* Desktop Tag Filter */}
       {allTags.length > 0 && (
-        <div className="tag-filter">
+        <div className="tag-filter desktop-only">
           <button
             className={`tag-button ${!selectedTag ? 'active' : ''}`}
             onClick={() => setSelectedTag(null)}
@@ -69,6 +71,13 @@ export default function BlogList() {
           ))}
         </div>
       )}
+
+      {/* Mobile Tag Filter */}
+      <MobileTagFilter 
+        tags={allTags}
+        selectedTag={selectedTag}
+        onTagSelect={setSelectedTag}
+      />
 
       <div className="blog-grid">
         {filteredPosts.map(post => (

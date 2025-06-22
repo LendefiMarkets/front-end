@@ -34,7 +34,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({ sections, onSection
         style={{
           position: 'fixed',
           top: '20px',
-          left: '20px',
+          right: '20px',
           zIndex: 1001,
           background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)',
           border: 'none',
