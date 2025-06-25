@@ -45,10 +45,13 @@ export interface MarketDashboardData {
   }
 }
 
-export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
+export function useMarketDashboard(baseAsset: string, marketOwner?: string, providedChainId?: number) {
   const { walletProvider } = useAppKitProvider('eip155')
   const { address } = useAppKitAccount()
-  const { chainId } = useAppKitNetwork()
+  const { chainId: connectedChainId } = useAppKitNetwork()
+  
+  // Use provided chainId if available, otherwise fall back to connected chain
+  const chainId = providedChainId || connectedChainId
   
   const [data, setData] = useState<MarketDashboardData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -69,7 +72,7 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
       chainId 
     })
     
-    if (!walletProvider || !baseAsset || !ownerAddress || !factoryAddress) {
+    if (!baseAsset || !ownerAddress || !factoryAddress || !chainId) {
       console.log('Missing required data for fetching')
       return
     }
@@ -78,7 +81,24 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string) {
       setIsLoading(true)
       setError(null)
 
-      const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
+      // Use wallet provider if available, otherwise use a public RPC
+      let provider: ethers.BrowserProvider | ethers.JsonRpcProvider
+      if (walletProvider) {
+        provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
+      } else {
+        // Use public RPC endpoints for read-only access
+        const rpcUrls: Record<number, string> = {
+          1: 'https://eth.public-rpc.com',
+          11155111: 'https://ethereum-sepolia-rpc.publicnode.com',
+          84532: 'https://base-sepolia-rpc.publicnode.com',
+          43113: 'https://api.avax-test.network/ext/bc/C/rpc'
+        }
+        const rpcUrl = rpcUrls[chainId as number] || ''
+        if (!rpcUrl) {
+          throw new Error(`No RPC URL available for chain ${chainId}`)
+        }
+        provider = new ethers.JsonRpcProvider(rpcUrl)
+      }
       
       // Get market info directly from factory
       const factoryContract = new ethers.Contract(factoryAddress, MARKET_FACTORY_ABI, provider)

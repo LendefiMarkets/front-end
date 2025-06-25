@@ -1,22 +1,25 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppKitAccount, useAppKitProvider, useAppKitNetwork } from '@reown/appkit/react'
 import { ethers } from 'ethers'
 import { CONTRACTS, MARKET_FACTORY_ABI, ERC20_ABI, type SupportedChainId } from '../config/contracts'
-
-// Lazy load MarketDashboard to reduce initial bundle size
-const MarketDashboard = lazy(() => import('./MarketDashboard/index'))
+import { networks } from '../config/appkit'
 
 // Type definitions
 interface EIP1193Provider {
   request(args: { method: string; params?: unknown }): Promise<unknown>
 }
 
-interface MarketCreatedEventArgs {
-  baseAsset: string
+interface ContractMarketData {
   core: string
   baseVault: string
+  baseAsset: string
+  assetsModule: string
+  porFeed: string
+  decimals: bigint
   name: string
   symbol: string
+  createdAt: bigint
+  active: boolean
 }
 
 interface DeployedMarket {
@@ -37,9 +40,15 @@ export default function MyMarkets() {
   const [markets, setMarkets] = useState<DeployedMarket[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [selectedMarket, setSelectedMarket] = useState<DeployedMarket | null>(null)
 
   const factoryAddress = chainId && CONTRACTS[chainId as SupportedChainId]?.marketFactory
+  
+  // Get network name from chain ID
+  const getNetworkName = (chainId: number | undefined): string => {
+    if (!chainId) return 'Unknown Network'
+    const network = networks.find(n => n.id === chainId)
+    return network?.name || 'Unknown Network'
+  }
 
   const fetchUserMarkets = React.useCallback(async () => {
     if (!walletProvider || !factoryAddress || !address) {
@@ -53,41 +62,33 @@ export default function MyMarkets() {
       const provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
       const factoryContract = new ethers.Contract(factoryAddress, MARKET_FACTORY_ABI, provider)
 
-      // Get all MarketCreated events for this user
-      const filter = factoryContract.filters.MarketCreated(address)
-      const events = await factoryContract.queryFilter(filter)
+      // Use the getOwnerMarkets view function instead of querying events
+      const marketsData = await factoryContract.getOwnerMarkets(address)
+      
+      // Process the returned market data
+      const marketPromises = marketsData.map(async (market: ContractMarketData) => {
+        try {
+          // Get base asset symbol
+          const tokenContract = new ethers.Contract(market.baseAsset, ERC20_ABI, provider)
+          const baseAssetSymbol = await tokenContract.symbol()
 
-      // Process events to get market data
-      const marketData = await Promise.all(
-        events.map(async (event) => {
-          const args = (event as ethers.EventLog).args as unknown as MarketCreatedEventArgs
-          const { baseAsset, core, baseVault, name, symbol } = args
-          
-          try {
-            // Get base asset symbol
-            const tokenContract = new ethers.Contract(baseAsset, ERC20_ABI, provider)
-            const baseAssetSymbol = await tokenContract.symbol()
-
-            // Get block timestamp for creation date
-            const block = await provider.getBlock(event.blockNumber)
-            const createdAt = block?.timestamp || 0
-
-            return {
-              baseAsset,
-              baseAssetSymbol,
-              name,
-              symbol,
-              core,
-              baseVault,
-              createdAt,
-              active: true // Assume active for now
-            }
-          } catch (err) {
-            console.error(`Failed to fetch data for market ${baseAsset}:`, err)
-            return null
+          return {
+            baseAsset: market.baseAsset,
+            baseAssetSymbol,
+            name: market.name,
+            symbol: market.symbol,
+            core: market.core,
+            baseVault: market.baseVault,
+            createdAt: Number(market.createdAt),
+            active: market.active
           }
-        })
-      )
+        } catch (err) {
+          console.error(`Failed to fetch data for market ${market.baseAsset}:`, err)
+          return null
+        }
+      })
+
+      const marketData = await Promise.all(marketPromises)
 
       // Filter out failed fetches and sort by creation date
       const validMarkets = marketData
@@ -109,30 +110,6 @@ export default function MyMarkets() {
     }
   }, [address, factoryAddress, fetchUserMarkets])
 
-  if (selectedMarket) {
-    return (
-      <Suspense fallback={
-        <div style={{ textAlign: 'center', padding: '64px 0' }}>
-          <div style={{ 
-            display: 'inline-block',
-            width: '40px',
-            height: '40px',
-            border: '4px solid rgba(14, 165, 233, 0.3)',
-            borderTopColor: '#0ea5e9',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
-          <p style={{ marginTop: '16px', color: '#64748b' }}>Loading market dashboard...</p>
-        </div>
-      }>
-        <MarketDashboard
-          baseAsset={selectedMarket.baseAsset}
-          marketOwner={address}
-          onBack={() => setSelectedMarket(null)}
-        />
-      </Suspense>
-    )
-  }
 
   if (isLoading) {
     return (
@@ -245,7 +222,16 @@ export default function MyMarkets() {
               transition: 'all 0.2s',
               padding: '24px'
             }}
-            onClick={() => setSelectedMarket(market)}
+            onClick={() => {
+              const params = new URLSearchParams({
+                chainId: chainId!.toString(),
+                baseAsset: market.baseAsset,
+                marketOwner: address!,
+                marketName: market.name,
+                marketSymbol: market.symbol
+              })
+              window.open(`/market?${params.toString()}`, '_blank')
+            }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ flex: 1 }}>
@@ -262,6 +248,16 @@ export default function MyMarkets() {
                     fontWeight: 600
                   }}>
                     {market.symbol}
+                  </span>
+                  <span style={{ 
+                    background: 'rgba(139, 92, 246, 0.2)', 
+                    color: '#8b5cf6', 
+                    padding: '4px 8px', 
+                    borderRadius: '8px', 
+                    fontSize: '0.75rem',
+                    fontWeight: 600
+                  }}>
+                    {getNetworkName(chainId as number)}
                   </span>
                   <span style={{ 
                     background: market.active ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)', 
@@ -321,15 +317,18 @@ export default function MyMarkets() {
               </div>
               
               <div style={{ marginLeft: '24px' }}>
-                <button 
+                <a 
+                  href={`/market?chainId=${chainId}&baseAsset=${market.baseAsset}&marketOwner=${address}&marketName=${encodeURIComponent(market.name)}&marketSymbol=${market.symbol}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn btn-primary"
+                  style={{ textDecoration: 'none', display: 'inline-block' }}
                   onClick={(e) => {
                     e.stopPropagation()
-                    setSelectedMarket(market)
                   }}
                 >
                   View Dashboard →
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -339,7 +338,7 @@ export default function MyMarkets() {
       {/* Footer note */}
       <div style={{ marginTop: '32px', textAlign: 'center' }}>
         <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>
-          Showing {markets.length} market{markets.length !== 1 ? 's' : ''} deployed by your wallet
+          Showing {markets.length} market{markets.length !== 1 ? 's' : ''} deployed by your wallet on {getNetworkName(chainId as number)}
         </p>
       </div>
     </div>

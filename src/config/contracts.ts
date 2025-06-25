@@ -212,6 +212,77 @@ export const MARKET_FACTORY_ABI = [
       }
     ],
     "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getOwnerMarkets",
+    "inputs": [
+      {
+        "name": "marketOwner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IPROTOCOL.Market[]",
+        "components": [
+          {
+            "name": "core",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "baseVault",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "baseAsset",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "assetsModule",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "porFeed",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "decimals",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "createdAt",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "active",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
   }
 ] as const
 

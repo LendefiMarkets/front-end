@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react'
+import { useAppKitAccount, useAppKitProvider, useAppKitNetwork } from '@reown/appkit/react'
 import { ethers } from 'ethers'
+import { HiRefresh } from 'react-icons/hi'
 import { useMarketDashboard, formatTokenAmount, formatBalance, formatPercentage, formatSharePrice } from '../../hooks/useMarketDashboard'
 import { MARKET_VAULT_ABI, ERC20_ABI, ASSETS_ABI } from '../../config/contracts'
 
@@ -110,13 +111,17 @@ interface TestResult {
 interface MarketDashboardProps {
   baseAsset: string
   marketOwner?: string
+  chainId?: number
+  marketName?: string
+  marketSymbol?: string
   onBack?: () => void
 }
 
-export default function MarketDashboard({ baseAsset, marketOwner, onBack }: MarketDashboardProps) {
+export default function MarketDashboard({ baseAsset, marketOwner, chainId, onBack }: MarketDashboardProps) {
   const { address } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
-  const { data, isLoading, error, refresh } = useMarketDashboard(baseAsset, marketOwner)
+  const { chainId: connectedChainId } = useAppKitNetwork()
+  const { data, isLoading, error, refresh } = useMarketDashboard(baseAsset, marketOwner, chainId)
   
   // Tab state
   const [activeTab, setActiveTab] = useState<'overview' | 'assets'>('overview')
@@ -126,6 +131,18 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
   const [amount, setAmount] = useState('')
   const [isActionLoading, setIsActionLoading] = useState(false)
   const [actionError, setActionError] = useState<string | null>(null)
+  const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
+
+  const copyToClipboard = async (address: string) => {
+    try {
+      await navigator.clipboard.writeText(address)
+      setCopiedAddress(address)
+      setTimeout(() => setCopiedAddress(null), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
 
   if (isLoading) {
     return (
@@ -179,6 +196,21 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
 
   const { marketInfo } = data
   const isOwner = address?.toLowerCase() === marketOwner?.toLowerCase()
+  
+  // Get network name for display
+  const getNetworkName = (chainId: number | undefined): string => {
+    switch (chainId) {
+      case 1: return 'Ethereum Mainnet'
+      case 11155111: return 'Sepolia'
+      case 84532: return 'Base Sepolia'
+      case 43113: return 'Avalanche Fuji'
+      case 421614: return 'Arbitrum Sepolia'
+      case 80002: return 'Polygon Amoy'
+      case 97: return 'BSC Testnet'
+      case 31337: return 'Anvil Local'
+      default: return `Chain ${chainId}`
+    }
+  }
 
   const executeSupplyAction = async () => {
     if (!walletProvider || !address || !supplyAction || !amount || !data) return
@@ -233,14 +265,31 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
-        <div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '8px' }}>
-            {marketInfo.name}
-          </h1>
-          <p style={{ color: '#9ca3af', fontSize: '1.125rem' }}>
-            Market Symbol: {marketInfo.symbol} • Base Asset: {data.baseAssetSymbol}
-          </p>
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'flex-start', 
+          justifyContent: 'space-between', 
+          gap: '16px',
+          flexWrap: 'wrap'
+        }}>
+          <div style={{ flex: 1, minWidth: '250px' }}>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '8px' }}>
+              {marketInfo.name}
+            </h1>
+            <p style={{ color: '#9ca3af', fontSize: '1.125rem' }}>
+              Market Symbol: {marketInfo.symbol} • Base Asset: {data.baseAssetSymbol}
+            </p>
+          </div>
+          {onBack && (
+            <div style={{ alignSelf: 'flex-start' }}>
+              <button onClick={onBack} className="btn btn-outline">
+                ← Back
+              </button>
+            </div>
+          )}
+        </div>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
           {isOwner && (
             <span style={{ 
               display: 'inline-block', 
@@ -248,22 +297,47 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
               color: '#10b981', 
               padding: '4px 12px', 
               borderRadius: '12px', 
-              fontSize: '0.875rem',
-              marginTop: '8px'
+              fontSize: '0.875rem'
             }}>
               You own this market
             </span>
           )}
-        </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button onClick={refresh} className="btn btn-outline">
-            🔄 Refresh
+          <span style={{ 
+            display: 'inline-block', 
+            background: 'rgba(139, 92, 246, 0.2)', 
+            color: '#8b5cf6', 
+            padding: '4px 12px', 
+            borderRadius: '12px', 
+            fontSize: '0.875rem'
+          }}>
+            {getNetworkName((chainId || connectedChainId) as number)}
+          </span>
+          <button 
+            onClick={refresh}
+            style={{
+              background: 'rgba(14, 165, 233, 0.1)',
+              border: '1px solid rgba(14, 165, 233, 0.3)',
+              color: '#0ea5e9',
+              cursor: 'pointer',
+              padding: '4px 8px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '1rem'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(14, 165, 233, 0.2)'
+              e.currentTarget.style.borderColor = 'rgba(14, 165, 233, 0.5)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(14, 165, 233, 0.1)'
+              e.currentTarget.style.borderColor = 'rgba(14, 165, 233, 0.3)'
+            }}
+            title="Refresh data"
+          >
+            <HiRefresh />
           </button>
-          {onBack && (
-            <button onClick={onBack} className="btn btn-outline">
-              ← Back
-            </button>
-          )}
         </div>
       </div>
 
@@ -370,42 +444,186 @@ export default function MarketDashboard({ baseAsset, marketOwner, onBack }: Mark
 
 
       {/* Main Content */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+        gap: '32px' 
+      }}>
         {/* Market Details */}
           <div className="glass-effect">
             <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '24px' }}>
               Market Details
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#9ca3af' }}>Core Contract:</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
-                  {marketInfo.core.slice(0, 10)}...{marketInfo.core.slice(-8)}
-                </span>
+              <div>
+                <div style={{ color: '#9ca3af', marginBottom: '4px' }}>Core Contract:</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.875rem', wordBreak: 'break-all' }}>
+                    {marketInfo.core.slice(0, 10)}...{marketInfo.core.slice(-8)}
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(marketInfo.core)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: copiedAddress === marketInfo.core ? '#10b981' : '#9ca3af',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      borderRadius: '4px',
+                      transition: 'color 0.2s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      if (copiedAddress !== marketInfo.core) {
+                        e.currentTarget.style.color = '#0ea5e9'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (copiedAddress !== marketInfo.core) {
+                        e.currentTarget.style.color = '#9ca3af'
+                      }
+                    }}
+                    title={copiedAddress === marketInfo.core ? "Copied!" : "Copy address"}
+                  >
+                    {copiedAddress === marketInfo.core ? '✓' : '📋'}
+                  </button>
+                </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#9ca3af' }}>Vault Contract:</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
-                  {marketInfo.baseVault.slice(0, 10)}...{marketInfo.baseVault.slice(-8)}
-                </span>
+              <div>
+                <div style={{ color: '#9ca3af', marginBottom: '4px' }}>Vault Contract:</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.875rem', wordBreak: 'break-all' }}>
+                    {marketInfo.baseVault.slice(0, 10)}...{marketInfo.baseVault.slice(-8)}
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(marketInfo.baseVault)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: copiedAddress === marketInfo.baseVault ? '#10b981' : '#9ca3af',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      borderRadius: '4px',
+                      transition: 'color 0.2s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      if (copiedAddress !== marketInfo.baseVault) {
+                        e.currentTarget.style.color = '#0ea5e9'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (copiedAddress !== marketInfo.baseVault) {
+                        e.currentTarget.style.color = '#9ca3af'
+                      }
+                    }}
+                    title={copiedAddress === marketInfo.baseVault ? "Copied!" : "Copy address"}
+                  >
+                    {copiedAddress === marketInfo.baseVault ? '✓' : '📋'}
+                  </button>
+                </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#9ca3af' }}>Assets Module:</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
-                  {marketInfo.assetsModule.slice(0, 10)}...{marketInfo.assetsModule.slice(-8)}
-                </span>
+              <div>
+                <div style={{ color: '#9ca3af', marginBottom: '4px' }}>Assets Module:</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.875rem', wordBreak: 'break-all' }}>
+                    {marketInfo.assetsModule.slice(0, 10)}...{marketInfo.assetsModule.slice(-8)}
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(marketInfo.assetsModule)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: copiedAddress === marketInfo.assetsModule ? '#10b981' : '#9ca3af',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      borderRadius: '4px',
+                      transition: 'color 0.2s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      if (copiedAddress !== marketInfo.assetsModule) {
+                        e.currentTarget.style.color = '#0ea5e9'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (copiedAddress !== marketInfo.assetsModule) {
+                        e.currentTarget.style.color = '#9ca3af'
+                      }
+                    }}
+                    title={copiedAddress === marketInfo.assetsModule ? "Copied!" : "Copy address"}
+                  >
+                    {copiedAddress === marketInfo.assetsModule ? '✓' : '📋'}
+                  </button>
+                </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#9ca3af' }}>PoR Feed:</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
-                  {marketInfo.porFeed.slice(0, 10)}...{marketInfo.porFeed.slice(-8)}
-                </span>
+              <div>
+                <div style={{ color: '#9ca3af', marginBottom: '4px' }}>PoR Feed:</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.875rem', wordBreak: 'break-all' }}>
+                    {marketInfo.porFeed.slice(0, 10)}...{marketInfo.porFeed.slice(-8)}
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(marketInfo.porFeed)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: copiedAddress === marketInfo.porFeed ? '#10b981' : '#9ca3af',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      borderRadius: '4px',
+                      transition: 'color 0.2s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      if (copiedAddress !== marketInfo.porFeed) {
+                        e.currentTarget.style.color = '#0ea5e9'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (copiedAddress !== marketInfo.porFeed) {
+                        e.currentTarget.style.color = '#9ca3af'
+                      }
+                    }}
+                    title={copiedAddress === marketInfo.porFeed ? "Copied!" : "Copy address"}
+                  >
+                    {copiedAddress === marketInfo.porFeed ? '✓' : '📋'}
+                  </button>
+                </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#9ca3af' }}>Base Asset:</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
-                  {data.baseAssetSymbol} ({baseAsset.slice(0, 10)}...{baseAsset.slice(-8)})
-                </span>
+              <div>
+                <div style={{ color: '#9ca3af', marginBottom: '4px' }}>Base Asset ({data.baseAssetSymbol}):</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.875rem', wordBreak: 'break-all' }}>
+                    {baseAsset.slice(0, 10)}...{baseAsset.slice(-8)}
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(baseAsset)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: copiedAddress === baseAsset ? '#10b981' : '#9ca3af',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      borderRadius: '4px',
+                      transition: 'color 0.2s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      if (copiedAddress !== baseAsset) {
+                        e.currentTarget.style.color = '#0ea5e9'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (copiedAddress !== baseAsset) {
+                        e.currentTarget.style.color = '#9ca3af'
+                      }
+                    }}
+                    title={copiedAddress === baseAsset ? "Copied!" : "Copy address"}
+                  >
+                    {copiedAddress === baseAsset ? '✓' : '📋'}
+                  </button>
+                </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#9ca3af' }}>Created:</span>
