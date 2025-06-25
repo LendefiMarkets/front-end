@@ -594,6 +594,16 @@ export const TOKENS = {
     DAI: "0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6",  // MakerDAO Sepolia DAI
     USDT: "0x7169D38820dfd117C3FA1f22a697dBA58d90BA06", // Tether Sepolia USDT
   },
+  // Avalanche Fuji testnet
+  43113: {
+    USDC: "0x5425890298aed601595a70AB815c96711a31Bc65", // Native USDC on Fuji
+    WAVAX: "0xd00ae08403B9bbb9124bB305C09058E32C39A48c", // Official testnet WAVAX
+  },
+  // Base Sepolia testnet
+  84532: {
+    USDC: "0x036CbD53842c5426634e7929541eC2318f3dCF7e", // USDC on Base Sepolia
+    WETH: "0x4200000000000000000000000000000000000006", // WETH on Base Sepolia
+  },
   // Mainnet
   1: {
     USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
