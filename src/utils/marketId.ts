@@ -59,7 +59,6 @@ export function generateMarketUrl(chainId: number, baseAsset: string, marketOwne
   const tokenSymbol = TOKEN_SYMBOLS[baseAsset] || TOKEN_SYMBOLS[baseAsset.toLowerCase()] || baseAsset.slice(2, 8)
   const ownerShort = marketOwner.slice(0, 8) // First 6 chars after 0x
   
-  console.log('generateMarketUrl:', { chainId, baseAsset, tokenSymbol, networkName })
   
   return `/market/${networkName}/${tokenSymbol}/${ownerShort}?owner=${marketOwner}`
 }

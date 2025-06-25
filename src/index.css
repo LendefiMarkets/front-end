@@ -15,6 +15,31 @@ w3m-modal {
   z-index: 999999 !important;
 }
 
+/* Custom scrollbar for modal content */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(55, 65, 81, 0.5);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.8);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.9);
+}
+
+/* Firefox scrollbar styling */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 114, 128, 0.8) rgba(55, 65, 81, 0.5);
+}
+
 html {
   scroll-behavior: smooth;
 }

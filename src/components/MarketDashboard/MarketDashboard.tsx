@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAppKitAccount, useAppKitProvider, useAppKitNetwork } from '@reown/appkit/react'
 import { ethers } from 'ethers'
 import { HiRefresh } from 'react-icons/hi'
+import { FiX } from 'react-icons/fi'
 import { useMarketDashboard, formatTokenAmount, formatBalance, formatPercentage, formatSharePrice } from '../../hooks/useMarketDashboard'
 import { MARKET_VAULT_ABI, ERC20_ABI, ASSETS_ABI } from '../../config/contracts'
 
@@ -132,6 +133,7 @@ export default function MarketDashboard({ baseAsset, marketOwner, chainId, onBac
   const [isActionLoading, setIsActionLoading] = useState(false)
   const [actionError, setActionError] = useState<string | null>(null)
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
+  const [estimatedBlockNumber, setEstimatedBlockNumber] = useState<number | null>(null)
 
   const copyToClipboard = async (address: string) => {
     try {
@@ -142,6 +144,62 @@ export default function MarketDashboard({ baseAsset, marketOwner, chainId, onBac
       console.error('Failed to copy:', err)
     }
   }
+
+  // Calculate block number by finding actual block time and doing simple math
+  React.useEffect(() => {
+    const calculateBlockNumber = async () => {
+      if (!data?.marketInfo?.createdAt) return
+      
+      try {
+        const currentChainId = chainId || connectedChainId
+        const creationTimestamp = Number(data.marketInfo.createdAt)
+        
+        // Use wallet provider if available, otherwise use public RPC
+        let provider: ethers.BrowserProvider | ethers.JsonRpcProvider
+        if (walletProvider) {
+          provider = new ethers.BrowserProvider(walletProvider as EIP1193Provider)
+        } else {
+          const rpcUrls: Record<number, string> = {
+            1: 'https://eth.public-rpc.com',
+            11155111: 'https://ethereum-sepolia-rpc.publicnode.com',
+            84532: 'https://base-sepolia-rpc.publicnode.com',
+            43113: 'https://api.avax-test.network/ext/bc/C/rpc'
+          }
+          const rpcUrl = rpcUrls[currentChainId as number] || ''
+          if (!rpcUrl) return
+          provider = new ethers.JsonRpcProvider(rpcUrl)
+        }
+
+        // Fetch latest block and block from 1000 blocks ago
+        const [latestBlock, olderBlock] = await Promise.all([
+          provider.getBlock('latest'),
+          provider.getBlock('latest').then(latest => 
+            latest ? provider.getBlock(latest.number - 1000) : null
+          )
+        ])
+        
+        if (!latestBlock || !olderBlock) return
+        
+        // Calculate exact seconds per block
+        const timeDiff = Number(latestBlock.timestamp) - Number(olderBlock.timestamp)
+        const blockDiff = latestBlock.number - olderBlock.number
+        const secondsPerBlock = timeDiff / blockDiff
+        
+        // Calculate how many seconds ago the contract was created using blockchain time
+        const secondsAgo = Number(latestBlock.timestamp) - creationTimestamp
+        
+        // Calculate blocks ago and estimated creation block
+        const blocksAgo = Math.floor(secondsAgo / secondsPerBlock)
+        const estimatedCreationBlock = Math.max(0, latestBlock.number - blocksAgo)
+        
+        setEstimatedBlockNumber(estimatedCreationBlock)
+      } catch (err) {
+        console.error('Error calculating block number:', err)
+      }
+    }
+    
+    calculateBlockNumber()
+  }, [data?.marketInfo?.createdAt, chainId, connectedChainId, walletProvider])
 
 
   if (isLoading) {
@@ -627,9 +685,16 @@ export default function MarketDashboard({ baseAsset, marketOwner, chainId, onBac
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#9ca3af' }}>Created:</span>
-                <span>
-                  {new Date(Number(marketInfo.createdAt) * 1000).toLocaleDateString()}
-                </span>
+                <div style={{ textAlign: 'right' }}>
+                  <div>
+                    {new Date(Number(marketInfo.createdAt) * 1000).toLocaleDateString()}
+                  </div>
+                  {estimatedBlockNumber && (
+                    <div style={{ fontSize: '0.75rem', color: '#9ca3af', fontFamily: 'monospace' }}>
+                      Block ~{estimatedBlockNumber.toLocaleString()}
+                    </div>
+                  )}
+                </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#9ca3af' }}>Status:</span>
@@ -1198,10 +1263,25 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
     })
   }
 
-  const closeModal = () => {
+  const closeModal = React.useCallback(() => {
     setShowAddAssetModal(false)
     resetForm()
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetForm]) // setShowAddAssetModal is stable and doesn't need to be in deps
+
+  // Add escape key handling for modal
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showAddAssetModal) {
+        closeModal()
+      }
+    }
+
+    if (showAddAssetModal) {
+      document.addEventListener('keydown', handleKeyDown)
+      return () => document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [showAddAssetModal, closeModal])
 
   const copyToClipboard = async (address: string) => {
     try {
@@ -1498,16 +1578,19 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
           justifyContent: 'center',
           zIndex: 1000
         }}>
-          <div style={{
-            backgroundColor: '#1f2937',
-            borderRadius: '12px',
-            padding: '24px',
-            maxWidth: '600px',
-            width: '90%',
-            maxHeight: '80vh',
-            overflowY: 'auto',
-            border: '1px solid rgba(75, 85, 99, 0.5)'
-          }}>
+          <div 
+            className="modal-content"
+            style={{
+              backgroundColor: '#1f2937',
+              borderRadius: '12px',
+              padding: '24px',
+              maxWidth: '600px',
+              width: '90%',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              border: '1px solid rgba(75, 85, 99, 0.5)'
+            }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0 }}>
                 Add New Asset
@@ -1535,15 +1618,29 @@ function CollateralManagement({ assetsModuleAddress, showAddAssetModal, setShowA
                 <button
                   onClick={closeModal}
                   style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#9ca3af',
-                    fontSize: '1.5rem',
+                    background: 'rgba(239, 68, 68, 0.1)',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    borderRadius: '6px',
+                    color: '#ef4444',
+                    fontSize: '1rem',
                     cursor: 'pointer',
-                    padding: '4px'
+                    padding: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s'
                   }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'
+                    e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.5)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'
+                    e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
+                  }}
+                  title="Close modal (Esc)"
                 >
-                  ×
+                  <FiX />
                 </button>
               </div>
             </div>

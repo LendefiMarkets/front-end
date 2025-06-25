@@ -64,16 +64,7 @@ export function useMarketDashboard(baseAsset: string, marketOwner?: string, prov
   const factoryAddress = chainId && CONTRACTS[chainId as SupportedChainId]?.marketFactory
 
   const fetchMarketData = useCallback(async () => {
-    console.log('fetchMarketData called with:', { 
-      walletProvider: !!walletProvider, 
-      baseAsset, 
-      ownerAddress, 
-      factoryAddress,
-      chainId 
-    })
-    
     if (!baseAsset || !ownerAddress || !factoryAddress || !chainId) {
-      console.log('Missing required data for fetching')
       return
     }
 

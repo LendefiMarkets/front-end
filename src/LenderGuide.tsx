@@ -1276,7 +1276,6 @@ async function completeLendingCycle() {
 
     try {
         // Step 1: Approve USDC spending
-        console.log('Approving USDC...');
         const approveTx = await usdc.approve(MARKET_CORE_ADDRESS, depositAmount);
         await approveTx.wait();
 
@@ -1286,7 +1285,6 @@ async function completeLendingCycle() {
         const expectedShares = await vault.previewDeposit(depositAmount);
 
         // Step 3: Deposit liquidity with slippage protection
-        console.log('Depositing liquidity...');
         const depositTx = await marketCore.depositLiquidity(
             depositAmount,
             expectedShares,
@@ -1296,7 +1294,6 @@ async function completeLendingCycle() {
 
         // Step 4: Monitor performance
         const performance = await monitorPerformance(vault, wallet.address);
-        console.log('Performance:', performance);
 
         // Step 5: Withdraw (when ready)
         const withdrawAmount = ethers.utils.parseUnits('5000', 6); // 5,000 USDC
@@ -1307,7 +1304,6 @@ async function completeLendingCycle() {
         );
         await withdrawTx.wait();
 
-        console.log('Lending cycle completed successfully!');
     } catch (error) {
         console.error('Error in lending cycle:', error);
     }
