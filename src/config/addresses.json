@@ -1,11 +1,11 @@
 {
   "sepolia": {
     "chainId": 11155111,
-    "marketFactory": "0x08F276a9595160044c2Fb136f6BA8a0520230955"
+    "marketFactory": "0x3b90DF70eD9c0B7DD40346218b1c5A8836a68D53"
   },
   "base-sepolia": {
     "chainId": 84532,
-    "marketFactory": "0xB4C258350fAbe1d9b9cb3606901Ed8241DC3CF99"
+    "marketFactory": "0xA3072b5EC57E321a2AF76CD1B98c86680c960156"
   },
   "polygon-amoy": {
     "chainId": 80002,
@@ -13,7 +13,7 @@
   },
   "avalanche-fuji": {
     "chainId": 43113,
-    "marketFactory": "0x3AB0Efee42e92a68B2df7283bF272cF784D22B84"
+    "marketFactory": "0x457df2bB7Cad2E15C186e04FC17f3351c841A727"
   },
   "arbitrum-sepolia": {
     "chainId": 421614,

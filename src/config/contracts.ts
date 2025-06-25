@@ -7,7 +7,7 @@ import addresses from './addresses.json'
 // Export complete ABIs for more complex interactions
 export { LendefiMarketFactoryABI, LendefiMarketVaultABI, LendefiCoreABI }
 
-// Market Factory ABI - Extract specific functions we need
+// Market Factory ABI - Updated with new contract interface
 export const MARKET_FACTORY_ABI = [
   {
     "type": "function",
@@ -141,55 +141,6 @@ export const MARKET_FACTORY_ABI = [
     "stateMutability": "view"
   },
   {
-    "type": "event",
-    "name": "MarketCreated",
-    "inputs": [
-      {
-        "name": "marketOwner",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "baseAsset",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "core",
-        "type": "address",
-        "indexed": false,
-        "internalType": "address"
-      },
-      {
-        "name": "baseVault",
-        "type": "address",
-        "indexed": false,
-        "internalType": "address"
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "indexed": false,
-        "internalType": "string"
-      },
-      {
-        "name": "symbol",
-        "type": "string",
-        "indexed": false,
-        "internalType": "string"
-      },
-      {
-        "name": "porFeed",
-        "type": "address",
-        "indexed": false,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
     "type": "function",
     "name": "hasRole",
     "inputs": [
@@ -283,6 +234,93 @@ export const MARKET_FACTORY_ABI = [
       }
     ],
     "stateMutability": "view"
+  },
+  // Custom errors
+  {
+    "type": "error",
+    "name": "BaseAssetNotAllowed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "MarketAlreadyExists",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "MarketNotFound",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroAddress",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "AccessControlUnauthorizedAccount",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "neededRole",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ]
+  },
+  // Events
+  {
+    "type": "event",
+    "name": "MarketCreated",
+    "inputs": [
+      {
+        "name": "marketOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "baseAsset",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "core",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "baseVault",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "symbol",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "porFeed",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
   }
 ] as const
 
