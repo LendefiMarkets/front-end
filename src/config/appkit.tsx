@@ -1,4 +1,4 @@
-import { sepolia } from '@reown/appkit/networks'
+import { sepolia, avalancheFuji, baseSepolia } from '@reown/appkit/networks'
 import type { AppKitNetwork } from '@reown/appkit/networks'
 import { EthersAdapter } from '@reown/appkit-adapter-ethers'
 
@@ -42,8 +42,8 @@ const anvilLocal: AppKitNetwork = {
 
 // Setup networks (testnets only for now)
 export const networks = import.meta.env.PROD 
-  ? [sepolia] as [AppKitNetwork, ...AppKitNetwork[]]
-  : [anvilLocal, sepolia] as [AppKitNetwork, ...AppKitNetwork[]]
+  ? [sepolia, avalancheFuji, baseSepolia] as [AppKitNetwork, ...AppKitNetwork[]]
+  : [anvilLocal, sepolia, avalancheFuji, baseSepolia] as [AppKitNetwork, ...AppKitNetwork[]]
 
 // Export supported chain IDs for validation
 export const supportedChainIds = networks.map(network => network.id)
