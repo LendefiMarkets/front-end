@@ -1,0 +1,84 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Lendefi Markets",
+  "description": "Next-generation DeFi lending protocol with institutional-grade security and composable architecture for decentralized finance",
+  "url": "https://lendefimarkets.com",
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "DeFi Protocol",
+  "operatingSystem": "Web Browser",
+  "browserRequirements": "Modern web browser with JavaScript enabled, Web3 wallet recommended",
+  "softwareVersion": "1.5.0",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Decentralized lending and borrowing",
+    "Yield farming opportunities", 
+    "Real-time market analytics",
+    "Cross-chain asset support",
+    "Institutional-grade security",
+    "Web3 wallet integration",
+    "Educational DeFi content"
+  ],
+  "screenshot": "https://lendefimarkets.com/assets/images/app-screenshot.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Lendefi Markets",
+    "url": "https://lendefimarkets.com"
+  },
+  "provider": {
+    "@type": "Organization", 
+    "name": "Lendefi Markets",
+    "url": "https://lendefimarkets.com"
+  },
+  "programmingLanguage": [
+    "TypeScript",
+    "JavaScript", 
+    "Solidity"
+  ],
+  "runtimePlatform": [
+    "Ethereum",
+    "Sepolia Testnet"
+  ],
+  "targetAudience": {
+    "@type": "Audience",
+    "audienceType": [
+      "DeFi Enthusiasts",
+      "Institutional Investors", 
+      "Blockchain Developers",
+      "Traditional Finance Users"
+    ]
+  },
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Decentralized Finance",
+      "description": "Financial services built on blockchain technology"
+    },
+    {
+      "@type": "Thing", 
+      "name": "Lending Protocol",
+      "description": "Smart contract system for peer-to-peer lending"
+    },
+    {
+      "@type": "Thing",
+      "name": "Yield Farming", 
+      "description": "Process of earning rewards by providing liquidity"
+    }
+  ],
+  "keywords": [
+    "DeFi",
+    "Decentralized Finance", 
+    "Lending Protocol",
+    "Blockchain",
+    "Ethereum",
+    "Smart Contracts",
+    "Yield Farming",
+    "Liquidity Mining",
+    "Web3",
+    "Cryptocurrency"
+  ]
+}

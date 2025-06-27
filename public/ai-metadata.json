@@ -1,0 +1,64 @@
+{
+  "name": "Lendefi Markets",
+  "description": "Next-generation DeFi lending protocol with institutional-grade security and composable architecture",
+  "version": "1.5.0",
+  "type": "decentralized_finance_application",
+  "category": "blockchain",
+  "subcategory": "defi_lending",
+  "technology_stack": {
+    "frontend": "React 19.1.0 + TypeScript 5.8.3",
+    "build_tool": "Vite 6.3.5",
+    "web3": "Reown AppKit 1.7.8 + Ethers.js 6.14.3",
+    "blockchain": "Ethereum (Mainnet, Sepolia)",
+    "styling": "CSS Modules + Framer Motion"
+  },
+  "primary_functions": [
+    "decentralized_lending",
+    "borrowing",
+    "yield_farming",
+    "liquidity_provision",
+    "portfolio_management"
+  ],
+  "target_users": [
+    "defi_enthusiasts",
+    "institutional_investors",
+    "developers",
+    "traditional_finance_users"
+  ],
+  "key_features": [
+    "wallet_connectivity",
+    "lending_markets",
+    "real_time_analytics",
+    "cross_chain_support",
+    "educational_content"
+  ],
+  "content_topics": [
+    "defi_protocols",
+    "blockchain_education",
+    "market_analysis", 
+    "institutional_adoption",
+    "yield_strategies",
+    "security_practices"
+  ],
+  "ai_assistance_areas": [
+    "react_development",
+    "web3_integration",
+    "smart_contract_interaction",
+    "defi_protocol_development",
+    "blockchain_education",
+    "content_creation"
+  ],
+  "documentation": {
+    "ai_readme": "/.ai/readme.md",
+    "ai_context": "/.ai/context.md", 
+    "ai_instructions": "/ai-instructions.md",
+    "ai_overview": "/README.ai.md",
+    "claude_instructions": "/CLAUDE.md"
+  },
+  "contact": {
+    "website": "https://lendefimarkets.com",
+    "github": "https://github.com/LendefiMarkets",
+    "documentation": "https://docs.lendefimarkets.com"
+  },
+  "last_updated": "2025-06-26"
+}

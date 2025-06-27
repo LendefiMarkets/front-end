@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main pages -->
+  <url>
+    <loc>https://lendefimarkets.com/</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/app</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/blog</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/contact</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/book-demo</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- AI documentation for better understanding -->
+  <url>
+    <loc>https://lendefimarkets.com/.ai/readme.md</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/.ai/context.md</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/ai-instructions.md</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/README.ai.md</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Blog posts -->
+  <url>
+    <loc>https://lendefimarkets.com/blog/alavanche</loc>
+    <lastmod>2025-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/blog/bitcoin-institutional-adoption</loc>
+    <lastmod>2025-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/blog/crypto-america</loc>
+    <lastmod>2025-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/blog/defi-composability</loc>
+    <lastmod>2025-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lendefimarkets.com/blog/defi-lending-landscape</loc>
+    <lastmod>2025-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Add more blog posts as needed -->
+</urlset>

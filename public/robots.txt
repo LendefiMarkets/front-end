@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# AI and search engine crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://lendefimarkets.com/sitemap.xml
+
+# Important pages for AI understanding
+Allow: /.ai/
+Allow: /ai-instructions.md
+Allow: /README.ai.md
+Allow: /blog/
+
+# Disallow admin or private areas (if any)
+Disallow: /admin/
+Disallow: /.env
+Disallow: /script/
