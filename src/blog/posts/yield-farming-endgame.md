@@ -1,6 +1,6 @@
 ---
 title: "The Yield Farming Endgame: How Convex, Yearn, and Pendle Are Automating Capital Allocation Across DeFi"
-date: "2025-06-26"
+date: "2025-06-02"
 author: "Lendefi Research Team"
 excerpt: "The evolution of yield farming from manual token incentives to sophisticated automated capital allocation is creating the endgame infrastructure for sustainable DeFi yields and efficient market mechanisms."
 image: "/assets/images/blog/yield-farming-endgame.png"

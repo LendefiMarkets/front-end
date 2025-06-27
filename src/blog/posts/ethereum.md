@@ -1,6 +1,6 @@
 ---
 title: "The Philosopher King of Crypto: How Vitalik Buterin Built the World Ledger"
-date: "2025-06-25"
+date: "2025-06-12"
 author: "Lendefi Research Team"
 excerpt: "From a teenage gamer devastated by World of Warcraft changes to the visionary creator of Ethereum - discover how Vitalik Buterin's journey shaped the $293 billion world computer."
 image: "/assets/images/blog/ethereum.png"

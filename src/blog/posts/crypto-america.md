@@ -1,6 +1,6 @@
 ---
 title: "Crypto America: How Trump's Revolution Is Transforming Digital Finance Forever"
-date: "2025-06-21"
+date: "2025-06-24"
 author: "Lendefi Political Economy Team"
 excerpt: "In just five months, the US has undergone the most dramatic shift in cryptocurrency policy in history. From Bitcoin 'scam' to Strategic Bitcoin Reserve - America races to become the crypto capital of the world."
 image: "/assets/images/blog/american-crypto.png"

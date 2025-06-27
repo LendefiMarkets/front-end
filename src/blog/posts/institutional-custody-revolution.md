@@ -1,6 +1,6 @@
 ---
 title: "The Institutional Custody Revolution: How Fireblocks, BitGo, and Coinbase Prime Are Banking $200B+"
-date: "2025-06-19"
+date: "2025-06-09"
 author: "Lendefi Research Team"
 excerpt: "The transformation of crypto custody from retail exchanges to institutional-grade infrastructure has created a $200 billion market, with Fireblocks, BitGo, and Coinbase Prime leading the charge."
 image: "/assets/images/blog/institutional-custody-revolution.png"

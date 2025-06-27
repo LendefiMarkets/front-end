@@ -1,6 +1,6 @@
 ---
 title: "The Wyoming Way: How Cynthia Lummis and the Cowboy State Are Leading America's Crypto Revolution."
-date: "2025-06-13"
+date: "2025-06-14"
 author: "Lendefi Education Team"
 excerpt: "While most of America has spent the last few years arguing about whether cryptocurrency is legitimate, Wyoming has been busy building the future."
 image: "/assets/images/blog/wyoming.png"

@@ -1,6 +1,6 @@
 ---
 title: "Introducing Lendefi Markets: The Future of Decentralized Lending"
-date: "2025-06-15"
+date: "2025-06-21"
 author: "Lendefi Team"
 excerpt: "Discover how Lendefi Markets is revolutionizing DeFi lending with innovative features and unmatched security."
 image: "/assets/images/blog/lendefi.png"

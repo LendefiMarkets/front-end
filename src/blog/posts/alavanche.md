@@ -1,6 +1,6 @@
 ---
 title: "The Professors Who Built a Blockchain Empire: The Avalanche Story"
-date: "2025-06-22"
+date: "2025-06-26"
 author: "Lendefi Team"
 excerpt: "How three Cornell academics transformed theoretical computer science into Avalanche, one of the world's leading blockchain platforms processing billions in transactions."
 image: "/assets/images/blog/avalanche.png"

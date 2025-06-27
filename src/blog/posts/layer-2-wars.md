@@ -1,6 +1,6 @@
 ---
 title: "The Layer 2 Wars: How Arbitrum, Base, and Polygon Are Competing for Ethereum's $39B in Locked Value"
-date: "2025-06-23"
+date: "2025-06-05"
 author: "Lendefi Research Team"
 excerpt: "The battle for Ethereum's scaling future has created a $39 billion market where Layer 2 solutions compete on technology, ecosystem development, and user acquisition in the race to become the dominant scaling solution."
 image: "/assets/images/blog/layer-2-wars.png"

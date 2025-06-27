@@ -1,6 +1,6 @@
 ---
 title: "Bitcoin Institutional Adoption."
-date: "2025-06-11"
+date: "2025-06-25"
 author: "Lendefi Education Team"
 excerpt: "Learn everything you need to know about latest Bitcoin trends."
 image: "/assets/images/blog/bitcoin-adoption.png"

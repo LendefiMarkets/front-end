@@ -1,6 +1,6 @@
 ---
 title: "Cross-Chain Capital: How Bridging Protocols Are Unifying DeFi Liquidity Across 50+ Networks"
-date: "2025-06-18"
+date: "2025-06-10"
 author: "Lendefi Research Team"
 excerpt: "The fragmentation of DeFi across multiple blockchains has created a $39 billion bridging market, with protocols like LayerZero, Wormhole, and Stargate competing to unify liquidity across 50+ networks."
 image: "/assets/images/blog/cross-chain-capital.png"

@@ -1,6 +1,6 @@
 ---
 title: "Composability in DeFi is redefining finance."
-date: "2025-06-10"
+date: "2025-06-23"
 author: "Lendefi Education Team"
 excerpt: "Learn everything you need to know about decentralized lending and how it's changing the financial landscape."
 image: "/assets/images/blog/uniswap-team.png"

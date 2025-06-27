@@ -1,6 +1,6 @@
 ---
 title: "OpenZeppelin: The Silent Architect Dominating DeFi's Foundation."
-date: "2025-06-12"
+date: "2025-06-20"
 author: "Lendefi Education Team"
 excerpt: "While flashy DeFi protocols grab headlines with their billion-dollar TVLs and innovative yield farming strategies, there's a quiet giant that has been methodically building the foundation upon which the entire decentralized finance ecosystem rests."
 image: "/assets/images/blog/openzeppelin.png"

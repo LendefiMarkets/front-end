@@ -1,6 +1,6 @@
 ---
 title: "Stablecoins: Navigating the Rapidly Evolving Landscape of Digital Money"
-date: "2025-06-08"
+date: "2025-06-18"
 author: "Lendefi Research Team"
 excerpt: "A comprehensive deep-dive into stablecoins - from their evolution as a solution to crypto volatility to their role as foundational infrastructure for the future of digital finance."
 image: "/assets/images/blog/stablecoin-deepdive.png"
