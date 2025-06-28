@@ -79,6 +79,26 @@ export default function BlogPost() {
             updateOrCreateOGMeta('og:image', window.location.origin + blogPost.image)
           }
           
+          // Add Twitter Card meta tags
+          const updateOrCreateTwitterMeta = (name: string, content: string) => {
+            const existing = document.querySelector(`meta[name="${name}"]`)
+            if (existing) {
+              existing.setAttribute('content', content)
+            } else {
+              const meta = document.createElement('meta')
+              meta.setAttribute('name', name)
+              meta.content = content
+              document.head.appendChild(meta)
+            }
+          }
+          
+          updateOrCreateTwitterMeta('twitter:card', 'summary_large_image')
+          updateOrCreateTwitterMeta('twitter:title', blogPost.seo_title || blogPost.title)
+          updateOrCreateTwitterMeta('twitter:description', blogPost.seo_description || blogPost.excerpt)
+          if (blogPost.image) {
+            updateOrCreateTwitterMeta('twitter:image', window.location.origin + blogPost.image)
+          }
+          
           // Add structured data (JSON-LD)
           const existingStructuredData = document.querySelector('script[type="application/ld+json"]')
           if (existingStructuredData) {
