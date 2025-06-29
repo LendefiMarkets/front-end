@@ -3,7 +3,7 @@ title: "The Wyoming Way: How Cynthia Lummis and the Cowboy State Are Leading Ame
 date: "2025-06-14"
 author: "Lendefi Education Team"
 excerpt: "While most of America has spent the last few years arguing about whether cryptocurrency is legitimate, Wyoming has been busy building the future."
-image: "/assets/images/blog/wyoming.png"
+image: "/assets/images/blog/wyoming.webp"
 tags: ["Wyoming", "Regulation", "State Policy", "Bitcoin Reserve"]
 seo_title: "Wyoming Crypto Laws 2025: Cynthia Lummis Bitcoin Strategy, SPDI Banks & State Stablecoin | Complete Guide"
 seo_description: "Discover how Wyoming and Senator Cynthia Lummis built America's most comprehensive crypto framework. SPDI banks, state Bitcoin reserves, DAO laws, and stablecoin launch."

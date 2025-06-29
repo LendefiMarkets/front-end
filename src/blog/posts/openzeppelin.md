@@ -3,7 +3,7 @@ title: "OpenZeppelin: The Silent Architect Dominating DeFi's Foundation."
 date: "2025-06-20"
 author: "Lendefi Education Team"
 excerpt: "While flashy DeFi protocols grab headlines with their billion-dollar TVLs and innovative yield farming strategies, there's a quiet giant that has been methodically building the foundation upon which the entire decentralized finance ecosystem rests."
-image: "/assets/images/blog/openzeppelin.png"
+image: "/assets/images/blog/openzeppelin.webp"
 tags: ["OpenZeppelin", "Smart Contract Security", "DeFi Infrastructure"]
 seo_title: "OpenZeppelin: How One Company Powers 100% of Top DeFi Protocols | Smart Contract Security Leader"
 seo_description: "Discover how OpenZeppelin became the backbone of DeFi, powering all top 20 protocols and protecting $15B+ in funds. Learn about their smart contract libraries and security audits."

@@ -3,7 +3,7 @@ title: "The Custody Architect: How Dmitry Tokarev Built the Bridge Between Tradi
 date: "2025-06-05"
 author: "Lendefi Research Team"
 excerpt: "From quantitative analyst to custody pioneer - discover how Dmitry Tokarev built Copper.co, one of the world's leading digital asset custody providers serving over 500 institutional clients."
-image: "/assets/images/blog/copper.png"
+image: "/assets/images/blog/copper.webp"
 tags: ["Institutional Custody", "DeFi Infrastructure", "Blockchain"]
 seo_title: "Dmitry Tokarev: Copper.co Founder's Journey from Traditional Finance to Crypto Custody Leader | Biography"
 seo_description: "The remarkable story of Dmitry Tokarev, from Imperial College to building Copper.co - the institutional custody provider managing billions in digital assets and pioneering ClearLoop settlement technology."

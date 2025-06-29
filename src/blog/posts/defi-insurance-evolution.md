@@ -3,7 +3,7 @@ title: "DeFi Insurance Evolution: How Nexus Mutual, Sherlock, and Risk Harbor Ar
 date: "2025-06-04"
 author: "Lendefi Research Team"
 excerpt: "The evolution of DeFi insurance from simple coverage pools to sophisticated risk markets is creating a $2 billion protection ecosystem essential for institutional adoption and sustainable growth."
-image: "/assets/images/blog/defi-insurance-evolution.png"
+image: "/assets/images/blog/defi-insurance-evolution.webp"
 tags: ["DeFi Insurance", "Risk Management", "Security"]
 seo_title: "DeFi Insurance 2025: Nexus Mutual, Sherlock & Risk Harbor Build $2B+ Protection Markets | Analysis"
 seo_description: "Deep analysis of DeFi insurance evolution. Discover how Nexus Mutual, Sherlock, and Risk Harbor are creating sophisticated $2 billion+ protection markets for decentralized finance."

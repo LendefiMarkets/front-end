@@ -3,7 +3,7 @@ title: "The One-Inch Punch: How Sergey Kunz Built DeFi's Trading Gateway"
 date: "2025-06-06"
 author: "Lendefi Research Team"
 excerpt: "From self-taught programmer to DeFi pioneer - the story of how Sergey Kunz built 1inch Network, processing over $500 billion in trading volume and serving 24 million users worldwide."
-image: "/assets/images/blog/1inch.png"
+image: "/assets/images/blog/1inch.webp"
 tags: ["DEX Aggregator", "DeFi Infrastructure", "Blockchain"]
 seo_title: "Sergey Kunz: 1inch Network Founder's Journey from Hackathons to $500B DeFi Infrastructure | Biography"
 seo_description: "The inspiring story of Sergey Kunz, from dismantling computers at 13 to building 1inch Network - the DEX aggregator powering billions in DeFi trades with innovative Pathfinder algorithms."

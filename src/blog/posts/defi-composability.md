@@ -3,7 +3,7 @@ title: "Composability in DeFi is redefining finance."
 date: "2025-06-23"
 author: "Lendefi Education Team"
 excerpt: "Learn everything you need to know about decentralized lending and how it's changing the financial landscape."
-image: "/assets/images/blog/uniswap-team.png"
+image: "/assets/images/blog/uniswap-team.webp"
 tags: ["DeFi", "Composability", "Smart Contracts"]
 seo_title: "DeFi Composability: How Modular Finance is Revolutionizing Banking | Complete Guide"
 seo_description: "Discover how composable DeFi architecture is creating programmable financial infrastructure through modular smart contracts. Learn why this represents the biggest change in finance since banking."

@@ -3,7 +3,7 @@ title: "The Professors Who Built a Blockchain Empire: The Avalanche Story"
 date: "2025-06-26"
 author: "Lendefi Team"
 excerpt: "How three Cornell academics transformed theoretical computer science into Avalanche, one of the world's leading blockchain platforms processing billions in transactions."
-image: "/assets/images/blog/avalanche.png"
+image: "/assets/images/blog/avalanche.webp"
 tags: ["Avalanche", "Blockchain", "Academia", "DeFi", "Innovation", "Technology"]
 seo_title: "Avalanche Blockchain: How Cornell Professors Built a Multi-Billion Dollar Ecosystem"
 seo_description: "Discover how Professor Emin Gün Sirer and his PhD students Kevin Sekniqi and Ted Yin transformed academic research into Avalanche, one of the world's fastest and most adopted blockchain platforms."

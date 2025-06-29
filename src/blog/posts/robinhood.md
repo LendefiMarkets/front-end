@@ -3,7 +3,7 @@ title: "The Democratizer: How Vlad Tenev Transformed Wall Street Through a Smart
 date: "2025-06-28"
 author: "Lendefi Research Team"
 excerpt: "From Bulgarian immigrant to billionaire CEO, Vladimir Tenev's journey from Stanford mathematician to Robinhood founder illustrates how technological disruption can democratize entire industries—transforming how millions of Americans access financial markets through zero-commission trading and mobile-first design."
-image: "/assets/images/blog/robinhood.png"
+image: "/assets/images/blog/robinhood.webp"
 tags: ["Fintech", "Entrepreneurship", "Democratization", "Trading"]
 seo_title: "Vladimir Tenev: Robinhood Founder's Journey from Bulgarian Immigrant to Fintech Revolutionary | Biography"
 seo_description: "The inspiring story of Vladimir Tenev, from Bulgarian immigrant to building Robinhood - the app that revolutionized stock trading with zero commissions and democratized investing for 22 million Americans."

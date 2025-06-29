@@ -3,7 +3,7 @@ title: "Privacy in Public: How Aztec, Tornado Cash Successors, and Zero-Knowledg
 date: "2025-06-07"
 author: "Lendefi Research Team"
 excerpt: "The evolution of privacy-preserving DeFi protocols is creating a new paradigm where financial confidentiality and regulatory compliance can coexist through zero-knowledge technology."
-image: "/assets/images/blog/privacy-in-public.png"
+image: "/assets/images/blog/privacy-in-public.webp"
 tags: ["Privacy", "Zero-Knowledge", "DeFi"]
 seo_title: "Privacy DeFi 2025: Aztec & Zero-Knowledge Protocols Transform Confidential Finance | Analysis"
 seo_description: "Deep analysis of privacy-preserving DeFi evolution. Discover how Aztec, zero-knowledge protocols, and compliant privacy solutions are reshaping confidential digital finance."

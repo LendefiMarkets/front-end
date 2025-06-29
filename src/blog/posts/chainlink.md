@@ -3,7 +3,7 @@ title: "Sergey Nazarov, the mastermind behind Chainlink"
 date: "2025-06-13"
 author: "Lendefi Research Team"
 excerpt: "From Moscow immigrant to blockchain pioneer - discover how Sergey Nazarov built Chainlink into the infrastructure powering over $20 trillion in global financial transactions."
-image: "/assets/images/blog/chainlink.png"
+image: "/assets/images/blog/chainlink.webp"
 tags: ["Chainlink", "DeFi Infrastructure", "Blockchain"]
 seo_title: "Sergey Nazarov: Chainlink Founder's Journey from Moscow to $20T DeFi Infrastructure | Biography"
 seo_description: "The remarkable story of Sergey Nazarov, from Moscow immigrant to building Chainlink - the oracle network powering $20 trillion in DeFi transactions and serving 2,300+ projects worldwide."

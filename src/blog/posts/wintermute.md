@@ -3,7 +3,7 @@ title: "The Algorithmic Alchemist: How Evgeny Gaevoy Built Crypto's Liquidity En
 date: "2025-06-27"
 author: "Lendefi Research Team"
 excerpt: "From a Bitcoin trade on the London Underground to building Wintermute - discover how Evgeny Gaevoy created one of crypto's most influential market makers, processing over $5 billion in daily volume."
-image: "/assets/images/blog/wintermute.png"
+image: "/assets/images/blog/wintermute.webp"
 tags: ["Market Making", "DeFi Infrastructure", "Blockchain"]
 seo_title: "Evgeny Gaevoy: Wintermute Founder's Journey from Traditional Finance to Crypto Market Making Giant | Biography"
 seo_description: "The remarkable story of Evgeny Gaevoy, from Optiver trader to building Wintermute - the algorithmic trading firm providing liquidity across 80+ exchanges and surviving a $160M hack to emerge stronger."

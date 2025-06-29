@@ -3,7 +3,7 @@ title: "DeFi Lending Explained: A Comprehensive Guide"
 date: "2025-06-22"
 author: "Lendefi Education Team"
 excerpt: "Learn everything you need to know about decentralized lending and how it's changing the financial landscape."
-image: "/assets/images/blog/defi-lending.png"
+image: "/assets/images/blog/defi-lending.webp"
 tags: ["DeFi Lending", "Aave", "Institutional DeFi"]
 seo_title: "DeFi Lending 2025: Complete Guide to Decentralized Finance Lending Protocols"
 seo_description: "Comprehensive guide to DeFi lending in 2025. Discover how institutional adoption and technical innovations like Aave V4 are transforming decentralized lending with $43B TVL."

@@ -3,7 +3,7 @@ title: "Liquid Staking Wars: How Lido, Rocket Pool, and Coinbase Are Reshaping E
 date: "2025-06-11"
 author: "Lendefi Research Team"
 excerpt: "The battle for Ethereum's $80 billion staking market is intensifying as liquid staking protocols compete to solve the trade-off between security and liquidity in proof-of-stake networks."
-image: "/assets/images/blog/liquid-staking-wars.png"
+image: "/assets/images/blog/liquid-staking-wars.webp"
 tags: ["Ethereum", "Staking", "DeFi"]
 seo_title: "Liquid Staking Wars 2025: Lido vs Rocket Pool vs Coinbase for $80B Ethereum Market | Analysis"
 seo_description: "Deep analysis of the liquid staking competition between Lido, Rocket Pool, and Coinbase for Ethereum's $80 billion staking market. Discover how liquid staking derivatives are reshaping DeFi."

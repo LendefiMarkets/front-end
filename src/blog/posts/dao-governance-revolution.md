@@ -3,7 +3,7 @@ title: "The DAO Governance Revolution: How ENS, Gitcoin, and MakerDAO Are Pionee
 date: "2025-06-03"
 author: "Lendefi Research Team"
 excerpt: "The evolution of DAO governance from simple token voting to sophisticated democracy mechanisms is creating new models of digital organization that could reshape how institutions make decisions globally."
-image: "/assets/images/blog/dao-governance.png"
+image: "/assets/images/blog/dao-governance.webp"
 tags: ["DAO Governance", "Decentralization", "Innovation"]
 seo_title: "DAO Governance Revolution 2025: ENS, Gitcoin & MakerDAO Pioneer Digital Democracy | Analysis"
 seo_description: "Deep analysis of DAO governance evolution. Discover how ENS, Gitcoin, and MakerDAO are creating sophisticated digital democracy mechanisms transforming organizational decision-making."

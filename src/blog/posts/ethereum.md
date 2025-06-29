@@ -3,7 +3,7 @@ title: "The Philosopher King of Crypto: How Vitalik Buterin Built the World Ledg
 date: "2025-06-12"
 author: "Lendefi Research Team"
 excerpt: "From a teenage gamer devastated by World of Warcraft changes to the visionary creator of Ethereum - discover how Vitalik Buterin's journey shaped the $293 billion world computer."
-image: "/assets/images/blog/ethereum.png"
+image: "/assets/images/blog/ethereum.webp"
 tags: ["Ethereum", "Blockchain", "DeFi"]
 seo_title: "Vitalik Buterin: Ethereum Founder's Journey from World of Warcraft to $293B World Computer | Biography"
 seo_description: "The remarkable story of Vitalik Buterin, from teenage World of Warcraft player to Ethereum founder. Learn how his vision created the $293 billion world computer powering DeFi and Web3."

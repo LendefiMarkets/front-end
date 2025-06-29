@@ -3,7 +3,7 @@ title: "Real-World Asset Onboarding: How Centrifuge, Goldfinch, and TrueFi Are T
 date: "2025-06-06"
 author: "Lendefi Research Team"
 excerpt: "The tokenization of real-world assets is bridging traditional finance with DeFi, as protocols like Centrifuge, Goldfinch, and TrueFi pioneer the $50 billion market for on-chain credit and asset-backed lending."
-image: "/assets/images/blog/real-world-asset-onboarding.png"
+image: "/assets/images/blog/real-world-asset-onboarding.webp"
 tags: ["Tokenization", "RWA", "Institutional DeFi"]
 seo_title: "RWA Tokenization 2025: Centrifuge, Goldfinch & TrueFi Lead $50B Traditional Finance Bridge | Analysis"
 seo_description: "Deep analysis of real-world asset tokenization in DeFi. Discover how Centrifuge, Goldfinch, and TrueFi are bringing $50 billion in traditional assets on-chain through innovative credit protocols."

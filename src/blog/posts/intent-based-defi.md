@@ -3,7 +3,7 @@ title: "The Rise of Intent-Based DeFi: How CoWSwap and 1inch Are Eliminating MEV
 date: "2025-06-08"
 author: "Lendefi Research Team"
 excerpt: "Intent-based protocols are revolutionizing DeFi by allowing users to express desired outcomes rather than specific transactions, with CoWSwap and 1inch leading the charge against MEV extraction."
-image: "/assets/images/blog/intent-based-defi.png"
+image: "/assets/images/blog/intent-based-defi.webp"
 tags: ["DeFi", "MEV", "Innovation"]
 seo_title: "Intent-Based DeFi 2025: CoWSwap & 1inch Eliminate MEV Through User Intent | Analysis"
 seo_description: "Deep analysis of intent-based DeFi protocols revolutionizing trading. Discover how CoWSwap, 1inch, and others are solving MEV extraction through user intent expression."

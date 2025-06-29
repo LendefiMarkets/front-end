@@ -3,7 +3,7 @@ title: "The Bridge Builder: How Brian Armstrong Connected Traditional Finance to
 date: "2025-06-29"
 author: "Lendefi Research Team"
 excerpt: "From Airbnb engineer to crypto billionaire CEO, Brian Armstrong's journey from Rice University computer science graduate to Coinbase founder illustrates how technical vision combined with regulatory foresight can legitimize entire industries—transforming cryptocurrency from digital curiosity to mainstream financial infrastructure."
-image: "/assets/images/blog/coinbase.png"
+image: "/assets/images/blog/coinbase.webp"
 tags: ["Cryptocurrency", "Fintech", "Regulation", "Infrastructure"]
 seo_title: "Brian Armstrong: Coinbase Founder's Journey from Airbnb Engineer to Crypto Billionaire | Biography"
 seo_description: "The inspiring story of Brian Armstrong, from Airbnb engineer to building Coinbase - the platform that legitimized cryptocurrency trading and brought Bitcoin to 100 million users worldwide."

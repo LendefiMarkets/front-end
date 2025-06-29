@@ -3,7 +3,7 @@ title: "Crypto America: How Trump's Revolution Is Transforming Digital Finance F
 date: "2025-06-24"
 author: "Lendefi Political Economy Team"
 excerpt: "In just five months, the US has undergone the most dramatic shift in cryptocurrency policy in history. From Bitcoin 'scam' to Strategic Bitcoin Reserve - America races to become the crypto capital of the world."
-image: "/assets/images/blog/american-crypto.png"
+image: "/assets/images/blog/american-crypto.webp"
 tags: ["Bitcoin Reserve", "Policy", "America", "Regulation"]
 seo_title: "Trump's Crypto Revolution: How America Became the Bitcoin Capital | Strategic Bitcoin Reserve"
 seo_description: "Exclusive analysis of America's dramatic 5-month crypto policy transformation. From Bitcoin 'scam' to Strategic Bitcoin Reserve - how Trump revolutionized US digital finance forever."

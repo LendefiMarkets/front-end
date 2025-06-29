@@ -3,7 +3,7 @@ title: "The Titans of DeFi: Giants Battling for the Future of Finance."
 date: "2025-06-17"
 author: "Lendefi Education Team"
 excerpt: "At the heart of DeFi's competitive dynamics lies a fundamental tension: the established giants defending their territories against nimble challengers armed with innovative architectures."
-image: "/assets/images/blog/titans-of-defi.png"
+image: "/assets/images/blog/titans-of-defi.webp"
 tags: ["DeFi Protocols", "Competition", "Market Analysis"]
 seo_title: "DeFi Titans 2025: Battle for $214B Market Between Giants vs Disruptors | Analysis"
 seo_description: "Deep dive into the competitive DeFi landscape in 2025. Discover how established giants like Aave and Uniswap battle innovative challengers in the $214B decentralized finance market."

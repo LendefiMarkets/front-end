@@ -3,7 +3,7 @@ title: "The $30 Trillion Revolution: How Asset Tokenization Is Rewriting the Rul
 date: "2025-06-16"
 author: "Lendefi Markets Research"
 excerpt: "From $235 billion today to potentially $30 trillion by 2030, asset tokenization is converting everything from real estate to art into digital tokens. Major institutions like BlackRock are leading the charge in the most significant transformation in finance since the stock exchange."
-image: "/assets/images/blog/tokenization.png"
+image: "/assets/images/blog/tokenization.webp"
 tags: ["Tokenization", "RWA", "BlackRock", "Real Estate"]
 seo_title: "Asset Tokenization 2025: $30 Trillion Revolution in Real Estate, Bonds & Securities | BlackRock, RWA Guide"
 seo_description: "Complete guide to asset tokenization: $30T market potential, real-world assets (RWA), BlackRock's BUIDL fund, tokenized real estate, and the future of finance."
