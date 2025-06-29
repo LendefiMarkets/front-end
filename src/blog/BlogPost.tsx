@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { formatDate, getBlogPost } from '../utils/blogUtils'
 import type { BlogPost as BlogPostType } from '../utils/blogUtils'
 import BlogImagePlaceholder from './BlogImagePlaceholder'
+import ShareButtons from '../components/ShareButtons'
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
@@ -173,15 +174,18 @@ export default function BlogPost() {
   return (
     <article className="blog-post">
       <div className="blog-post-header">
-        <Link to="/blog" className="back-link">
-          ← Back to Blog
-        </Link>
-        
         <h1 className="blog-post-title">{post.title}</h1>
         
         <div className="blog-post-meta">
-          <span className="blog-date">{formatDate(post.date)}</span>
-          <span className="blog-author">by {post.author}</span>
+          <div className="meta-left">
+            <span className="blog-date">{formatDate(post.date)}</span>
+            <span className="blog-author">by {post.author}</span>
+          </div>
+          <ShareButtons 
+            title={post.title} 
+            url={window.location.href} 
+            compact={true} 
+          />
         </div>
 
         {post.tags.length > 0 && (
@@ -218,22 +222,11 @@ export default function BlogPost() {
       <div className="blog-post-footer">
         <div className="share-section">
           <h3>Share this post</h3>
-          <div className="share-buttons">
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="share-button twitter"
-            >
-              Share on X
-            </a>
-          </div>
-        </div>
-
-        <div className="navigation-section">
-          <Link to="/blog" className="nav-button">
-            ← All Posts
-          </Link>
+          <ShareButtons 
+            title={post.title} 
+            url={window.location.href} 
+            compact={true} 
+          />
         </div>
       </div>
     </article>

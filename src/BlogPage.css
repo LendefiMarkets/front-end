@@ -71,6 +71,60 @@
   box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
 }
 
+/* Tag Filter Dropdown */
+.tag-filter-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tag-filter-label {
+  color: #e5e7eb;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.tag-select {
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e5e7eb;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2314b8a6' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  min-width: 200px;
+}
+
+.tag-select:hover {
+  background-color: rgba(20, 184, 166, 0.1);
+  border-color: #14b8a6;
+}
+
+.tag-select:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.tag-select option {
+  background: #1a1a1a;
+  color: #e5e7eb;
+  padding: 0.5rem;
+}
+
 /* Blog Grid */
 .blog-grid {
   display: grid;
@@ -228,10 +282,16 @@
 
 .blog-post-meta {
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
   font-size: 1rem;
   color: #9ca3af;
   margin-bottom: 1rem;
+}
+
+.meta-left {
+  display: flex;
+  gap: 1rem;
 }
 
 .blog-post-tags {
@@ -493,6 +553,69 @@
   .blog-post-image {
     height: 250px;
   }
+}
+
+/* Share Buttons */
+.share-buttons-compact {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.share-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.share-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.share-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.share-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.share-section {
+  text-align: center;
+}
+
+.share-section h3 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+.share-section .share-buttons-compact {
+  justify-content: center;
 }
 
 /* Hide desktop tag filter on mobile */

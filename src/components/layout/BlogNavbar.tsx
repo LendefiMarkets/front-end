@@ -21,7 +21,7 @@ const BlogNavbar: React.FC = () => {
           
           {/* Desktop Navigation */}
           <div className="nav-links">
-            <a href="/" className="btn btn-outline">← Back to Main</a>
+            <a href="/blog" className="btn btn-outline">← Back to Blog</a>
           </div>
         </div>
       </div>

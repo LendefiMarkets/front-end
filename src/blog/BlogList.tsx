@@ -51,24 +51,26 @@ export default function BlogList() {
         <p>Insights, updates, and education about DeFi lending and Lendefi Markets</p>
       </div>
 
-      {/* Desktop Tag Filter */}
+      {/* Desktop Tag Filter - Dropdown */}
       {allTags.length > 0 && (
-        <div className="tag-filter desktop-only">
-          <button
-            className={`tag-button ${!selectedTag ? 'active' : ''}`}
-            onClick={() => setSelectedTag(null)}
+        <div className="tag-filter-dropdown desktop-only">
+          <label htmlFor="tag-select" className="tag-filter-label">Filter by topic:</label>
+          <select
+            id="tag-select"
+            className="tag-select"
+            value={selectedTag || ''}
+            onChange={(e) => setSelectedTag(e.target.value || null)}
           >
-            All Posts
-          </button>
-          {allTags.map(tag => (
-            <button
-              key={tag}
-              className={`tag-button ${selectedTag === tag ? 'active' : ''}`}
-              onClick={() => setSelectedTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
+            <option value="">All Posts ({posts.length})</option>
+            {allTags.map(tag => {
+              const count = posts.filter(post => post.tags.includes(tag)).length
+              return (
+                <option key={tag} value={tag}>
+                  {tag} ({count})
+                </option>
+              )
+            })}
+          </select>
         </div>
       )}
 
