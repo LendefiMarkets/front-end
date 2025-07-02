@@ -8,7 +8,14 @@ interface ShareButtonsProps {
 
 const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, compact = false }) => {
   const encodedTitle = encodeURIComponent(title);
-  const encodedUrl = encodeURIComponent(url);
+  
+  // Convert blog URL to static HTML URL for social sharing
+  let shareUrl = url;
+  if (url.includes('/blog/')) {
+    const slug = url.split('/blog/')[1];
+    shareUrl = `${window.location.origin}/social/blog/${slug}.html`;
+  }
+  const encodedUrl = encodeURIComponent(shareUrl);
   
   const shareLinks = [
     {
