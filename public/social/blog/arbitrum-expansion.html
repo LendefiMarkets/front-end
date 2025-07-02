@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Lendefi Markets on Arbitrum: Permissionless Lending Meets Layer 2 Innovation | Multi-Chain DeFi</title>
+    <meta name="title" content="Lendefi Markets on Arbitrum: Permissionless Lending Meets Layer 2 Innovation | Multi-Chain DeFi">
+    <meta name="description" content="Lendefi Markets expands to Arbitrum, bringing permissionless market creation and composable lending architecture to the $14.3B Layer 2 ecosystem. Discover the technical implementation and opportunities.">
+    <meta name="keywords" content="Arbitrum DeFi, Layer 2 lending, permissionless markets, cross-chain lending, Arbitrum expansion, multi-chain DeFi">
+    <meta name="author" content="Lendefi Development Team">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://lendefimarkets.com/social/blog/arbitrum-expansion.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://lendefimarkets.com/social/blog/arbitrum-expansion.html">
+    <meta property="og:title" content="Lendefi Markets on Arbitrum: Permissionless Lending Meets Layer 2 Innovation | Multi-Chain DeFi">
+    <meta property="og:description" content="Lendefi Markets expands to Arbitrum, bringing permissionless market creation and composable lending architecture to the $14.3B Layer 2 ecosystem. Discover the technical implementation and opportunities.">
+    <meta property="og:image" content="https://lendefimarkets.com/assets/images/blog/arbitrum-expansion.webp">
+    <meta property="og:site_name" content="Lendefi Markets">
+    <meta property="article:author" content="Lendefi Development Team">
+    <meta property="article:published_time" content="2025-07-01T12:00:00Z">
+    <meta property="article:section" content="DeFi">
+    <meta property="article:tag" content="Arbitrum">
+    <meta property="article:tag" content="Layer 2">
+    <meta property="article:tag" content="DeFi Expansion">
+    <meta property="article:tag" content="Permissionless Lending">
+    <meta property="article:tag" content="Cross-Chain">
+    <meta property="article:tag" content="Scaling">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://lendefimarkets.com/social/blog/arbitrum-expansion.html">
+    <meta property="twitter:title" content="Lendefi Markets on Arbitrum: Permissionless Lending Meets Layer 2 Innovation | Multi-Chain DeFi">
+    <meta property="twitter:description" content="Lendefi Markets expands to Arbitrum, bringing permissionless market creation and composable lending architecture to the $14.3B Layer 2 ecosystem. Discover the technical implementation and opportunities.">
+    <meta property="twitter:image" content="https://lendefimarkets.com/assets/images/blog/arbitrum-expansion.webp">
+    <meta property="twitter:creator" content="@LendefiMarkets">
+    <meta property="twitter:site" content="@LendefiMarkets">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lendefi Markets on Arbitrum: Permissionless Lending Meets Layer 2 Innovation | Multi-Chain DeFi",
+        "description": "Lendefi Markets expands to Arbitrum, bringing permissionless market creation and composable lending architecture to the $14.3B Layer 2 ecosystem. Discover the technical implementation and opportunities.",
+        "image": "https://lendefimarkets.com/assets/images/blog/arbitrum-expansion.webp",
+        "author": {
+            "@type": "Person",
+            "name": "Lendefi Development Team"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Lendefi Markets",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://lendefimarkets.com/assets/images/logo.png"
+            }
+        },
+        "datePublished": "2025-07-01T12:00:00Z",
+        "dateModified": "2025-07-01T12:00:00Z",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://lendefimarkets.com/social/blog/arbitrum-expansion.html"
+        },
+        "keywords": "Arbitrum DeFi, Layer 2 lending, permissionless markets, cross-chain lending, Arbitrum expansion, multi-chain DeFi"
+    }
+    </script>
+    
+    <style>
+        * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure Web3Modal appears on top */
+w3m-modal {
+  z-index: 999999 !important;
+}
+
+/* Override any z-index conflicts */
+.w3m-modal, 
+[data-w3m-modal] {
+  z-index: 999999 !important;
+}
+
+/* Custom scrollbar for modal content */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(55, 65, 81, 0.5);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.8);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.9);
+}
+
+/* Firefox scrollbar styling */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 114, 128, 0.8) rgba(55, 65, 81, 0.5);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #121212;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* Offset for fixed navbar */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
+  transform: translateY(-2px);
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+  color: white;
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0284c7, #0f766e);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #0ea5e9;
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+}
+
+.btn-outline:hover {
+  background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+  color: white;
+  border-color: transparent;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 768px) {
+  .grid-cols-3,
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 0 16px;
+  }
+  
+  .section {
+    padding: 40px 0;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-8 {
+  margin-bottom: 32px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-gray-300 {
+  color: #d1d5db;
+}
+
+.text-gray-400 {
+  color: #9ca3af;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #111827;
+  border-bottom: 1px solid #33353F;
+  padding: 16px 0;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.hero {
+  padding-top: 60px;
+  padding-bottom: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 50%, rgba(168, 85, 247, 0.1) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: #d1d5db;
+  margin-bottom: 32px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(18, 18, 18, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #33353F;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.open {
+  display: block;
+}
+
+.mobile-menu a {
+  display: block;
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: color 0.2s ease;
+}
+
+.mobile-menu a:hover {
+  color: white;
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu .btn {
+  margin-top: 16px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .navbar {
+    position: fixed;
+  }
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.8s ease-out;
+}
+
+/* Form Styles */
+.form-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 32px 0;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.form-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.newsletter-signup {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(6, 182, 212, 0.1));
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin: 48px 0;
+}
+
+.inline-form {
+  display: flex;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.inline-form input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .inline-form {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .inline-form input {
+    margin-bottom: 16px;
+  }
+  
+  .form-container {
+    padding: 24px 16px;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Mobile newsletter signup */
+  .newsletter-top-mobile {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  
+  .newsletter-top-mobile input {
+    min-width: auto !important;
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 120px 0 80px;
+  text-align: center;
+  background: radial-gradient(ellipse at center top, rgba(14, 165, 233, 0.15), transparent 50%);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #d1d5db;
+  margin-bottom: 48px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 48px;
+  margin: 48px auto;
+  max-width: 600px;
+}
+
+.newsletter-form {
+  margin-top: 24px;
+}
+
+/* Markets Section */
+.markets-section {
+  padding: 80px 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.markets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.market-card {
+  padding: 32px;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.market-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.market-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.market-badge {
+  background: rgba(14, 165, 233, 0.2);
+  color: #0ea5e9;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+}
+
+.market-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.market-stats .stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.market-stats .stat-label {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.market-stats .stat-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Features Section */
+.features-section {
+  padding: 80px 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  padding: 32px;
+  text-align: center;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.feature-card p {
+  color: #d1d5db;
+  line-height: 1.6;
+}
+
+/* Video Section */
+.video-section {
+  padding: 80px 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.video-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4px;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.video-container iframe {
+  border-radius: 12px;
+}
+
+/* Footer */
+.footer {
+  background: rgba(17, 24, 39, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 64px 0 32px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-section h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section a {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-section a:hover {
+  color: #d1d5db;
+}
+
+.footer-description {
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .hero-actions .btn {
+    width: 100%;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .newsletter-section {
+    padding: 32px 24px;
+  }
+}
+
+        /* Blog Container */
+.blog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+/* Blog Header */
+.blog-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+}
+
+.blog-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.blog-header p {
+  font-size: 1.25rem;
+  color: #9ca3af;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Tag Filter */
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tag-button {
+  padding: 0.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  color: #e5e7eb;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tag-button:hover {
+  background: rgba(20, 184, 166, 0.2);
+  border-color: #14b8a6;
+  color: #14b8a6;
+  transform: translateY(-2px);
+}
+
+.tag-button.active {
+  background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+}
+
+/* Tag Filter Dropdown */
+.tag-filter-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tag-filter-label {
+  color: #e5e7eb;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.tag-select {
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e5e7eb;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2314b8a6' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  min-width: 200px;
+}
+
+.tag-select:hover {
+  background-color: rgba(20, 184, 166, 0.1);
+  border-color: #14b8a6;
+}
+
+.tag-select:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.tag-select option {
+  background: #1a1a1a;
+  color: #e5e7eb;
+  padding: 0.5rem;
+}
+
+/* Blog Grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Blog Card */
+.blog-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  border-color: rgba(20, 184, 166, 0.3);
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: rgba(20, 184, 166, 0.1);
+}
+
+.blog-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-card-image img {
+  transform: scale(1.05);
+}
+
+.blog-card-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+.blog-date {
+  color: #14b8a6;
+}
+
+.blog-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.blog-card-title a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.blog-card-title a:hover {
+  color: #14b8a6;
+}
+
+.blog-card-excerpt {
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.blog-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.blog-card-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.blog-tag {
+  padding: 0.25rem 0.75rem;
+  background: rgba(20, 184, 166, 0.2);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #14b8a6;
+}
+
+.read-more {
+  color: #14b8a6;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: gap 0.3s ease;
+}
+
+.read-more:hover {
+  gap: 0.5rem;
+}
+
+/* Blog Post Styles */
+.blog-post {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.blog-post-header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  color: #14b8a6;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  transition: gap 0.3s ease;
+}
+
+.back-link:hover {
+  gap: 0.75rem;
+}
+
+.blog-post-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.blog-post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+.meta-left {
+  display: flex;
+  gap: 1rem;
+}
+
+.blog-post-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.blog-post-image {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  background: rgba(20, 184, 166, 0.1);
+}
+
+.blog-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Blog Post Content */
+.blog-post-content {
+  color: #e5e7eb;
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+.blog-post-content h1,
+.blog-post-content h2,
+.blog-post-content h3,
+.blog-post-content h4,
+.blog-post-content h5,
+.blog-post-content h6 {
+  color: #ffffff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.blog-post-content h1 {
+  font-size: 2rem;
+}
+
+.blog-post-content h2 {
+  font-size: 1.75rem;
+}
+
+.blog-post-content h3 {
+  font-size: 1.5rem;
+}
+
+.blog-post-content p {
+  margin-bottom: 1.5rem;
+}
+
+.blog-post-content a {
+  color: #14b8a6;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.blog-post-content a:hover {
+  color: #0ea5e9;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.blog-post-content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-post-content blockquote {
+  border-left: 4px solid #14b8a6;
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: #d1d5db;
+}
+
+.blog-post-content code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.blog-post-content pre {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.blog-post-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.blog-post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.blog-post-content th,
+.blog-post-content td {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.blog-post-content th {
+  background: rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+}
+
+.blog-post-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2rem 0;
+}
+
+/* Blog Post Footer */
+.blog-post-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.share-section {
+  margin-bottom: 2rem;
+}
+
+.share-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.share-button {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e5e7eb;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.share-button:hover {
+  background: rgba(20, 184, 166, 0.2);
+  border-color: #14b8a6;
+  color: #14b8a6;
+  transform: translateY(-2px);
+}
+
+.navigation-section {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-button {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+}
+
+/* No Posts Message */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #9ca3af;
+  font-size: 1.125rem;
+}
+
+/* Blog Error */
+.blog-error {
+  text-align: center;
+  padding: 4rem 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+.blog-error h1 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.blog-error p {
+  color: #9ca3af;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.blog-error a {
+  color: #14b8a6;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-header h1 {
+    font-size: 2rem;
+  }
+
+  .blog-header p {
+    font-size: 1rem;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .blog-post-title {
+    font-size: 2rem;
+  }
+
+  .blog-post-content {
+    font-size: 1rem;
+  }
+
+  .tag-filter {
+    padding: 1rem;
+  }
+
+  .tag-filter.desktop-only {
+    display: none;
+  }
+
+  .blog-post-image {
+    height: 250px;
+  }
+}
+
+/* Share Buttons */
+.share-buttons-compact {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.share-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.share-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.share-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.share-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.share-section {
+  text-align: center;
+}
+
+.share-section h3 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+.share-section .share-buttons-compact {
+  justify-content: center;
+}
+
+/* Hide desktop tag filter on mobile */
+@media (min-width: 769px) {
+  .mobile-tag-filter {
+    display: none;
+  }
+}
+    </style>
+</head>
+<body>
+    <div style="min-height: 100vh; background-color: #111827; color: #e5e7eb;">
+        <!-- Blog Navbar (same as BlogNavbar component) -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <a href="/" class="logo" style="text-decoration: none;">
+                        <img src="/assets/images/logo.png" alt="Lendefi Markets" style="height: 50px; width: auto;">
+                        <span style="background: linear-gradient(135deg, #0ea5e9, #14b8a6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem; font-weight: bold;">Lendefi Markets</span>
+                    </a>
+                    <div class="nav-links">
+                        <a href="/blog" class="btn btn-outline">← Back to Blog</a>
+                    </div>
+                    <!-- Mobile menu button -->
+                    <button class="mobile-menu-btn">
+                        <span class="menu-icon"></span>
+                        <span class="menu-icon"></span>
+                        <span class="menu-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="mobile-menu">
+                <a href="/blog" class="mobile-link">← Back to Blog</a>
+            </div>
+        </nav>
+        
+        <main style="padding-top: 80px;">
+            <article class="blog-post">
+                <div class="blog-post-header">
+                    <h1 class="blog-post-title">Lendefi Markets Expands to Arbitrum: Bringing Permissionless Lending to the Layer 2 Powerhouse</h1>
+                    
+                    <div class="blog-post-meta">
+                        <div class="meta-left">
+                            <span class="blog-date">July 1, 2025</span>
+                            <span class="blog-author">by Lendefi Development Team</span>
+                        </div>
+                        <div class="share-buttons-compact">
+                            <a href="https://twitter.com/intent/tweet?text=Lendefi%20Markets%20Expands%20to%20Arbitrum%3A%20Bringing%20Permissionless%20Lending%20to%20the%20Layer%202%20Powerhouse&url=https%3A%2F%2Flendefimarkets.com%2Fsocial%2Fblog%2Farbitrum-expansion.html" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="share-icon"
+                               title="Share on X (Twitter)"
+                               style="color: #1DA1F2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.reddit.com/submit?url=https%3A%2F%2Flendefimarkets.com%2Fsocial%2Fblog%2Farbitrum-expansion.html&title=Lendefi%20Markets%20Expands%20to%20Arbitrum%3A%20Bringing%20Permissionless%20Lending%20to%20the%20Layer%202%20Powerhouse" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="share-icon"
+                               title="Share on Reddit"
+                               style="color: #FF4500">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                                </svg>
+                            </a>
+                            <a href="https://medium.com/new-story?url=https%3A%2F%2Flendefimarkets.com%2Fsocial%2Fblog%2Farbitrum-expansion.html&title=Lendefi%20Markets%20Expands%20to%20Arbitrum%3A%20Bringing%20Permissionless%20Lending%20to%20the%20Layer%202%20Powerhouse" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="share-icon"
+                               title="Share on Medium"
+                               style="color: #00AB6C">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">Arbitrum</span><span class="blog-tag">Layer 2</span><span class="blog-tag">DeFi Expansion</span><span class="blog-tag">Permissionless Lending</span><span class="blog-tag">Cross-Chain</span><span class="blog-tag">Scaling</span>
+                    </div>
+                    
+                </div>
+
+                <div class="blog-post-image">
+                    
+                        <img src="/assets/images/blog/arbitrum-expansion.webp" alt="Lendefi Markets Expands to Arbitrum: Bringing Permissionless Lending to the Layer 2 Powerhouse" />
+                    
+                </div>
+
+                <div class="blog-post-content">
+                    <h1>Lendefi Markets Expands to Arbitrum: Bringing Permissionless Lending to the Layer 2 Powerhouse</h1>
+<p>The <strong>Layer 2 revolution</strong> has fundamentally reshaped how we think about Ethereum scaling, with <strong><a href="https://arbitrum.io/">Arbitrum</a></strong> emerging as the clear leader with <strong>$14.3 billion</strong> in total value locked and the most vibrant DeFi ecosystem among scaling solutions. <strong>As institutional capital flows into Layer 2s and developers build increasingly sophisticated applications, the infrastructure requirements have evolved beyond simple cost reduction to demanding enterprise-grade composability, security, and innovation capabilities</strong>.</p>
+<p>Today, <strong>Lendefi Markets</strong> takes a major step forward in multi-chain DeFi infrastructure by launching on <strong>Arbitrum</strong>, bringing our <strong>permissionless market creation architecture</strong> and <strong>composable lending primitives</strong> to the Layer 2 that's become home to the most innovative DeFi protocols. <strong>This isn't just another deployment—it's a strategic expansion that unlocks new possibilities for cross-chain liquidity management, institutional adoption, and protocol innovation</strong>.</p>
+<p><strong>The timing is crucial</strong>. As <strong><a href="https://base.org/">Base</a></strong> demonstrates the power of consumer-focused Layer 2s and <strong><a href="https://polygon.technology/">Polygon</a></strong> advances ZK technology, <strong>Arbitrum maintains its position as the DeFi innovation hub where sophisticated protocols push the boundaries of what's possible</strong>. <strong>Lendefi's expansion to Arbitrum positions us at the center of this innovation while enabling seamless integration with the deepest DeFi liquidity and most advanced composability infrastructure</strong>.</p>
+<h2><strong>The Arbitrum Advantage: Why Layer 2 Leadership Matters</strong></h2>
+<p><strong>Arbitrum's dominance in the Layer 2 space isn't accidental—it reflects technical excellence, ecosystem development, and network effects that create compound advantages for protocols building on the platform</strong>.</p>
+<h3><strong>Deep Liquidity and Protocol Density</strong></h3>
+<p><strong>Arbitrum hosts over 500 DeFi protocols</strong>, creating the densest ecosystem of financial primitives outside Ethereum mainnet:</p>
+<p><strong>DeFi Infrastructure</strong>: <strong>GMX</strong> ($500M TVL), <strong>Radiant Capital</strong> ($300M), and <strong>Camelot DEX</strong> ($100M) provide the liquidity infrastructure that makes sophisticated strategies possible.</p>
+<p><strong>Native Innovation</strong>: <strong>Arbitrum-first protocols</strong> like GMX pioneered new DeFi primitives (perpetual trading with real yield) that attracted users and capital from across the ecosystem.</p>
+<p><strong>Cross-Protocol Composability</strong>: <strong>Dense protocol deployment</strong> enables complex strategies and integrations impossible on less developed Layer 2s—exactly the environment where Lendefi's composable architecture thrives.</p>
+<p><strong>Institutional Presence</strong>: <strong>Arbitrum's maturity</strong> attracts institutional players who need reliable infrastructure and deep liquidity for large-scale operations.</p>
+<p><strong>This ecosystem density means Lendefi Markets on Arbitrum can immediately integrate with existing DeFi infrastructure while offering unique value through our specialized market architecture</strong>.</p>
+<h3><strong>Technical Infrastructure and Developer Experience</strong></h3>
+<p><strong>Arbitrum's technical foundation provides the reliability and performance that sophisticated lending protocols require</strong>:</p>
+<p><strong>Arbitrum Nitro</strong>: <strong>10x performance improvements</strong> through WebAssembly (WASM) execution while maintaining full EVM compatibility—crucial for gas-efficient lending operations.</p>
+<p><strong>Advanced Compression</strong>: <strong>50-90% calldata cost reduction</strong> through sophisticated compression, making frequent lending operations economically viable.</p>
+<p><strong>Sequencer Optimization</strong>: <strong>Sub-second transaction confirmation</strong> with MEV protection ensures competitive user experience for time-sensitive DeFi strategies.</p>
+<p><strong>Developer Tooling</strong>: <strong>Comprehensive infrastructure</strong> including advanced debuggers, block explorers, and monitoring tools reduces development friction.</p>
+<p><strong>For Lendefi, this means our complex market creation and position management operations execute efficiently while maintaining the security guarantees that institutional users demand</strong>.</p>
+<h3><strong>The $ARB Token and Governance Ecosystem</strong></h3>
+<p><strong>Arbitrum's governance token creates alignment between protocol success and ecosystem growth</strong>:</p>
+<p><strong>Large Community</strong>: <strong>625,000 ARB holders</strong> represent one of the largest governance communities in crypto, providing legitimacy and decentralization.</p>
+<p><strong>Treasury Resources</strong>: <strong>$400 million</strong> already allocated to ecosystem development, with <strong>$100 million</strong> in grants creating a proven track record of supporting protocol growth.</p>
+<p><strong>Revenue Sharing</strong>: <strong>Potential ARB staker revenue</strong> from sequencer fees creates sustainable token economics that benefit all ecosystem participants.</p>
+<p><strong>This governance infrastructure ensures Lendefi's expansion receives community support while contributing to the broader Arbitrum ecosystem's success</strong>.</p>
+<h2><strong>Cross-Chain Architecture: Building for the Multi-Chain Future</strong></h2>
+<p><strong>Lendefi's expansion to Arbitrum represents more than deployment—it demonstrates our vision for true multi-chain DeFi infrastructure that maintains consistency while adapting to each network's unique characteristics</strong>.</p>
+<h3><strong>Preserved Core Architecture</strong></h3>
+<p><strong>Our fundamental composable lending architecture remains consistent across chains</strong>:</p>
+<p><strong>Market Isolation</strong>: <strong>Each base asset</strong> (USDC, DAI, USDT) operates its own independent lending market, preventing contagion while enabling specialization.</p>
+<p><strong>Position Vaults</strong>: <strong>Dedicated smart contract vaults</strong> for each position ensure complete asset segregation—crucial for regulatory compliance and security.</p>
+<p><strong>Permissionless Creation</strong>: <strong>Anyone can deploy new markets</strong> with governance token requirements, enabling rapid ecosystem expansion.</p>
+<p><strong>ERC-4626 Yield Tokens</strong>: <strong>Standardized yield-bearing tokens</strong> for each market become building blocks for broader DeFi composability.</p>
+<p><strong>This consistency means developers and users familiar with Lendefi on other chains can immediately leverage our Arbitrum deployment without learning new interfaces or patterns</strong>.</p>
+<h3><strong>Arbitrum-Specific Optimizations</strong></h3>
+<p><strong>While maintaining core architecture, we've optimized for Arbitrum's unique characteristics</strong>:</p>
+<p><strong>Layer 2 Oracle Configuration</strong>: <strong>24-hour price staleness limits</strong> rather than Ethereum's 8-hour requirement, reflecting Arbitrum's different risk profile while maintaining security.</p>
+<p><strong>Gas Efficiency</strong>: <strong>Optimized storage patterns</strong> and transaction batching take advantage of Arbitrum's lower costs to enable more frequent operations.</p>
+<p><strong>Sequencer Integration</strong>: <strong>MEV protection strategies</strong> optimized for Arbitrum's centralized sequencer model (with planned decentralization).</p>
+<p><strong>Cross-Chain Messaging</strong>: <strong>Infrastructure preparation</strong> leveraging <strong><a href="https://chain.link/cross-chain">Chainlink CCIP</a></strong> for secure cross-chain messaging and our <strong>CCIP-enabled $LEND token</strong> for seamless governance across networks.</p>
+<p><strong>These optimizations ensure Lendefi performs optimally on Arbitrum while preparing for future cross-chain integrations</strong>.</p>
+<h3><strong>Seamless Cross-Chain Experience</strong></h3>
+<p><strong>Our multi-chain deployment enables new user experiences</strong>:</p>
+<p><strong>Liquidity Arbitrage</strong>: <strong>Users can compare rates</strong> across Ethereum, Base, and Arbitrum to optimize their lending and borrowing strategies.</p>
+<p><strong>Risk Diversification</strong>: <strong>Spread positions</strong> across multiple Layer 2s to reduce exposure to any single network's risks or issues.</p>
+<p><strong>Strategy Optimization</strong>: <strong>Different markets for different purposes</strong>—use Ethereum for large positions requiring maximum security, Arbitrum for active trading strategies, Base for consumer applications.</p>
+<p><strong>Cross-Chain Collateral</strong>: <strong>Future integration possibilities</strong> for using positions on one chain as collateral for borrowing on another, enabled by Chainlink CCIP infrastructure.</p>
+<h2><strong>Technical Implementation: Porting Excellence</strong></h2>
+<p><strong>Expanding to Arbitrum required careful technical consideration to maintain our security standards while optimizing for the Layer 2 environment</strong>.</p>
+<h3><strong>Smart Contract Architecture Consistency</strong></h3>
+<p><strong>Our core contracts maintain identical functionality across chains</strong>:</p>
+<p><strong>LendefiMarketFactory</strong>: <strong>Permissionless market creation</strong> with governance token requirements and configurable fees works identically on Arbitrum.</p>
+<p><strong>LendefiCore</strong>: <strong>Position management</strong> and collateral calculations use the same logic, ensuring consistent user experience.</p>
+<p><strong>LendefiMarketVault</strong>: <strong>ERC-4626 yield tokens</strong> provide the same composability benefits with other Arbitrum DeFi protocols.</p>
+<p><strong>LendefiAssets</strong>: <strong>Oracle integration and risk management</strong> adapted for Arbitrum's oracle infrastructure while maintaining security standards.</p>
+<p><strong>This consistency is crucial for developers building cross-chain strategies and users managing positions across multiple networks</strong>.</p>
+<h3><strong>Security Model Adaptations</strong></h3>
+<p><strong>Security remains paramount while adapting to Arbitrum's specific characteristics</strong>:</p>
+<p><strong>Oracle Security</strong>: <strong>Integration with Arbitrum's Chainlink infrastructure</strong> while maintaining fallback mechanisms and circuit breakers.</p>
+<p><strong>Bridge Risk Management</strong>: <strong>Careful consideration of bridge risks</strong> for assets moving between Ethereum and Arbitrum, with appropriate risk parameters.</p>
+<p><strong>Governance Token Security</strong>: <strong>Cross-chain governance token management</strong> powered by <strong>Chainlink CCIP</strong>, ensuring our <strong>CCIP-enabled $LEND token</strong> works seamlessly across networks with secure bridging capabilities.</p>
+<p><strong>Emergency Procedures</strong>: <strong>Network-specific emergency procedures</strong> while maintaining coordination with other deployments for protocol-wide issues.</p>
+<p><strong>Multi-Signature Management</strong>: <strong>Arbitrum-specific multisig configurations</strong> that maintain security while enabling efficient operations**.</p>
+<h3><strong>Gas Optimization and Cost Efficiency</strong></h3>
+<p><strong>Arbitrum's lower costs enable new operational models</strong>:</p>
+<p><strong>Frequent Rebalancing</strong>: <strong>Lower gas costs</strong> make frequent position adjustments economically viable, enabling more sophisticated automated strategies.</p>
+<p><strong>Complex Operations</strong>: <strong>Multi-step transactions</strong> become feasible, allowing for more user-friendly compound operations.</p>
+<p><strong>Automated Features</strong>: <strong>Chainlink Automation integration</strong> for automated liquidations, rebalancing, and other maintenance operations.</p>
+<p><strong>Microtransactions</strong>: <strong>Sub-dollar transaction costs</strong> enable new use cases like micropayments and micro-lending not viable on Ethereum mainnet.</p>
+<h2><strong>Permissionless Innovation: Democratizing Market Creation</strong></h2>
+<p><strong>One of Lendefi's most powerful features—permissionless market creation—becomes even more impactful on Arbitrum's cost-efficient infrastructure</strong>.</p>
+<h3><strong>Lower Barriers to Entry</strong></h3>
+<p><strong>Arbitrum's economics make market creation more accessible</strong>:</p>
+<p><strong>Deployment Costs</strong>: <strong>Dramatically lower</strong> contract deployment costs compared to Ethereum mainnet make experimentation affordable.</p>
+<p><strong>Operational Efficiency</strong>: <strong>Ongoing operational costs</strong> for maintaining markets drop significantly, enabling sustainable smaller markets.</p>
+<p><strong>Testing Environment</strong>: <strong>Lower costs enable</strong> rapid prototyping and testing of new market configurations before mainnet deployment.</p>
+<p><strong>This accessibility democratizes DeFi innovation, allowing smaller teams and individual developers to launch specialized lending markets</strong>.</p>
+<h3><strong>Market Diversity and Specialization</strong></h3>
+<p><strong>The economic environment enables new types of markets</strong>:</p>
+<p><strong>Long-tail Assets</strong>: <strong>Markets for smaller cap tokens</strong> become economically viable with lower operational costs.</p>
+<p><strong>Experimental Configurations</strong>: <strong>Novel risk parameters and fee structures</strong> can be tested affordably before broader adoption.</p>
+<p><strong>Specialized Use Cases</strong>: <strong>Gaming tokens, NFT-backed assets, and other specialized collateral types</strong> can have dedicated markets.</p>
+<p><strong>Cross-Protocol Integration</strong>: <strong>Direct integration</strong> with other Arbitrum protocols through specialized markets and custom configurations.</p>
+<h3><strong>Governance Token Economics</strong></h3>
+<p><strong>Our governance token requirements adapt to Arbitrum's environment</strong>:</p>
+<p><strong>Cost-Adjusted Fees</strong>: <strong>Market creation fees</strong> calibrated for Arbitrum's economic environment while maintaining spam prevention.</p>
+<p><strong>Cross-Chain Governance</strong>: <strong>CCIP-enabled $LEND token requirements</strong> work across all deployments through <strong>Chainlink's Cross-Chain Interoperability Protocol</strong>, creating unified governance while enabling local innovation.</p>
+<p><strong>Revenue Sharing</strong>: <strong>Fee collection</strong> contributes to overall protocol treasury while funding Arbitrum-specific development.</p>
+<p><strong>This creates sustainable economics that support innovation while maintaining protocol security and governance</strong>.</p>
+<h2><strong>Chainlink Integration: Powering Cross-Chain Infrastructure</strong></h2>
+<p><strong>Lendefi Markets leverages Chainlink's industry-leading infrastructure to enable secure cross-chain operations and governance</strong>.</p>
+<h3><strong>Chainlink CCIP: Secure Cross-Chain Messaging</strong></h3>
+<p><strong>Our integration with <a href="https://chain.link/cross-chain">Chainlink CCIP</a> provides the foundation for secure multi-chain operations</strong>:</p>
+<p><strong>CCIP-Enabled $LEND Token</strong>: <strong>Our governance token utilizes Chainlink CCIP</strong> for secure cross-chain transfers, enabling unified governance across Ethereum, Arbitrum, Base, and future deployments.</p>
+<p><strong>Cross-Chain Messaging</strong>: <strong>Protocol updates and governance decisions</strong> can be synchronized across all chains through CCIP's reliable message passing infrastructure.</p>
+<p><strong>Bridge Security</strong>: <strong>Chainlink's time-tested security model</strong> protects cross-chain operations, reducing bridge risk compared to alternative solutions.</p>
+<p><strong>Future-Proof Architecture</strong>: <strong>As CCIP expands to new chains</strong>, Lendefi can easily extend to additional networks without rebuilding cross-chain infrastructure.</p>
+<h3><strong>Oracle Infrastructure and Automation</strong></h3>
+<p><strong>Beyond cross-chain capabilities, Chainlink powers critical protocol functions</strong>:</p>
+<p><strong>Price Feeds</strong>: <strong>Chainlink's decentralized oracle networks</strong> provide reliable price data for all collateral assets and market operations.</p>
+<p><strong>Automation Services</strong>: <strong>Chainlink Automation</strong> handles liquidations, position updates, and maintenance operations across all chains.</p>
+<p><strong>Proof of Reserve</strong>: <strong>Integration with Chainlink PoR feeds</strong> ensures transparent and verifiable protocol collateralization.</p>
+<p><strong>This deep Chainlink integration ensures Lendefi operates with enterprise-grade security and reliability while enabling seamless multi-chain experiences</strong>.</p>
+<h2><strong>Integration Opportunities: Composing with Arbitrum DeFi</strong></h2>
+<p><strong>Lendefi's expansion to Arbitrum unlocks powerful integration possibilities with the ecosystem's sophisticated DeFi infrastructure</strong>.</p>
+<h3><strong>GMX Ecosystem Integration</strong></h3>
+<p><strong>GMX's $500M TVL and perpetual trading focus creates natural synergies</strong>:</p>
+<p><strong>GLP Collateral</strong>: <strong>Potential for GLP tokens</strong> (GMX's liquidity provider tokens) to serve as collateral in specialized markets.</p>
+<p><strong>Yield Strategies</strong>: <strong>Lendefi yield tokens</strong> can integrate with GMX strategies for complex yield farming across perpetual positions.</p>
+<p><strong>Leverage Management</strong>: <strong>Lendefi borrowing</strong> can fund GMX positions, creating sophisticated leveraged strategies.</p>
+<p><strong>Risk Hedging</strong>: <strong>Use lending positions</strong> to hedge perpetual trading exposure, creating more stable overall portfolios.</p>
+<h3><strong>Camelot DEX and Liquidity Management</strong></h3>
+<p><strong>Camelot's specialized AMM features complement Lendefi's architecture</strong>:</p>
+<p><strong>LP Token Markets</strong>: <strong>Liquidity provider tokens</strong> from Camelot can serve as collateral in Lendefi markets.</p>
+<p><strong>Yield Optimization</strong>: <strong>Lendefi yield tokens</strong> can participate in Camelot's nitro pools for enhanced returns.</p>
+<p><strong>Automated Strategies</strong>: <strong>Integration possibilities</strong> for automated rebalancing between lending and LP positions.</p>
+<p><strong>Cross-Protocol Arbitrage</strong>: <strong>Efficient capital allocation</strong> between lending yields and DEX farming opportunities.</p>
+<h3><strong>Radiant Capital Collaboration</strong></h3>
+<p><strong>Radiant's cross-chain lending focus aligns with multi-chain strategies</strong>:</p>
+<p><strong>Yield Comparison</strong>: <strong>Direct comparison</strong> between Lendefi's specialized markets and Radiant's broader cross-chain approach.</p>
+<p><strong>Complementary Services</strong>: <strong>Different use cases</strong> served by each protocol's unique architecture and focus areas.</p>
+<p><strong>Integration Potential</strong>: <strong>Future collaboration</strong> on cross-chain lending strategies and shared infrastructure development.</p>
+<h2><strong>User Experience: Seamless Multi-Chain Operations</strong></h2>
+<p><strong>Lendefi's Arbitrum deployment prioritizes user experience while maintaining our security and composability advantages</strong>.</p>
+<h3><strong>Cost-Effective Operations</strong></h3>
+<p><strong>Arbitrum's economics transform user interaction patterns</strong>:</p>
+<p><strong>Frequent Adjustments</strong>: <strong>Sub-dollar transaction costs</strong> make regular position management economically viable.</p>
+<p><strong>Complex Strategies</strong>: <strong>Multi-step operations</strong> become affordable, enabling sophisticated automated strategies.</p>
+<p><strong>Experimentation</strong>: <strong>Low-cost testing</strong> of different lending strategies and market configurations.</p>
+<p><strong>Portfolio Optimization</strong>: <strong>Regular rebalancing</strong> between different markets and protocols based on changing conditions.</p>
+<h3><strong>Enhanced Composability</strong></h3>
+<p><strong>Integration with Arbitrum's DeFi ecosystem creates new possibilities</strong>:</p>
+<p><strong>Cross-Protocol Strategies</strong>: <strong>Seamless movement</strong> between Lendefi markets and other Arbitrum protocols.</p>
+<p><strong>Yield Optimization</strong>: <strong>Dynamic allocation</strong> between lending yields, DEX farming, and perpetual trading based on market conditions.</p>
+<p><strong>Risk Management</strong>: <strong>Diversified exposure</strong> across multiple protocols and strategies for enhanced risk-adjusted returns.</p>
+<p><strong>Automated Features</strong>: <strong>Chainlink Automation</strong> integration for hands-off strategy execution and maintenance.</p>
+<h3><strong>Institutional-Grade Infrastructure</strong></h3>
+<p><strong>Features that appeal to sophisticated users</strong>:</p>
+<p><strong>Position Isolation</strong>: <strong>Dedicated vaults</strong> for regulatory compliance and enhanced security.</p>
+<p><strong>Risk Transparency</strong>: <strong>Clear separation</strong> between different markets and asset types for precise risk management.</p>
+<p><strong>Reporting Tools</strong>: <strong>Comprehensive analytics</strong> for tracking performance across multiple markets and chains.</p>
+<p><strong>API Integration</strong>: <strong>Programmatic access</strong> for institutional trading systems and portfolio management tools.</p>
+<h2><strong>Looking Forward: The Multi-Chain DeFi Future</strong></h2>
+<p><strong>Lendefi's expansion to Arbitrum represents our broader vision for multi-chain DeFi infrastructure that serves the entire ecosystem</strong>.</p>
+<h3><strong>Cross-Chain Liquidity Management</strong></h3>
+<p><strong>Future developments will enhance cross-chain capabilities</strong>:</p>
+<p><strong>Unified Dashboards</strong>: <strong>Single interface</strong> for managing positions across Ethereum, Arbitrum, Base, and future deployments.</p>
+<p><strong>Cross-Chain Strategies</strong>: <strong>Automated rebalancing</strong> between chains based on yield opportunities and risk parameters.</p>
+<p><strong>Bridge Integration</strong>: <strong>Seamless asset movement</strong> between chains powered by <strong>Chainlink CCIP</strong>, providing secure and reliable cross-chain infrastructure for our <strong>CCIP-enabled $LEND governance token</strong>.</p>
+<p><strong>Liquidity Optimization</strong>: <strong>Dynamic allocation</strong> across chains to maximize yield while managing risk exposure.</p>
+<h3><strong>Innovation Acceleration</strong></h3>
+<p><strong>Multi-chain deployment accelerates innovation</strong>:</p>
+<p><strong>Rapid Experimentation</strong>: <strong>Different chains</strong> serve as testing grounds for new features and market configurations.</p>
+<p><strong>Community Feedback</strong>: <strong>Diverse user bases</strong> across chains provide broader feedback for protocol development.</p>
+<p><strong>Technical Advancement</strong>: <strong>Chain-specific optimizations</strong> drive overall protocol improvement and efficiency gains.</p>
+<p><strong>Ecosystem Growth</strong>: <strong>Multiple touchpoints</strong> increase overall protocol adoption and network effects.</p>
+<h3><strong>Institutional Adoption</strong></h3>
+<p><strong>Multi-chain infrastructure supports institutional requirements</strong>:</p>
+<p><strong>Risk Distribution</strong>: <strong>Geographic and technological diversification</strong> across multiple Layer 2 networks.</p>
+<p><strong>Regulatory Compliance</strong>: <strong>Jurisdiction-specific deployments</strong> can accommodate different regulatory requirements.</p>
+<p><strong>Operational Efficiency</strong>: <strong>Choose optimal networks</strong> for different types of operations and user bases.</p>
+<p><strong>Redundancy and Reliability</strong>: <strong>Multiple deployment options</strong> ensure service continuity even if individual networks face issues.</p>
+<h2><strong>Conclusion: Building the Infrastructure for DeFi's Next Chapter</strong></h2>
+<p><strong>The expansion of Lendefi Markets to Arbitrum represents more than strategic growth—it demonstrates our commitment to building the multi-chain infrastructure that DeFi's next phase requires</strong>. <strong>As the Layer 2 wars continue reshaping Ethereum's scaling future, protocols must evolve beyond single-chain thinking to embrace the multi-chain reality that institutional adoption and global scale demand</strong>.</p>
+<p><strong>Arbitrum's position as the DeFi innovation hub makes it the ideal second deployment for Lendefi's permissionless lending architecture</strong>. <strong>The combination of deep liquidity, sophisticated protocols, and technical excellence creates an environment where our composable markets can immediately add value while integrating with existing DeFi infrastructure</strong>. <strong>This isn't just about capturing market share—it's about enabling new types of strategies and innovations impossible on single-chain protocols</strong>.</p>
+<p><strong>The technical achievements are equally significant</strong>:</p>
+<p><strong>Consistent Architecture</strong>: <strong>Maintaining identical core functionality</strong> across chains while optimizing for each network's unique characteristics ensures seamless user experience and developer familiarity.</p>
+<p><strong>Enhanced Composability</strong>: <strong>ERC-4626 yield tokens</strong> from Lendefi markets become building blocks for other Arbitrum protocols, creating network effects that benefit the entire ecosystem.</p>
+<p><strong>Institutional Readiness</strong>: <strong>Position vault isolation</strong> and <strong>comprehensive risk management</strong> meet the compliance requirements that institutional adoption demands.</p>
+<p><strong>Cost Efficiency</strong>: <strong>Arbitrum's economics</strong> enable new operational models and user behaviors impossible on higher-cost networks.</p>
+<p><strong>Looking ahead, this expansion establishes the foundation for true cross-chain DeFi infrastructure</strong>. <strong>As bridge technology matures and cross-chain standards emerge, users will expect seamless movement between networks based on optimal conditions rather than being locked into single-chain ecosystems</strong>. <strong>Lendefi's multi-chain approach positions us to enable this future while maintaining the security and composability that sophisticated users require</strong>.</p>
+<p><strong>The broader implications extend beyond Lendefi</strong>:</p>
+<p><strong>Multi-Chain Standards</strong>: <strong>Our consistent architecture across chains contributes to emerging standards for cross-chain protocol deployment</strong>.</p>
+<p><strong>Ecosystem Growth</strong>: <strong>Additional deployment options</strong> increase total addressable market while reducing single-point-of-failure risks for users and partners.</p>
+<p><strong>Innovation Acceleration</strong>: <strong>Different networks serve as innovation labs</strong> where new features and market configurations can be tested before broader deployment.</p>
+<p><strong>Institutional Bridge</strong>: <strong>Professional-grade infrastructure</strong> across multiple networks creates the foundation for institutional DeFi adoption at scale.</p>
+<p><strong>The Layer 2 revolution is far from over, and the protocols that thrive will be those that embrace multi-chain architecture while maintaining technical excellence and user focus</strong>. <strong>Lendefi's expansion to Arbitrum positions us not just to participate in this evolution, but to help define the standards and infrastructure that will support DeFi's next trillion dollars in growth</strong>.</p>
+<p><strong>For users, developers, and institutions, this expansion opens new possibilities for yield optimization, risk management, and financial innovation</strong>. <strong>The future of DeFi is multi-chain, composable, and permissionless—and Lendefi Markets is building the infrastructure to make that future a reality</strong>.</p>
+
+                </div>
+
+                <div class="blog-post-footer">
+                    <div class="share-section">
+                        <h3>Share this post</h3>
+                        <div class="share-buttons-compact">
+                            <a href="https://twitter.com/intent/tweet?text=Lendefi%20Markets%20Expands%20to%20Arbitrum%3A%20Bringing%20Permissionless%20Lending%20to%20the%20Layer%202%20Powerhouse&url=https%3A%2F%2Flendefimarkets.com%2Fsocial%2Fblog%2Farbitrum-expansion.html" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="share-icon"
+                               title="Share on X (Twitter)"
+                               style="color: #1DA1F2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.reddit.com/submit?url=https%3A%2F%2Flendefimarkets.com%2Fsocial%2Fblog%2Farbitrum-expansion.html&title=Lendefi%20Markets%20Expands%20to%20Arbitrum%3A%20Bringing%20Permissionless%20Lending%20to%20the%20Layer%202%20Powerhouse" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="share-icon"
+                               title="Share on Reddit"
+                               style="color: #FF4500">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                                </svg>
+                            </a>
+                            <a href="https://medium.com/new-story?url=https%3A%2F%2Flendefimarkets.com%2Fsocial%2Fblog%2Farbitrum-expansion.html&title=Lendefi%20Markets%20Expands%20to%20Arbitrum%3A%20Bringing%20Permissionless%20Lending%20to%20the%20Layer%202%20Powerhouse" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="share-icon"
+                               title="Share on Medium"
+                               style="color: #00AB6C">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <!-- Footer (same as Footer component) -->
+        <footer style="background: rgba(17, 24, 39, 0.9); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem 0; margin-top: 4rem;">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <div style="text-align: center; color: #9ca3af;">
+                    <p>
+                        © 2025 Lendefi Labs LLC. All rights reserved. | 
+                        <a href="/blog" style="color: #14b8a6; text-decoration: none;"> Blog</a> | 
+                        <a href="/contact" style="color: #14b8a6; text-decoration: none;"> Contact</a> | 
+                        <a href="https://github.com/LendefiMarkets" target="_blank" rel="noopener noreferrer" style="color: #14b8a6; text-decoration: none;"> GitHub</a> | 
+                        <a href="https://x.com/LendefiMarkets" target="_blank" rel="noopener noreferrer" style="color: #14b8a6; text-decoration: none;"> X</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Back to Top button -->
+        <button id="back-to-top" style="position: fixed; bottom: 24px; right: 24px; background: linear-gradient(135deg, #0ea5e9, #14b8a6); color: white; border: none; border-radius: 50%; width: 48px; height: 48px; display: none; cursor: pointer; z-index: 999;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; margin: auto;">
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Show/hide back to top button
+        window.addEventListener('scroll', function() {
+            const button = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                button.style.display = 'flex';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
