@@ -244,6 +244,21 @@ function App() {
                   onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
                   onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
                 />
+                <img 
+                  src="/assets/images/arbitrum-logo.svg" 
+                  alt="Arbitrum"
+                  width="40"
+                  height="40"
+                  style={{ 
+                    height: '40px', 
+                    width: '40px', 
+                    opacity: '0.8',
+                    transition: 'opacity 0.3s ease',
+                    filter: 'brightness(0.9)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                />
               </div>
               <div style={{ 
                 height: '1px', 
