@@ -542,6 +542,16 @@
     font-size: 1rem;
   }
 
+  .blog-post-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .share-buttons-compact {
+    margin-top: 0.5rem;
+  }
+
   .tag-filter {
     padding: 1rem;
   }
