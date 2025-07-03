@@ -13,7 +13,8 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, compact = false
   let shareUrl = url;
   if (url.includes('/blog/')) {
     const slug = url.split('/blog/')[1];
-    shareUrl = `${window.location.origin}/social/blog/${slug}.html`;
+    // Use production domain for social sharing
+    shareUrl = `https://lendefimarkets.com/social/blog/${slug}.html`;
   }
   const encodedUrl = encodeURIComponent(shareUrl);
   
@@ -62,10 +63,10 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url, compact = false
       name: 'Farcaster',
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M4.701 4.081c0-.876.057-1.738.168-2.587l4.107.021a75.126 75.126 0 0 0-.168 3.189v6.163c.5.321.942.701 1.315 1.126h4.953c.374-.425.815-.804 1.315-1.126V4.705a75.125 75.125 0 0 0-.168-3.189l4.107-.021A55.17 55.17 0 0 1 20.5 4.08v10.808h1.82V22.5h-4.074v-2.712a6.232 6.232 0 0 1-2.958.712H9.012a6.233 6.233 0 0 1-2.958-.712V22.5H1.98v-7.612h1.82L3.8 4.081h.901ZM15.288 19.5a4.952 4.952 0 0 0 3.124-1.088v-1.796a5.233 5.233 0 0 0-5.233-5.232H11.021a5.233 5.233 0 0 0-5.233 5.232v1.796A4.952 4.952 0 0 0 8.912 19.5h6.376Z"/>
+          <path d="M18.24 3.98h-1.92V2.06c0-.31.25-.56.56-.56h.8c.31 0 .56.25.56.56v1.92zM7.68 3.98H5.76V2.06c0-.31.25-.56.56-.56h.8c.31 0 .56.25.56.56v1.92zM5.76 21.5h1.92V9.86c0-1.77 1.43-3.2 3.2-3.2h2.24c1.77 0 3.2 1.43 3.2 3.2V21.5h1.92V3.98H5.76V21.5z"/>
         </svg>
       ),
-      url: `https://warpcast.com/~/compose?text=${encodedTitle}%20${encodedUrl}`,
+      url: `https://farcaster.xyz/~/compose?text=${encodedTitle}&embeds[]=${encodedUrl}`,
       color: '#8A63D2'
     }
   ];
