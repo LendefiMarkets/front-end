@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import FAQItem from '../FAQItem';
 
 const SupportCommunityFAQ: React.FC = () => {
@@ -18,12 +19,12 @@ const SupportCommunityFAQ: React.FC = () => {
         <p style={{ marginBottom: '1rem' }}>Multiple support channels are available:</p>
         <ul style={{ paddingLeft: '1.5rem', marginBottom: '1rem' }}>
           <li style={{ marginBottom: '0.5rem' }}>
-            <strong>Documentation:</strong> Comprehensive guides at <a href="/docs" style={{ color: '#14b8a6' }}>docs</a>
+            <strong>Documentation:</strong> Comprehensive guides at <Link to="/docs" style={{ color: '#14b8a6' }}>docs</Link>
           </li>
           <li style={{ marginBottom: '0.5rem' }}><strong>GitHub:</strong> Technical issues and feature requests</li>
           <li style={{ marginBottom: '0.5rem' }}><strong>Community:</strong> Join discussions on X/Twitter</li>
           <li style={{ marginBottom: '0.5rem' }}>
-            <strong>Contact:</strong> Direct inquiries via <a href="/contact" style={{ color: '#14b8a6' }}>contact form</a>
+            <strong>Contact:</strong> Direct inquiries via <Link to="/contact" style={{ color: '#14b8a6' }}>contact form</Link>
           </li>
         </ul>
         <p style={{ marginBottom: '1rem' }}>

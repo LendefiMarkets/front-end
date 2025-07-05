@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
 
@@ -11,7 +12,7 @@ function MarketOwnerGuide() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <a href="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
               <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
               <span style={{ 
                 background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
@@ -23,11 +24,11 @@ function MarketOwnerGuide() {
               }}>
                 Lendefi Markets
               </span>
-            </a>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/docs" className="btn btn-outline">← Back to Docs</a>
+              <Link to="/docs" className="btn btn-outline">← Back to Docs</Link>
             </div>
           </div>
         </div>
@@ -461,8 +462,8 @@ function MarketOwnerGuide() {
             </p>
             
             <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-              <a 
-                href="/docs" 
+              <Link 
+                to="/docs" 
                 style={{ 
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -476,7 +477,7 @@ function MarketOwnerGuide() {
                 }}
               >
                 📚 Documentation
-              </a>
+              </Link>
               <a 
                 href="https://x.com/LendefiMarkets" 
                 target="_blank" 

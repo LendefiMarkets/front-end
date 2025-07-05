@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Contact() {
 
   return (
@@ -6,7 +8,7 @@ function Contact() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <a href="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
               <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
               <span style={{ 
                 background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
@@ -18,11 +20,11 @@ function Contact() {
               }}>
                 Lendefi Markets
               </span>
-            </a>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/" className="btn btn-outline">← Back to Main</a>
+              <Link to="/" className="btn btn-outline">← Back to Main</Link>
             </div>
           </div>
         </div>
@@ -135,8 +137,8 @@ function Contact() {
               Composable lending markets protocol for DeFi
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '32px' }}>
-              <a href="/" className="text-gray-400">Home</a>
-              <a href="/docs/" className="text-gray-400">Documentation</a>
+              <Link to="/" className="text-gray-400">Home</Link>
+              <Link to="/docs/" className="text-gray-400">Documentation</Link>
               <a href="https://github.com/LendefiMarkets" className="text-gray-400">GitHub</a>
               <a href="https://x.com/LendefiMarkets" className="text-gray-400">X</a>
             </div>

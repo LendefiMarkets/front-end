@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Footer from './components/layout/Footer';
 
 function Docs() {
@@ -7,7 +8,7 @@ function Docs() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <a href="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
               <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
               <span style={{ 
                 background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
@@ -19,11 +20,11 @@ function Docs() {
               }}>
                 Lendefi Markets
               </span>
-            </a>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="nav-links">
-              <a href="/" className="btn btn-outline">← Back to Main</a>
+              <Link to="/" className="btn btn-outline">← Back to Main</Link>
             </div>
           </div>
         </div>
@@ -86,7 +87,7 @@ function Docs() {
               <p style={{ color: '#9ca3af', marginBottom: '1.5rem', lineHeight: '1.7' }}>
                 Complete guide to creating and managing isolated lending markets, including detailed asset configuration, revenue optimization, and market management strategies.
               </p>
-              <a href="/market-owner-guide" style={{
+              <Link to="/market-owner-guide" style={{
                 color: '#14b8a6',
                 textDecoration: 'none',
                 fontWeight: 600,
@@ -98,7 +99,7 @@ function Docs() {
               onMouseOver={(e) => e.currentTarget.style.color = '#0ea5e9'}
               onMouseOut={(e) => e.currentTarget.style.color = '#14b8a6'}>
                 Read Documentation →
-              </a>
+              </Link>
             </div>
 
             <div style={{
@@ -130,7 +131,7 @@ function Docs() {
               <p style={{ color: '#9ca3af', marginBottom: '1.5rem', lineHeight: '1.7' }}>
                 Learn how to earn yield by providing liquidity to markets through ERC-4626 vaults with multiple revenue streams including interest, flash loans, and liquidation proceeds.
               </p>
-              <a href="/lender-guide" style={{
+              <Link to="/lender-guide" style={{
                 color: '#14b8a6',
                 textDecoration: 'none',
                 fontWeight: 600,
@@ -142,7 +143,7 @@ function Docs() {
               onMouseOver={(e) => e.currentTarget.style.color = '#0ea5e9'}
               onMouseOut={(e) => e.currentTarget.style.color = '#14b8a6'}>
                 Read Documentation →
-              </a>
+              </Link>
             </div>
 
             <div style={{
@@ -174,7 +175,7 @@ function Docs() {
               <p style={{ color: '#9ca3af', marginBottom: '1.5rem', lineHeight: '1.7' }}>
                 Complete guide to borrowing against collateral, managing positions, understanding liquidation risks, and optimizing your borrowing strategy across markets.
               </p>
-              <a href="/borrower-guide" style={{
+              <Link to="/borrower-guide" style={{
                 color: '#14b8a6',
                 textDecoration: 'none',
                 fontWeight: 600,
@@ -186,7 +187,7 @@ function Docs() {
               onMouseOver={(e) => e.currentTarget.style.color = '#0ea5e9'}
               onMouseOut={(e) => e.currentTarget.style.color = '#14b8a6'}>
                 Read Documentation →
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -206,7 +207,7 @@ function Docs() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
               gap: '1.5rem'
             }}>
-              <a href="/smart-contracts" style={{
+              <Link to="/smart-contracts" style={{
                 background: 'rgba(31, 41, 55, 0.5)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '8px',
@@ -219,9 +220,9 @@ function Docs() {
               className="quick-link">
                 <h4 style={{ marginBottom: '0.5rem', color: 'inherit' }}>Smart Contracts</h4>
                 <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Contract addresses and ABIs</p>
-              </a>
+              </Link>
               
-              <a href="/api-reference" style={{
+              <Link to="/api-reference" style={{
                 background: 'rgba(31, 41, 55, 0.5)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '8px',
@@ -234,7 +235,7 @@ function Docs() {
               className="quick-link">
                 <h4 style={{ marginBottom: '0.5rem', color: 'inherit' }}>API Reference</h4>
                 <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Complete function reference</p>
-              </a>
+              </Link>
               
               <a href="#tutorials" style={{
                 background: 'rgba(31, 41, 55, 0.5)',
@@ -251,7 +252,7 @@ function Docs() {
                 <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Step-by-step guides</p>
               </a>
               
-              <a href="/faq" style={{
+              <Link to="/faq" style={{
                 background: 'rgba(31, 41, 55, 0.5)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '8px',
@@ -264,7 +265,7 @@ function Docs() {
               className="quick-link">
                 <h4 style={{ marginBottom: '0.5rem', color: 'inherit' }}>FAQ</h4>
                 <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Frequently asked questions</p>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

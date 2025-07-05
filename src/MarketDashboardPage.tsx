@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams, Link } from 'react-router-dom'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useAppKitNetwork } from '@reown/appkit/react'
 import { parseMarketId } from './utils/marketId'
@@ -137,7 +137,7 @@ export default function MarketDashboardPage() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <a href="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
               <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
               <span style={{ 
                 background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
@@ -149,7 +149,7 @@ export default function MarketDashboardPage() {
               }}>
                 Lendefi Markets
               </span>
-            </a>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="nav-links">

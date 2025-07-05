@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import FAQItem from '../FAQItem';
 
 const TechnicalIntegrationFAQ: React.FC = () => {
@@ -36,7 +37,7 @@ const TechnicalIntegrationFAQ: React.FC = () => {
           <li style={{ marginBottom: '0.5rem' }}><strong>Webhooks:</strong> Real-time event notifications</li>
         </ul>
         <p style={{ marginBottom: '1rem' }}>
-          Check our <a href="/api-reference" style={{ color: '#14b8a6' }}>API Reference</a> for detailed integration documentation.
+          Check our <Link to="/api-reference" style={{ color: '#14b8a6' }}>API Reference</Link> for detailed integration documentation.
         </p>
       </FAQItem>
 
