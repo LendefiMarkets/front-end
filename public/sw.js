@@ -18,6 +18,12 @@ self.addEventListener('install', event => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', event => {
+  // Skip caching for external resources
+  const url = new URL(event.request.url);
+  if (url.origin !== location.origin) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
