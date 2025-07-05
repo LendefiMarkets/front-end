@@ -19,6 +19,7 @@ export default defineConfig({
     exclude: ['vite-plugin-node-polyfills/shims/buffer', 'vite-plugin-node-polyfills/shims/global', 'vite-plugin-node-polyfills/shims/process']
   },
   build: {
+    sourcemap: true, // Enable source maps for production
     rollupOptions: {
       output: {
         manualChunks: {

@@ -13,7 +13,7 @@ if (!projectId) {
 export const metadata = {
   name: 'Lendefi Markets',
   description: 'Composable lending markets protocol for DeFi',
-  url: 'https://lendefimarkets.com', // Always use production URL for consistency
+  url: window.location.origin, // Use actual origin to match WalletConnect validation
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
