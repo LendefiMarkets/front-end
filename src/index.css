@@ -4,6 +4,18 @@
   padding: 0;
 }
 
+/* Prevent horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Ensure all containers respect viewport width */
+#root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 /* Ensure Web3Modal appears on top */
 w3m-modal {
   z-index: 999999 !important;
