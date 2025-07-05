@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -12,8 +13,8 @@ const Footer: React.FC = () => {
         <div style={{ textAlign: 'center', color: '#9ca3af' }}>
           <p>
             © 2025 Lendefi Labs LLC. All rights reserved. | 
-            <a href="/blog" style={{ color: '#14b8a6', textDecoration: 'none' }}> Blog</a> | 
-            <a href="/contact" style={{ color: '#14b8a6', textDecoration: 'none' }}> Contact</a> | 
+            <Link to="/blog" style={{ color: '#14b8a6', textDecoration: 'none' }}> Blog</Link> | 
+            <Link to="/contact" style={{ color: '#14b8a6', textDecoration: 'none' }}> Contact</Link> | 
             <a href="https://github.com/LendefiMarkets" style={{ color: '#14b8a6', textDecoration: 'none' }}> GitHub</a> | 
             <a href="https://x.com/LendefiMarkets" style={{ color: '#14b8a6', textDecoration: 'none' }}> X</a>
           </p>

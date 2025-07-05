@@ -119,8 +119,8 @@ function App() {
               <a href="#markets" onClick={(e) => { e.preventDefault(); handleNavClick('markets'); }}>Markets</a>
               <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}>Features</a>
               <a href="#video" onClick={(e) => { e.preventDefault(); handleNavClick('video'); }}>Video</a>
-              <a href="/contact">Contact</a>
-              <a href="/docs/">Docs</a>
+              <Link to="/contact">Contact</Link>
+              <Link to="/docs/">Docs</Link>
               <ConnectWalletButton />
             </div>
             
@@ -139,8 +139,8 @@ function App() {
             <a href="#markets" onClick={(e) => { e.preventDefault(); handleNavClick('markets'); }}>Markets</a>
             <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}>Features</a>
             <a href="#video" onClick={(e) => { e.preventDefault(); handleNavClick('video'); }}>Video</a>
-            <a href="/contact">Contact</a>
-            <a href="/docs/">Docs</a>
+            <Link to="/contact">Contact</Link>
+            <Link to="/docs/">Docs</Link>
             <ConnectWalletButton />
           </div>
         </div>
@@ -267,8 +267,8 @@ function App() {
               }} />
             </div>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '64px' }}>
-              <a href="/book-demo" className="btn btn-primary">Book Demo</a>
-              <a href="/docs/" className="btn btn-outline">View Docs</a>
+              <Link to="/book-demo" className="btn btn-primary">Book Demo</Link>
+              <Link to="/docs/" className="btn btn-outline">View Docs</Link>
               <Link to="/blog" className="btn btn-primary">Read Blog</Link>
             </div>
             
@@ -684,9 +684,9 @@ function App() {
               Composable lending markets protocol for DeFi
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', marginBottom: '32px' }}>
-              <a href="/docs/" className="text-gray-400">Documentation</a>
-              <a href="/blog" className="text-gray-400">Blog</a>
-              <a href="/market-owner-guide" className="text-gray-400">Market Owner Guide</a>
+              <Link to="/docs/" className="text-gray-400">Documentation</Link>
+              <Link to="/blog" className="text-gray-400">Blog</Link>
+              <Link to="/market-owner-guide" className="text-gray-400">Market Owner Guide</Link>
               <a href="https://github.com/LendefiMarkets" className="text-gray-400">GitHub</a>
               <a href="https://x.com/LendefiMarkets" className="text-gray-400">X</a>
             </div>

@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="container">
         <div className="navbar-content">
-          <a href="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+          <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
             <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
             <span style={{ 
               background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
@@ -17,11 +18,11 @@ const Navbar: React.FC = () => {
             }}>
               Lendefi Markets
             </span>
-          </a>
+          </Link>
           
           {/* Desktop Navigation */}
           <div className="nav-links">
-            <a href="/" className="btn btn-outline">← Back to Main</a>
+            <Link to="/" className="btn btn-outline">← Back to Main</Link>
           </div>
         </div>
       </div>
