@@ -1,5 +1,5 @@
 // Service Worker for Lendefi Markets PWA
-const CACHE_NAME = 'lendefi-v1';
+const CACHE_NAME = 'lendefi-v2';
 const urlsToCache = [
   '/',
   '/index.html',
