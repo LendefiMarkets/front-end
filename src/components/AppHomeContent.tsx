@@ -40,12 +40,12 @@ export default function AppHomeContent() {
       {/* PREMIUM WALLET PROMOTION */}
       <div style={{
         background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         borderRadius: '20px',
         padding: '2.5rem',
         marginBottom: '2rem',
         position: 'relative',
-        overflow: 'hidden',
-        boxShadow: '0 10px 30px rgba(99, 102, 241, 0.2)'
+        overflow: 'hidden'
       }}>
         <div style={{
           position: 'absolute',
@@ -307,13 +307,13 @@ export default function AppHomeContent() {
 
       {/* PROMOTION SECTION */}
       <div style={{
-        background: 'linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%)',
+        background: 'linear-gradient(135deg, #14b8a6 0%, #14b8a6 100%)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         borderRadius: '20px',
         padding: '3rem 2rem',
         marginBottom: '2rem',
         position: 'relative',
-        overflow: 'hidden',
-        boxShadow: '0 10px 30px rgba(20, 184, 166, 0.3)'
+        overflow: 'hidden'
       }}>
         <div style={{
           position: 'absolute',
@@ -327,16 +327,17 @@ export default function AppHomeContent() {
         }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <div style={{
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
             display: 'inline-block',
             padding: '0.5rem 1rem',
-            borderRadius: '30px',
+            borderRadius: '6px',
             marginBottom: '1rem',
             fontSize: '0.875rem',
-            fontWeight: '600',
-            color: '#ffffff'
+            fontWeight: '500',
+            color: '#d1d5db'
           }}>
-            🚀 LAUNCHING NOW
+            🚀 LAUNCHING SOON
           </div>
           <h1 style={{
             fontSize: '2.5rem',
