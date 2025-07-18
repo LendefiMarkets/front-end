@@ -79,6 +79,18 @@
   padding: 0;
 }
 
+/* Prevent horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Ensure all containers respect viewport width */
+#root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 /* Ensure Web3Modal appears on top */
 w3m-modal {
   z-index: 999999 !important;
@@ -940,9 +952,15 @@ section[id] {
 /* Blog Grid */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(332px, 1fr));
   gap: 2rem;
   margin-bottom: 3rem;
+}
+
+@media (max-width: 380px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Blog Card */
