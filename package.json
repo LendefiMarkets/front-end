@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node script/generate-blog-pages.js && vite",
+    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:blog": "node script/generate-blog-pages.js"
   },
   "dependencies": {
     "@reown/appkit": "1.7.8",

@@ -15,6 +15,7 @@ import ApiReference from './ApiReference.tsx'
 import FAQ from './FAQ.tsx'
 import Docs from './Docs.tsx'
 import BlogPage from './BlogPage.tsx'
+import AppHome from './AppHome.tsx'
 import MarketDashboardPage from './MarketDashboardPage.tsx'
 import { Web3ModalProvider } from './context/Web3Modal.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
@@ -39,6 +40,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/docs" element={<Docs />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogPage />} />
+            <Route path="/app-home" element={<AppHome />} />
             <Route path="/market/:network/:token/:owner" element={<MarketDashboardPage />} />
             <Route path="/market/:marketId" element={<MarketDashboardPage />} />
             <Route path="/market" element={<MarketDashboardPage />} />
