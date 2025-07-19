@@ -1,6 +1,6 @@
 ---
 title: "Lendefi Protocol: The Future is Multi-Chain"
-date: "2025-01-18"
+date: "2025-07-18"
 author: "Lendefi Research Team"
 excerpt: "Discover how Lendefi Protocol creates the most advanced composable lending ecosystem across 6 blockchains, powered by the $LEND token and Chainlink CCIP for the multi-trillion dollar tokenized asset future."
 image: "/assets/images/blog/lendefi-protocol.webp"
