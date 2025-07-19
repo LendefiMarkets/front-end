@@ -27,7 +27,7 @@ canonical_url: "/blog/lendefi-protocol"
 
 **$LEND is the governance token that controls the entire Lendefi Protocol ecosystem**. Token holders vote on new market launches, risk parameters, cross-chain expansions, and protocol upgrades that affect all 6 blockchains simultaneously.
 
-**Participate in governance at [tally.xyz/lendefi-dao-mainnet](https://tally.xyz/lendefi-dao-mainnet)**
+**Participate in governance at [Lendefi DAO](https://tally.xyz/lendefi-dao-mainnet)**
 
 ## **Available on 6 Major Blockchains**
 
@@ -43,7 +43,7 @@ canonical_url: "/blog/lendefi-protocol"
 
 ## **The Composable Advantage**
 
-**Lendefi transforms every lending position into a building block for the broader DeFi ecosystem**. **Deposit [USDC](https://www.centre.co/usdc), receive lytUSDC tokens that work across hundreds of other protocols**. **Use yield from [Polygon](https://polygon.technology/) as collateral on [Ethereum](https://ethereum.org/)**. **Build strategies that span multiple chains seamlessly**.
+**Lendefi transforms every lending position into a building block for the broader DeFi ecosystem**. **Deposit [USDC](https://www.circle.com), receive lytUSDC tokens that work across hundreds of other protocols**. **Use yield from [Polygon](https://polygon.technology/) as collateral on [Ethereum](https://ethereum.org/)**. **Build strategies that span multiple chains seamlessly**.
 
 **This composability is powered by**:
 - **[ERC-4626](https://ethereum.org/en/developers/docs/standards/tokens/erc-4626/) compliant yield tokens** that integrate with any DeFi protocol
@@ -76,8 +76,8 @@ canonical_url: "/blog/lendefi-protocol"
 
 ## **The Future is Multi-Chain**
 
-**Lendefi Protocol represents the next evolution of [DeFi](https://ethereum.org/en/defi/)**: **chain-agnostic, user-centric, and ready for institutional adoption**. **With $LEND deployed uniformly across 6 major blockchains and 26% of supply dedicated to growth incentives, we're building the financial infrastructure for the [tokenized economy](https://www2.deloitte.com/us/en/insights/industry/financial-services/tokenization-of-assets.html)**.
+**Lendefi Protocol represents the next evolution of [DeFi](https://ethereum.org/en/defi/)**: **chain-agnostic, user-centric, and ready for institutional adoption**. **With $LEND deployed uniformly across 6 major blockchains and 26% of supply dedicated to growth incentives, we're building the financial infrastructure for the [tokenized economy](https://reports.weforum.org/docs/WEF_Asset_Tokenization_in_Financial_Markets_2025.pdf)**.
 
 **This is what true multi-chain DeFi looks like. The revolution is already underway, and it's governed by $LEND**.
 
-**Learn more about [Lendefi Protocol](https://lendefi.com/) and start participating in governance at [tally.xyz/lendefi-dao-mainnet](https://tally.xyz/lendefi-dao-mainnet)**.
+**Learn more about [Lendefi Protocol](https://lendefi.org/) and start participating in governance at [tally.xyz/lendefi-dao-mainnet](https://tally.xyz/lendefi-dao-mainnet)**.
