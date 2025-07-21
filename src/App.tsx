@@ -29,7 +29,7 @@ function App() {
   const [latestPosts, setLatestPosts] = React.useState<BlogPost[]>([]);
   const [apyData] = React.useState(() => ({
     usdc: getAPYPair(3, 7),
-    usd1: getAPYPair(2, 5),
+    dai: getAPYPair(2, 5),
     usdt: getAPYPair(3.5, 6.5)
   }));
 
@@ -38,7 +38,7 @@ function App() {
     const fetchMarketData = async () => {
       try {
         const response = await fetch(
-          'https://api.coingecko.com/api/v3/simple/price?ids=usd-coin,usd1,tether&vs_currencies=usd&include_market_cap=true'
+          'https://api.coingecko.com/api/v3/simple/price?ids=usd-coin,dai,tether&vs_currencies=usd&include_market_cap=true'
         );
         const data = await response.json();
         setMarketData(data);
@@ -412,32 +412,32 @@ function App() {
                   overflow: 'hidden'
                 }}>
                   <img 
-                    src="/assets/images/USD1.webp" 
-                    alt="USD1" 
+                    src="/assets/images/dai-icon.svg" 
+                    alt="DAI" 
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                   />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>USD1</h3>
-                  <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>USD1 Stablecoin Market</p>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>DAI</h3>
+                  <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>Dai Stablecoin Market</p>
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span className="text-gray-400">Market Cap</span>
                 <span>
-                  {marketData['usd1']?.usd_market_cap 
-                    ? formatMarketCap(marketData['usd1'].usd_market_cap)
-                    : '$2.1B'
+                  {marketData['dai']?.usd_market_cap 
+                    ? formatMarketCap(marketData['dai'].usd_market_cap)
+                    : '$5.4B'
                   }
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span className="text-gray-400">Supply APY</span>
-                <span style={{ color: '#10b981' }}>{apyData.usd1.supply}%</span>
+                <span style={{ color: '#10b981' }}>{apyData.dai.supply}%</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span className="text-gray-400">Borrow APY</span>
-                <span style={{ color: '#3b82f6' }}>{apyData.usd1.borrow}%</span>
+                <span style={{ color: '#3b82f6' }}>{apyData.dai.borrow}%</span>
               </div>
             </div>
             
