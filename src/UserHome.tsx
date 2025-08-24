@@ -3,6 +3,7 @@ import { useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react'
 import { Navigate, Link } from 'react-router-dom'
 import UnsupportedNetworkModal from './components/UnsupportedNetworkModal'
 import { useNetworkValidation } from './hooks/useNetworkValidation'
+import NavbarLogo from './components/layout/NavbarLogo';
 
 // Lazy load heavy components to reduce initial bundle size
 const CreateMarket = lazy(() => import('./components/CreateMarket'))
@@ -49,19 +50,7 @@ function UserHome() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
-              <span style={{ 
-                background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.5rem',
-                fontWeight: 'bold'
-              }}>
-                Lendefi Markets
-              </span>
-            </Link>
+            <NavbarLogo />
             
             {/* Desktop Navigation */}
             <div className="nav-links">

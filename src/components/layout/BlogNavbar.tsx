@@ -1,24 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import NavbarLogo from './NavbarLogo';
 
 const BlogNavbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="container">
         <div className="navbar-content">
-          <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-            <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
-            <span style={{ 
-              background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '1.5rem',
-              fontWeight: 'bold'
-            }}>
-              Lendefi Markets
-            </span>
-          </Link>
+          <NavbarLogo />
           
           {/* Back Button - Always Visible */}
           <div style={{ display: 'flex', alignItems: 'center' }}>

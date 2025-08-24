@@ -1,3 +1,4 @@
+import NavbarLogo from './components/layout/NavbarLogo';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CodeBlock from './components/docs/CodeBlock';
@@ -52,19 +53,7 @@ function LenderGuide() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
-              <span style={{ 
-                background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.5rem',
-                fontWeight: 'bold'
-              }}>
-                Lendefi Markets
-              </span>
-            </Link>
+            <NavbarLogo />
             
             {/* Desktop Navigation */}
             <div className="nav-links">

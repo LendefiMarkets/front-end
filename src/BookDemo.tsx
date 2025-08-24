@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import NavbarLogo from './components/layout/NavbarLogo';
 
 function BookDemo() {
   return (
@@ -7,19 +8,7 @@ function BookDemo() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
-              <span style={{ 
-                background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.5rem',
-                fontWeight: 'bold'
-              }}>
-                Lendefi Markets
-              </span>
-            </Link>
+            <NavbarLogo />
             
             {/* Desktop Navigation */}
             <div className="nav-links">
@@ -137,17 +126,7 @@ function BookDemo() {
         <div className="container">
           <div className="text-center">
             <div className="logo" style={{ justifyContent: 'center', marginBottom: '16px' }}>
-              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '40px', width: 'auto' }} />
-              <span style={{ 
-                background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.25rem',
-                fontWeight: 'bold'
-              }}>
-                Lendefi Markets
-              </span>
+              <NavbarLogo />
             </div>
             <p className="text-gray-400" style={{ marginBottom: '32px' }}>
               Composable lending markets protocol for DeFi

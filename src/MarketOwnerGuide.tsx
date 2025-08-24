@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import NavbarLogo from './components/layout/NavbarLogo';
 import BackToTop from './components/docs/BackToTop';
 import Footer from './components/layout/Footer';
 
@@ -12,19 +13,7 @@ function MarketOwnerGuide() {
       <nav className="navbar">
         <div className="container">
           <div className="navbar-content">
-            <Link to="/" className="logo" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <img src="/assets/images/logo.png" alt="Lendefi Markets" style={{ height: '50px', width: 'auto' }} />
-              <span style={{ 
-                background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)', 
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: '1.5rem',
-                fontWeight: 'bold'
-              }}>
-                Lendefi Markets
-              </span>
-            </Link>
+            <NavbarLogo />
             
             {/* Desktop Navigation */}
             <div className="nav-links">
